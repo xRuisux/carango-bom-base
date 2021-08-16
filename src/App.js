@@ -1,12 +1,13 @@
+import React from 'react';
 import { Container, CssBaseline, makeStyles } from '@material-ui/core';
 import blue from '@material-ui/core/colors/blue';
 import { ptBR } from '@material-ui/core/locale';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import CadastroMarca from './pages/CadastroMarca';
 import ListagemMarcas from './pages/ListagemMarcas';
+import Home from "./pages/Home";
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -39,11 +40,11 @@ function App() {
 
   return (
     <ThemeProvider theme={muiTheme}>
-      <div className={classes.root}>
+      {/* <div className={classes.root}> */}
         <CssBaseline />
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Container component="article" maxWidth="md">
+        {/* <main className={classes.content}> */}
+          {/* <div className={classes.toolbar} /> */}
+          {/* <Container component="article" maxWidth="md"> */}
             <Switch>
               <Route path="/cadastro-marca">
                 <CadastroMarca></CadastroMarca>
@@ -51,13 +52,14 @@ function App() {
               <Route path='/alteracao-marca/:id'>
                 <CadastroMarca></CadastroMarca>
               </Route>
-              <Route path="/">
+              {/* <Route path="/">
                 <ListagemMarcas></ListagemMarcas>
-              </Route>
+              </Route> */}
+              <Route exact path="/" component={Home} />
             </Switch>
-          </Container>
-        </main>
-      </div>
+          {/* </Container> */}
+        {/* </main>
+      </div> */}
     </ThemeProvider>
   );
 }
