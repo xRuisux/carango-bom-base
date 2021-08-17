@@ -1,11 +1,11 @@
-import { render, screen } from "@testing-library/react"
+import { screen } from "@testing-library/react"
 import Home from ".."
 import { renderWithRouter } from "../../../utils/renderWithRouter"
 import '@testing-library/jest-dom';
 
 describe("<Home />", () => {
   it("render correctly", () => {
-    const {container} = renderWithRouter(<Home />)
+    renderWithRouter(<Home />)
 
     expect(screen.getByRole('heading', {name: 'Bem vinda ao Carango Bom!'})).toBeInTheDocument()
     expect(screen.getByRole('heading', {name: 'Bem vinda ao Carango Bom!'}))
