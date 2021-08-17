@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: '.4rem',
 
     [theme.breakpoints.up('sm')]: {
       width: 'auto',
@@ -55,12 +56,12 @@ export default function Home() {
   const classes = useStyles()
   
   return (
-    <section className={classes.root}>
-      <div className={classes.content}>
-        <h1 classeName={classes.heading}>Bem vinda ao Carango Bom!</h1>
+    <div className={classes.root}>
+      <section className={classes.content}>
+        <h1 className={classes.heading}>Bem vinda ao Carango Bom!</h1>
         <Link to="/veiculos" className={classes.link}>Visualizar veículos</Link>
         <Link to="/login" className={classes.link}>Efetuar login</Link>
-      </div>
-    </section>
+      </section>
+    </div>
   )
 }
