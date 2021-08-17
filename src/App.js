@@ -8,58 +8,49 @@ import './App.css';
 import CadastroMarca from './pages/CadastroMarca';
 import ListagemMarcas from './pages/ListagemMarcas';
 import Home from "./pages/Home";
+import Login from './pages/Login';
 
+/*
+breakpoints:
+xs: 0 - 599
+sm: 600 - 959
+md: 960 - 1279
+lg: 1280 - 1919
+xl: 1920 - ...
+*/
 const muiTheme = createMuiTheme({
   palette: {
     primary: {
-      main: blue[900],
-    }
-  },
+      main: 'rgba(31,45,75, 0.95)',
+      yellow: '#EED44D',
+    },
+    white: '#F6F8FC'
+  }
 }, ptBR);
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
-  },
-  content: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(3),
-  },
-}));
 
 function App() {
 
-  const classes = useStyles();
-
   return (
     <ThemeProvider theme={muiTheme}>
-      {/* <div className={classes.root}> */}
-        <CssBaseline />
-        {/* <main className={classes.content}> */}
-          {/* <div className={classes.toolbar} /> */}
-          {/* <Container component="article" maxWidth="md"> */}
-            <Switch>
-              <Route path="/cadastro-marca">
-                <CadastroMarca></CadastroMarca>
-              </Route>
-              <Route path='/alteracao-marca/:id'>
-                <CadastroMarca></CadastroMarca>
-              </Route>
-              {/* <Route path="/">
-                <ListagemMarcas></ListagemMarcas>
-              </Route> */}
-              <Route exact path="/" component={Home} />
-            </Switch>
-          {/* </Container> */}
-        {/* </main>
-      </div> */}
+      <CssBaseline />
+      <main>
+        <Switch>
+          <Route path="/cadastro-marca">
+            <CadastroMarca></CadastroMarca>
+          </Route>
+          <Route path='/alteracao-marca/:id'>
+            <CadastroMarca></CadastroMarca>
+          </Route>
+          <Route path="/veiculos">
+            <div>Veículos</div>
+          </Route>
+          <Route path="/login" component={Login} />
+          {/* <Route path="/">
+            <ListagemMarcas></ListagemMarcas>
+          </Route> */}
+          <Route exact path="/" component={Home} />
+        </Switch>
+      </main>
     </ThemeProvider>
   );
 }
