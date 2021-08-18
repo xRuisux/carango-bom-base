@@ -1,14 +1,10 @@
 import React from 'react';
-import { Container, CssBaseline, makeStyles } from '@material-ui/core';
-import blue from '@material-ui/core/colors/blue';
+import { CssBaseline } from '@material-ui/core'
 import { ptBR } from '@material-ui/core/locale';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { Route, Switch } from 'react-router-dom';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import './App.css';
 import CadastroMarca from './pages/CadastroMarca';
 import ListagemMarcas from './pages/ListagemMarcas';
-import Home from "./pages/Home";
-import Login from './pages/Login';
 import Routes from './routes';
 
 /*
@@ -26,6 +22,8 @@ const muiTheme = createMuiTheme({
       yellow: '#EED44D',
     },
     white: '#F6F8FC',
+    gray: '#A9A9A9',
+    darkGray: '#777777',
     red: "#EE4F4F"
   }
 }, ptBR);

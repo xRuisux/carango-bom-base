@@ -1,5 +1,5 @@
 import { Button, TextField, makeStyles } from '@material-ui/core'
-import {withStyles} from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 
 export const useStyles = makeStyles(theme => ({
   root: {
@@ -12,7 +12,7 @@ export const useStyles = makeStyles(theme => ({
 
     '& form': {
       backgroundColor: theme.palette.white,
-      padding: '2rem 1.5rem',
+      padding: '2rem',
       borderRadius: '.4rem',
       width: '85%',
       height: '80vh',
@@ -37,6 +37,9 @@ export const useStyles = makeStyles(theme => ({
   errorMessage: {
     fontSize: '1.2rem',
     color: theme.palette.red
+  },
+  label: {
+    fontSize: '1.4rem'
   }
 }))
 

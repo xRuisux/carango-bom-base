@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react"
-import Login from ".."
+import Login from "."
 
 describe('<Login />', () => {
   it('render correctly', () => {
@@ -27,13 +27,13 @@ describe('<Login />', () => {
 
     const userInput = screen.getByLabelText(/usuário/i)
     const passwordInput = screen.getByLabelText(/senha/i)
-    
-    fireEvent.change(userInput, { target: { value: 'amanda@gmail.com'} })
-    fireEvent.change(passwordInput, { target: { value: 'pass123'} })
-    
+
+    fireEvent.change(userInput, { target: { value: 'amanda@gmail.com' } })
+    fireEvent.change(passwordInput, { target: { value: 'pass123' } })
+
     expect(userInput).toHaveValue('amanda@gmail.com')
     expect(passwordInput).toHaveValue('pass123')
   })
-  
+
   // test form submission
 })
