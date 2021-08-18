@@ -22,6 +22,12 @@ const useStyles = makeStyles(theme => ({
       alignItems: 'center',
       flexDirection: 'column',
 
+      [theme.breakpoints.up('sm')]: {
+        maxWidth: '40%',
+        height: '40vh',
+        padding: '3rem'
+      },
+
       '& h1': {
         fontSize: '2rem',
         color: theme.palette.primary.main,
@@ -46,7 +52,11 @@ const StyledButton = withStyles((theme) => ({
     padding: '1.2rem',
     marginTop: '1.5rem',
     fontWeight: 'bold',
-    fontSize: '1rem'
+    fontSize: '1rem',
+
+    '&:hover': {
+      backgroundColor: theme.palette.primary.yellow,
+    }
   }
 }))(Button)
 
