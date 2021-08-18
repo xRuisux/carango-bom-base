@@ -8,7 +8,6 @@ describe("<Home />", () => {
     renderWithRouter(<Home />)
 
     expect(screen.getByRole('heading', { name: 'Bem vinda ao Carango Bom!' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Bem vinda ao Carango Bom!' }))
     expect(screen.getByRole('link', { name: /visualizar veículos/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /efetuar login/i })).toBeInTheDocument()
   })
