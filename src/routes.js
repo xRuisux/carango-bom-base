@@ -1,7 +1,6 @@
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import CadastroMarca from "./pages/CadastroMarca";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
 
 export default function Routes() {
   return (
@@ -16,7 +15,9 @@ export default function Routes() {
         <Route path="/veiculos">
           <div>Veículos</div>
         </Route>
-        <Route path="/login" component={Login} />
+        <Route path="/login">
+          <div>Login</div>
+        </Route>
         {/* <Route path="/">
           <ListagemMarcas></ListagemMarcas>
         </Route> */}

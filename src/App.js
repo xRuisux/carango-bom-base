@@ -1,14 +1,9 @@
 import React from 'react';
-import { Container, CssBaseline, makeStyles } from '@material-ui/core';
-import blue from '@material-ui/core/colors/blue';
+import { CssBaseline } from '@material-ui/core';
 import { ptBR } from '@material-ui/core/locale';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { Route, Switch } from 'react-router-dom';
-import './App.css';
 import CadastroMarca from './pages/CadastroMarca';
-import ListagemMarcas from './pages/ListagemMarcas';
-import Home from "./pages/Home";
-import Login from './pages/Login';
+import ListagemMarcas from './pages/ListagemMarcas'
 import Routes from './routes';
 
 /*
