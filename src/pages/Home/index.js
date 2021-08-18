@@ -53,11 +53,11 @@ const useStyles = makeStyles(theme => ({
 export default function Home() {
 
   const classes = useStyles()
-  
+
   return (
     <section className={classes.root}>
       <div className={classes.content}>
-        <h1 classeName={classes.heading}>Bem vinda ao Carango Bom!</h1>
+        <h1 className={classes.heading}>Bem vinda ao Carango Bom!</h1>
         <Link to="/veiculos" className={classes.link}>Visualizar veículos</Link>
         <Link to="/login" className={classes.link}>Efetuar login</Link>
       </div>
