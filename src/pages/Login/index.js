@@ -1,49 +1,82 @@
 import { useState } from 'react'
 import { StyledButton, StyledTextField, useStyles } from './styles'
-import Input from '@material-ui/core/Input'
-import { InputLabel } from '../../components/InputLabel'
+import useErros from '../../hooks/useErros'
 
 export default function Login() {
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [hasError, setHasError] = useState(false);
+  const [usuario, setUsuario] = useState('')
+  const [senha, setSenha] = useState('')
+  const [erro, setErro] = useState(false)
 
-  function submitForm(e) {
+
+  function inputPreencido(valorInput) {
+    if (!!valorInput) {
+      return { valido: true }
+    }
+    return { valido: false, texto: "Preencha este campo" }
+  }
+
+  const validacoes = {
+    senha: valorInput => inputPreencido(valorInput),
+    usuario: valorInput => inputPreencido(valorInput)
+  }
+
+  const [erros, validarCampos] = useErros(validacoes)
+
+  function efetuarLogin(e) {
     e.preventDefault()
 
-    const isAllFieldsFilled = !username || !password
-
-    setHasError(isAllFieldsFilled)
-
-    if (!isAllFieldsFilled) {
+    if (!senha || !usuario) {
+      setErro(true)
       return
+    } else {
+      setErro(false)
     }
 
-    console.log('submit')
+    // TODO: logar
+
+    /**
+     * TODO
+     * - Redirecionar para tela veículos após login
+     * - Criar rotas privadas e públicas
+     */
   }
 
   const classes = useStyles()
 
   return (
     <div className={classes.root}>
-      <form data-testid="form" id="form" onSubmit={submitForm}>
+      <form data-testid="form" id="form" onSubmit={efetuarLogin}>
         <h1>Login</h1>
 
-        <InputLabel
+        <StyledTextField
           placeholder="Digite seu email"
+          id="usuario"
           label="Usuário"
-          onInputChange={({ target: { value } }) => setUsername(value)}
+          name="usuario"
+          onChange={({ target: { value } }) => setUsuario(value)}
+          onBlur={validarCampos}
+          fullWidth
+          variant="outlined"
+          helperText={erros.usuario.texto}
+          error={!erros.usuario.valido}
         />
 
-        <InputLabel
+        <StyledTextField
+          id="senha"
           placeholder="Digite sua senha"
           type="password"
           label="Senha"
-          onInputChange={({ target: { value } }) => setPassword(value)}
+          name="senha"
+          onChange={({ target: { value } }) => setSenha(value)}
+          onBlur={validarCampos}
+          fullWidth
+          variant="outlined"
+          helperText={erros.senha.texto}
+          error={!erros.senha.valido}
         />
 
-        {hasError && <p className={classes.errorMessage}>Preencha todos os campos</p>}
+        {erro && <p className={classes.msgErro}>Preencha todos os campos</p>}
 
         <StyledButton form="form" fullWidth type="submit" variant="contained">Entrar</StyledButton>
       </form>

@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react"
 import Login from "."
 
 describe('<Login />', () => {
-  it('render correctly', () => {
+  it('renderiza corretamente', () => {
     render(<Login />)
 
     const inputPassword = screen.getByLabelText(/senha/i)

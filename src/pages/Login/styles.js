@@ -34,7 +34,7 @@ export const useStyles = makeStyles(theme => ({
       },
     },
   },
-  errorMessage: {
+  msgErro: {
     fontSize: '1.2rem',
     color: theme.palette.red
   },
