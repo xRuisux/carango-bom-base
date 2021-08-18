@@ -25,7 +25,8 @@ const muiTheme = createMuiTheme({
       main: 'rgba(31,45,75, 0.95)',
       yellow: '#EED44D',
     },
-    white: '#F6F8FC'
+    white: '#F6F8FC',
+    red: "#EE4F4F"
   }
 }, ptBR);
 
