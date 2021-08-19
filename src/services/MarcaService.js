@@ -1,9 +1,11 @@
 const MarcaService = {
   cadastrar(marca) {
-    return fetch('https://carango-bom-api.herokuapp.com/marcas', {
+    return fetch('http://localhost:8080/marcas', {
       method: 'POST',
+      mode: 'no-cors',
       body: JSON.stringify(marca)
-    }).then(r => r.json());
+    }).then(r => r.json())
+      .catch(err => console.log(err))
   },
 
   alterar(marca) {

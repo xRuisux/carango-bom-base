@@ -6,6 +6,7 @@ import './App.css';
 import CadastroMarca from './pages/CadastroMarca';
 import ListagemMarcas from './pages/ListagemMarcas';
 import Routes from './routes';
+import { AutenticacaoProvider } from './hooks/useAutenticacao';
 
 /*
 breakpoints:
@@ -31,12 +32,14 @@ const muiTheme = createMuiTheme({
 function App() {
 
   return (
-    <ThemeProvider theme={muiTheme}>
-      <CssBaseline />
-      <main>
-        <Routes />
-      </main>
-    </ThemeProvider>
+    <AutenticacaoProvider>
+      <ThemeProvider theme={muiTheme}>
+        <CssBaseline />
+        <main>
+          <Routes />
+        </main>
+      </ThemeProvider>
+    </AutenticacaoProvider>
   );
 }
 

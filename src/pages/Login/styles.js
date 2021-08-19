@@ -40,6 +40,9 @@ export const useStyles = makeStyles(theme => ({
   },
   label: {
     fontSize: '1.4rem'
+  },
+  span: {
+    marginLeft: '1rem'
   }
 }))
 

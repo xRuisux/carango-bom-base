@@ -1,13 +1,25 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { StyledButton, StyledTextField, useStyles } from './styles'
 import useErros from '../../hooks/useErros'
+import LoginService from '../../services/LoginService'
+import { useAutenticacao } from '../../hooks/useAutenticacao'
+import { useHistory } from 'react-router-dom'
+import { CircularProgress } from '@material-ui/core'
 
 export default function Login() {
 
   const [usuario, setUsuario] = useState('')
   const [senha, setSenha] = useState('')
   const [erro, setErro] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const { salvaToken, token } = useAutenticacao()
+  const history = useHistory()
 
+  // useEffect(() => {
+  //   return () => {
+  //     setLoading(false)
+  //   }
+  // })
 
   function inputPreencido(valorInput) {
     if (!!valorInput) {
@@ -23,7 +35,7 @@ export default function Login() {
 
   const [erros, validarCampos] = useErros(validacoes)
 
-  function efetuarLogin(e) {
+  async function efetuarLogin(e) {
     e.preventDefault()
 
     if (!senha || !usuario) {
@@ -33,6 +45,14 @@ export default function Login() {
       setErro(false)
     }
 
+    setLoading(true)
+    const { token, erro } = await LoginService.login({ email: usuario, senha })
+    salvaToken(token)
+
+    setTimeout(() => {
+      setLoading(false)
+      history.push('/veiculos')
+    }, 1000)
     // TODO: logar
 
     /**
@@ -44,41 +64,47 @@ export default function Login() {
 
   const classes = useStyles()
 
+  console.log('aqui', { token })
+
   return (
     <div className={classes.root}>
       <form data-testid="form" id="form" onSubmit={efetuarLogin}>
         <h1>Login</h1>
+        {!loading ? <>
+          <StyledTextField
+            placeholder="Digite seu email"
+            id="usuario"
+            label="Usuário"
+            name="usuario"
+            onChange={({ target: { value } }) => setUsuario(value)}
+            onBlur={validarCampos}
+            fullWidth
+            variant="outlined"
+            helperText={erros.usuario.texto}
+            error={!erros.usuario.valido}
+          />
 
-        <StyledTextField
-          placeholder="Digite seu email"
-          id="usuario"
-          label="Usuário"
-          name="usuario"
-          onChange={({ target: { value } }) => setUsuario(value)}
-          onBlur={validarCampos}
-          fullWidth
-          variant="outlined"
-          helperText={erros.usuario.texto}
-          error={!erros.usuario.valido}
-        />
+          <StyledTextField
+            id="senha"
+            placeholder="Digite sua senha"
+            type="password"
+            label="Senha"
+            name="senha"
+            onChange={({ target: { value } }) => setSenha(value)}
+            onBlur={validarCampos}
+            fullWidth
+            variant="outlined"
+            helperText={erros.senha.texto}
+            error={!erros.senha.valido}
+          />
 
-        <StyledTextField
-          id="senha"
-          placeholder="Digite sua senha"
-          type="password"
-          label="Senha"
-          name="senha"
-          onChange={({ target: { value } }) => setSenha(value)}
-          onBlur={validarCampos}
-          fullWidth
-          variant="outlined"
-          helperText={erros.senha.texto}
-          error={!erros.senha.valido}
-        />
+          {erro && <p className={classes.msgErro}>Preencha todos os campos</p>}
 
-        {erro && <p className={classes.msgErro}>Preencha todos os campos</p>}
-
-        <StyledButton form="form" fullWidth type="submit" variant="contained">Entrar</StyledButton>
+          <StyledButton form="form" fullWidth type="submit" variant="contained">
+            Entrar
+            {/* {loading && <span className={classes.span}><CircularProgress size={12} /></span>} */}
+          </StyledButton>
+        </> : <CircularProgress thickness={2} />}
       </form>
     </div>
   )
