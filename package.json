@@ -19,7 +19,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --coverage --watchAll=false",
+    "test": "react-scripts test --testResultsProcessor=jest-sonar-reporter --coverage --watchAll=false",
     "test:dev": "react-scripts test --watch",
     "eject": "react-scripts eject"
   },
@@ -42,6 +42,7 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/user-event": "^12.8.3"
+    "@testing-library/user-event": "^12.8.3",
+    "jest-sonar-reporter": "^2.0.0"
   }
 }
