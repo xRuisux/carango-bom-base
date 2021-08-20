@@ -64,8 +64,6 @@ export default function Login() {
 
   const classes = useStyles()
 
-  console.log('aqui', { token })
-
   return (
     <div className={classes.root}>
       <form data-testid="form" id="form" onSubmit={efetuarLogin}>

@@ -6,7 +6,7 @@ const estadoInicial = {
   usuarioEstaLogado: () => false,
 }
 
-const Context = createContext({ token: '' })
+const Context = createContext(estadoInicial)
 
 export function AutenticacaoProvider({ children }) {
 
@@ -18,7 +18,6 @@ export function AutenticacaoProvider({ children }) {
 
   function salvaToken(token) {
     localStorage.setItem('token', token)
-    console.log('salvaToken', { token })
     setToken(token)
   }
 

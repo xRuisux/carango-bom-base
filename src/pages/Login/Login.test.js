@@ -1,6 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react"
 import Login from "."
 
+beforeAll(() => jest.spyOn(window, 'fetch'))
+
 describe('<Login />', () => {
   it('renders correctly', () => {
     render(<Login />)
@@ -36,4 +38,26 @@ describe('<Login />', () => {
   })
 
   // test form submission
+  it('should log user', () => {
+    render(<Login />)
+
+    window.fetch.mockImplementationOnce(() => Promise.resolve(JSON.stringify({
+      tipo: 'Tipo',
+      token: 'dfsdfsd$f4fdsfs$fm23klm32'
+    })))
+
+    const userInput = screen.getByLabelText(/usuário/i)
+    const passwordInput = screen.getByLabelText(/senha/i)
+
+    // expect(window.fetch).toHaveBeenCalledWith('/autenticacao', {
+    //     method: 'POST',
+    //     body: JSON.stringify()
+    //   })
+    // })
+    fireEvent.change(userInput, { target: { value: 'amanda@gmail.com' } })
+    fireEvent.change(passwordInput, { target: { value: 'pass123' } })
+    fireEvent.click(screen.getByRole('button', { name: /entrar/i }))
+
+    expect(window.fetch).toHaveBeenCalled()
+  })
 })
