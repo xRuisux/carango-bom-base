@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 
 const estadoInicial = {
   token: '',
-  salvaToken: (token) => { },
+  salvaToken: () => { },
   usuarioEstaLogado: () => false,
 }
 

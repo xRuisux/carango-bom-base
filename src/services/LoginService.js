@@ -9,7 +9,7 @@ const LoginService = {
       body: JSON.stringify(credenciais)
     }).then(resp => resp.json())
       .then(dado => dado)
-      .catch(err => console.error(err))
+      .catch(_ => ({ token: undefined }))
   }
 }
 

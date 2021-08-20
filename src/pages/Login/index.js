@@ -5,6 +5,7 @@ import LoginService from '../../services/LoginService'
 import { useAutenticacao } from '../../hooks/useAutenticacao'
 import { useHistory } from 'react-router-dom'
 import { CircularProgress } from '@material-ui/core'
+import { validaEmail } from '../../utils/validaEmail'
 
 export default function Login() {
 
@@ -15,12 +16,6 @@ export default function Login() {
   const { salvaToken, token } = useAutenticacao()
   const history = useHistory()
 
-  // useEffect(() => {
-  //   return () => {
-  //     setLoading(false)
-  //   }
-  // })
-
   function inputPreencido(valorInput) {
     if (!!valorInput) {
       return { valido: true }
@@ -29,37 +24,43 @@ export default function Login() {
   }
 
   const validacoes = {
-    senha: valorInput => inputPreencido(valorInput),
-    usuario: valorInput => inputPreencido(valorInput)
+    usuario: valorInput => {
+      return { valido: validaEmail(valorInput), texto: 'Insira um email válido' }
+    },
+    senha: valorInput => inputPreencido(valorInput)
   }
 
-  const [erros, validarCampos] = useErros(validacoes)
+  const [erros, validarCampos, possoEnviar] = useErros(validacoes)
+
+  function atualizaErro(erroValor) {
+    setErro(erroValor)
+  }
+
+  function submissaoValida() {
+    const temInputVazio = !senha || !usuario;
+    atualizaErro(temInputVazio)
+
+    if (temInputVazio) return
+
+    return possoEnviar()
+  }
 
   async function efetuarLogin(e) {
     e.preventDefault()
 
-    if (!senha || !usuario) {
-      setErro(true)
-      return
-    } else {
-      setErro(false)
+    if (submissaoValida()) {
+      setLoading(true)
+      const { token } = await LoginService.login({ email: usuario, senha })
+
+      salvaToken(token)
+
+      if (token) {
+        setTimeout(() => {
+          setLoading(false)
+          history.push('/veiculos')
+        }, 1000)
+      }
     }
-
-    setLoading(true)
-    const { token, erro } = await LoginService.login({ email: usuario, senha })
-    salvaToken(token)
-
-    setTimeout(() => {
-      setLoading(false)
-      history.push('/veiculos')
-    }, 1000)
-    // TODO: logar
-
-    /**
-     * TODO
-     * - Redirecionar para tela veículos após login
-     * - Criar rotas privadas e públicas
-     */
   }
 
   const classes = useStyles()
@@ -83,8 +84,8 @@ export default function Login() {
           />
 
           <StyledTextField
-            id="senha"
             placeholder="Digite sua senha"
+            id="senha"
             type="password"
             label="Senha"
             name="senha"
@@ -100,7 +101,6 @@ export default function Login() {
 
           <StyledButton form="form" fullWidth type="submit" variant="contained">
             Entrar
-            {/* {loading && <span className={classes.span}><CircularProgress size={12} /></span>} */}
           </StyledButton>
         </> : <CircularProgress thickness={2} />}
       </form>
