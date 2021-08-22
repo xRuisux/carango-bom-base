@@ -58,7 +58,7 @@ describe('<Login />', () => {
     expect(window.fetch).toHaveBeenCalledWith('http://localhost:8080/autenticacao', {
       method: 'POST',
       headers: { "Accept": "application/json", "Content-Type": "application/json" },
-      body: JSON.stringify({ email: 'amanda@gmail.com', senha: 'pass123' })
+      body: JSON.stringify({ email: 'amanda@gmail.com', password: 'pass123' })
     })
   })
 })

@@ -13,7 +13,7 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [erro, setErro] = useState(false)
   const [loading, setLoading] = useState(false)
-  const { salvaToken } = useAuth()
+  const { saveToken } = useAuth()
   const history = useHistory()
 
   function isInputFilled(inputValue) {
@@ -52,7 +52,7 @@ export default function Login() {
       setLoading(true)
       const { token } = await LoginService.login({ email: user, password })
 
-      salvaToken(token)
+      saveToken(token)
 
       if (token) {
         setTimeout(() => {
@@ -87,7 +87,7 @@ export default function Login() {
             placeholder="Digite sua password"
             id="password"
             type="password"
-            label="password"
+            label="Senha"
             name="password"
             onChange={({ target: { value } }) => setPassword(value)}
             onBlur={validateFields}
