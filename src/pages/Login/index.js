@@ -6,12 +6,13 @@ import { useAuth } from '../../hooks/useAuth'
 import { useHistory } from 'react-router-dom'
 import { CircularProgress } from '@material-ui/core'
 import { validateEmail } from '../../utils/validateEmail'
+import { delayFunc } from '../../utils/delayFunc'
 
 export default function Login() {
 
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
-  const [erro, setErro] = useState(false)
+  const [error, setError] = useState(false)
   const [loading, setLoading] = useState(false)
   const { saveToken } = useAuth()
   const history = useHistory()
@@ -33,7 +34,7 @@ export default function Login() {
   const [errors, validateFields, allFieldsValid] = useErrors(validations)
 
   function atualizaErro(error) {
-    setErro(error)
+    setError(error)
   }
 
   function submissaoValida() {
@@ -53,12 +54,10 @@ export default function Login() {
       const { token } = await LoginService.login({ email: user, password })
 
       saveToken(token)
+      await delayFunc(() => setLoading(false))
 
       if (token) {
-        setTimeout(() => {
-          setLoading(false)
-          history.push('/veiculos')
-        }, 1000)
+        history.push('/veiculos')
       }
     }
   }
@@ -97,7 +96,7 @@ export default function Login() {
             error={!errors.password.valid}
           />
 
-          {erro && <p className={classes.msgError}>Preencha todos os campos</p>}
+          {error && <p className={classes.msgError}>Preencha todos os campos</p>}
 
           <StyledButton form="form" fullWidth type="submit" variant="contained">
             Entrar

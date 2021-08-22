@@ -1,12 +1,8 @@
-import React from 'react';
 import { CssBaseline } from '@material-ui/core'
-import { ptBR } from '@material-ui/core/locale';
+import { ptBR } from '@material-ui/core/locale'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
-import './App.css';
-import CadastroMarca from './pages/CadastroMarca';
-import ListagemMarcas from './pages/ListagemMarcas';
-import Routes from './routes';
-import { AutenticacaoProvider } from './hooks/useAuth';
+import Routes from './routes'
+import { AutenticacaoProvider } from './hooks/useAuth'
 
 /*
 breakpoints:
