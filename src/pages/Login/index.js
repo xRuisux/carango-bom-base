@@ -1,56 +1,56 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { StyledButton, StyledTextField, useStyles } from './styles'
-import useErros from '../../hooks/useErros'
+import useErrors from '../../hooks/useErrors'
 import LoginService from '../../services/LoginService'
-import { useAutenticacao } from '../../hooks/useAutenticacao'
+import { useAuth } from '../../hooks/useAuth'
 import { useHistory } from 'react-router-dom'
 import { CircularProgress } from '@material-ui/core'
-import { validaEmail } from '../../utils/validaEmail'
+import { validateEmail } from '../../utils/validateEmail'
 
 export default function Login() {
 
-  const [usuario, setUsuario] = useState('')
-  const [senha, setSenha] = useState('')
+  const [user, setUser] = useState('')
+  const [password, setPassword] = useState('')
   const [erro, setErro] = useState(false)
   const [loading, setLoading] = useState(false)
-  const { salvaToken, token } = useAutenticacao()
+  const { salvaToken } = useAuth()
   const history = useHistory()
 
-  function inputPreencido(valorInput) {
-    if (!!valorInput) {
-      return { valido: true }
+  function isInputFilled(inputValue) {
+    if (!!inputValue) {
+      return { valid: true }
     }
-    return { valido: false, texto: "Preencha este campo" }
+    return { valid: false, text: "Preencha este campo" }
   }
 
-  const validacoes = {
-    usuario: valorInput => {
-      return { valido: validaEmail(valorInput), texto: 'Insira um email válido' }
+  const validations = {
+    user: inputValue => {
+      return { valid: validateEmail(inputValue), text: 'Insira um email válido' }
     },
-    senha: valorInput => inputPreencido(valorInput)
+    password: inputValue => isInputFilled(inputValue)
   }
 
-  const [erros, validarCampos, possoEnviar] = useErros(validacoes)
+  const [errors, validateFields, allFieldsValid] = useErrors(validations)
 
-  function atualizaErro(erroValor) {
-    setErro(erroValor)
+  function atualizaErro(error) {
+    setErro(error)
   }
 
   function submissaoValida() {
-    const temInputVazio = !senha || !usuario;
-    atualizaErro(temInputVazio)
+    const hasEmptyInput = !password || !user;
+    atualizaErro(hasEmptyInput)
 
-    if (temInputVazio) return
+    if (hasEmptyInput) return
 
-    return possoEnviar()
+    return allFieldsValid()
   }
 
-  async function efetuarLogin(e) {
+  async function login(e) {
     e.preventDefault()
 
     if (submissaoValida()) {
       setLoading(true)
-      const { token } = await LoginService.login({ email: usuario, senha })
+      const { token } = await LoginService.login({ email: user, password })
 
       salvaToken(token)
 
@@ -67,37 +67,37 @@ export default function Login() {
 
   return (
     <div className={classes.root}>
-      <form data-testid="form" id="form" onSubmit={efetuarLogin}>
+      <form data-testid="form" id="form" onSubmit={login}>
         <h1>Login</h1>
         {!loading ? <>
           <StyledTextField
             placeholder="Digite seu email"
-            id="usuario"
+            id="user"
             label="Usuário"
-            name="usuario"
-            onChange={({ target: { value } }) => setUsuario(value)}
-            onBlur={validarCampos}
+            name="user"
+            onChange={({ target: { value } }) => setUser(value)}
+            onBlur={validateFields}
             fullWidth
             variant="outlined"
-            helperText={erros.usuario.texto}
-            error={!erros.usuario.valido}
+            helperText={errors.user.text}
+            error={!errors.user.valid}
           />
 
           <StyledTextField
-            placeholder="Digite sua senha"
-            id="senha"
+            placeholder="Digite sua password"
+            id="password"
             type="password"
-            label="Senha"
-            name="senha"
-            onChange={({ target: { value } }) => setSenha(value)}
-            onBlur={validarCampos}
+            label="password"
+            name="password"
+            onChange={({ target: { value } }) => setPassword(value)}
+            onBlur={validateFields}
             fullWidth
             variant="outlined"
-            helperText={erros.senha.texto}
-            error={!erros.senha.valido}
+            helperText={errors.password.text}
+            error={!errors.password.valid}
           />
 
-          {erro && <p className={classes.msgErro}>Preencha todos os campos</p>}
+          {erro && <p className={classes.msgError}>Preencha todos os campos</p>}
 
           <StyledButton form="form" fullWidth type="submit" variant="contained">
             Entrar

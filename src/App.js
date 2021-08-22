@@ -6,7 +6,7 @@ import './App.css';
 import CadastroMarca from './pages/CadastroMarca';
 import ListagemMarcas from './pages/ListagemMarcas';
 import Routes from './routes';
-import { AutenticacaoProvider } from './hooks/useAutenticacao';
+import { AutenticacaoProvider } from './hooks/useAuth';
 
 /*
 breakpoints:

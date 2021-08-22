@@ -1,6 +1,6 @@
-import { validaEmail } from "./validaEmail"
+import { validateEmail } from "./validaEmail"
 
-describe('validaEmail', () => {
+describe('validateEmail', () => {
   it('email should be valid', () => {
     expect(validaEmail('email@gmail.com')).toBe(true)
   })

@@ -1,30 +1,30 @@
 import { createContext, useContext, useState } from "react";
 
-const estadoInicial = {
+const initialState = {
   token: '',
-  salvaToken: () => { },
-  usuarioEstaLogado: () => false,
+  saveToken: () => { },
+  isUserLoggedIn: () => false,
 }
 
-const Context = createContext(estadoInicial)
+const Context = createContext(initialState)
 
 export function AutenticacaoProvider({ children }) {
 
   const [token, setToken] = useState('')
 
-  function usuarioEstaLogado() {
+  function isUserLoggedIn() {
     return !!token
   }
 
-  function salvaToken(token) {
+  function saveToken(token) {
     localStorage.setItem('token', token)
     setToken(token)
   }
 
   const value = {
-    salvaToken,
+    saveToken,
     token,
-    usuarioEstaLogado
+    isUserLoggedIn
   }
 
   return <Context.Provider
@@ -34,4 +34,4 @@ export function AutenticacaoProvider({ children }) {
   </Context.Provider>
 }
 
-export const useAutenticacao = () => useContext(Context)
+export const useAuth = () => useContext(Context)

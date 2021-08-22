@@ -1,4 +1,4 @@
-const VeiculoService = {
+const VehicleService = {
   listar() {
     return fetch('https://carango-bom-api.herokuapp.com/veiculos')
       .then(r => r.json());
