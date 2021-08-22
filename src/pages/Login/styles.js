@@ -23,7 +23,7 @@ export const useStyles = makeStyles(theme => ({
 
       [theme.breakpoints.up('sm')]: {
         maxWidth: '40%',
-        height: '40vh',
+        height: 'auto',
         padding: '3rem'
       },
 
@@ -34,7 +34,7 @@ export const useStyles = makeStyles(theme => ({
       },
     },
   },
-  msgErro: {
+  msgError: {
     fontSize: '1.2rem',
     color: theme.palette.red
   },

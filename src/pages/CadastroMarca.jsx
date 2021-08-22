@@ -1,7 +1,7 @@
 import { Button, TextField } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
-import useErros from '../hooks/useErros';
+import useErrors from '../hooks/useErrors';
 import MarcaService from '../services/MarcaService';
 
 function CadastroMarca() {
@@ -15,14 +15,14 @@ function CadastroMarca() {
     const validacoes = {
         marca: dado => {
             if (dado && dado.length >= 3) {
-                return { valido: true };
+                return { valid: true };
             } else {
-                return { valido: false, texto: "Marca deve ter ao menos 3 letras." }
+                return { valid: false, text: "Marca deve ter ao menos 3 letras." }
             }
         }
     }
 
-    const [erros, validarCampos, possoEnviar] = useErros(validacoes);
+    const [erros, validateFields, allFieldsValid] = useErrors(validacoes);
 
     function cancelar() {
         history.goBack();
@@ -39,7 +39,7 @@ function CadastroMarca() {
     return (
         <form onSubmit={(event) => {
             event.preventDefault();
-            if (possoEnviar()) {
+            if (allFieldsValid()) {
                 if (id) {
                     MarcaService.alterar({ id, nome: marca })
                         .then(res => {
@@ -57,9 +57,9 @@ function CadastroMarca() {
             <TextField
                 value={marca}
                 onChange={evt => setMarca(evt.target.value)}
-                onBlur={validarCampos}
-                helperText={erros.marca.texto}
-                error={!erros.marca.valido}
+                onBlur={validateFields}
+                helperText={erros.marca.text}
+                error={!erros.marca.valid}
                 name="marca"
                 id="marca"
                 label="Marca"
@@ -74,7 +74,7 @@ function CadastroMarca() {
                 variant="contained"
                 color="primary"
                 type="submit"
-                disabled={!possoEnviar()}>
+                disabled={!allFieldsValid()}>
                 {id ? 'Alterar' : 'Cadastrar'}
             </Button>
 
