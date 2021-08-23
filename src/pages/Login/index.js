@@ -33,8 +33,8 @@ export default function Login() {
 
   const [errors, validateFields, allFieldsValid] = useErrors(validations)
 
-  function updateError(error) {
-    setError(error)
+  function updateError(newError) {
+    setError(newError)
   }
 
   function isFormValid() {
