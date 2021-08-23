@@ -33,13 +33,13 @@ export default function Login() {
 
   const [errors, validateFields, allFieldsValid] = useErrors(validations)
 
-  function atualizaErro(error) {
+  function updateError(error) {
     setError(error)
   }
 
-  function submissaoValida() {
+  function isFormValid() {
     const hasEmptyInput = !password || !user;
-    atualizaErro(hasEmptyInput)
+    updateError(hasEmptyInput)
 
     if (hasEmptyInput) return
 
@@ -49,7 +49,7 @@ export default function Login() {
   async function login(e) {
     e.preventDefault()
 
-    if (submissaoValida()) {
+    if (isFormValid()) {
       setLoading(true)
       const { token } = await LoginService.login({ email: user, password })
 

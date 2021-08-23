@@ -2,7 +2,6 @@ import { createContext, useContext, useState } from "react";
 
 const initialState = {
   token: '',
-  saveToken: () => { },
   isUserLoggedIn: () => false,
 }
 
@@ -16,9 +15,9 @@ export function AutenticacaoProvider({ children }) {
     return !!token
   }
 
-  function saveToken(token) {
-    localStorage.setItem('token', token)
-    setToken(token)
+  function saveToken(userToken) {
+    localStorage.setItem('token', userToken)
+    setToken(userToken)
   }
 
   const value = {
