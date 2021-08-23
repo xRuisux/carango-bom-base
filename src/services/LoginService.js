@@ -1,6 +1,6 @@
 const LoginService = {
   login(credenciais) {
-    return fetch('http://localhost:8080/autenticacao', {
+    return fetch('http://localhost:8080/auth', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
