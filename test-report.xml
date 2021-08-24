@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testExecutions version="1">
-  <file path="/Users/tailine/Documents/Thoughtworks/carango-bom-base/src/pages/Home/Home.test.js">
-    <testCase name="&lt;Home /&gt; render correctly" duration="107"/>
-    <testCase name="&lt;Home /&gt; should have a link to veicules and login pages" duration="30"/>
-  </file>
-</testExecutions>
