@@ -3,7 +3,7 @@ import { DataGrid } from '@material-ui/data-grid';
 import AddIcon from '@material-ui/icons/Add';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import MarcaService from '../services/MarcaService';
+import MarcaService from '../services/BrandService';
 
 const colunas = [
     { field: 'nome', headerName: 'Marca', width: 200 }
@@ -76,7 +76,7 @@ function ListagemMarcas() {
                 </Button>
             </div>
 
-            <Fab color="primary" aria-label="add" className={classes.fab} onClick={() => history.push('/cadastro-marca')}>
+            <Fab color="primary" aria-label="add" className={classes.fab} onClick={() => history.push('/register-brand')}>
                 <AddIcon />
             </Fab>
         </div>

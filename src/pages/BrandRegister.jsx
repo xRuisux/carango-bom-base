@@ -2,37 +2,37 @@ import { Button, TextField } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import useErrors from '../hooks/useErrors';
-import MarcaService from '../services/MarcaService';
+import BrandService from '../services/BrandService';
 
-function CadastroMarca() {
+function BrandRegister() {
 
-    const [marca, setMarca] = useState("");
+    const [brand, setBrand] = useState("");
 
     const history = useHistory();
 
     const { id } = useParams();
 
-    const validacoes = {
-        marca: dado => {
-            if (dado && dado.length >= 3) {
+    const validations = {
+        brand: data => {
+            if (data && data.length >= 3) {
                 return { valid: true };
             } else {
-                return { valid: false, text: "Marca deve ter ao menos 3 letras." }
+                return { valid: false, texto: " A marca deve ter ao menos 3 letras." }
             }
         }
     }
 
-    const [erros, validateFields, allFieldsValid] = useErrors(validacoes);
+    const [erros, validateFields, allFieldsValid] = useErrors(validations);
 
-    function cancelar() {
+    function cancel() {
         history.goBack();
     }
 
     // TODO: Avaliar remover disable na próxima linha
     useEffect(() => {
         if (id) {
-            MarcaService.consultar(id)
-                .then(m => setMarca(m.nome));
+            BrandService.read(id)
+                .then(brand => setBrand(brand.name));
         }
     }, [id]); // eslint-disable-line
 
@@ -41,27 +41,27 @@ function CadastroMarca() {
             event.preventDefault();
             if (allFieldsValid()) {
                 if (id) {
-                    MarcaService.alterar({ id, nome: marca })
+                    BrandService.update({ id, name: brandName })
                         .then(res => {
                             history.goBack();
                         });
                 } else {
-                    MarcaService.cadastrar({ nome: marca })
+                    BrandService.create({ nome: brandName })
                         .then(res => {
-                            setMarca("");
+                            setbrand("");
                             history.goBack();
                         });
                 }
             }
         }}>
             <TextField
-                value={marca}
-                onChange={evt => setMarca(evt.target.value)}
+                value={brandName}
+                onChange={evt => setBrand(evt.target.value)}
                 onBlur={validateFields}
-                helperText={erros.marca.text}
-                error={!erros.marca.valid}
-                name="marca"
-                id="marca"
+                helperText={erros.brand.text}
+                error={!erros.brand.valid}
+                name="brandName"
+                id="brandName"
                 label="Marca"
                 type="text"
                 variant="outlined"
@@ -81,11 +81,11 @@ function CadastroMarca() {
             <Button
                 variant="contained"
                 color="secondary"
-                onClick={cancelar}>
+                onClick={cancel}>
                 Cancelar
             </Button>
         </form>
     );
 }
 
-export default CadastroMarca;
+export default BrandRegister;
