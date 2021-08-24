@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PageNotFound /> should render correctly 1`] = `
+<div>
+  <section
+    class="makeStyles-root-1"
+  >
+    <h1>
+      Página não encontrada :(
+    </h1>
+    <a
+      class="makeStyles-link-2"
+      href="/"
+    >
+      Voltar para o início
+    </a>
+  </section>
+</div>
+`;

@@ -1,10 +1,8 @@
-import React from 'react';
-import { CssBaseline } from '@material-ui/core';
-import { ptBR } from '@material-ui/core/locale';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import CadastroMarca from './pages/CadastroMarca';
-import ListagemMarcas from './pages/ListagemMarcas'
-import Routes from './routes';
+import { CssBaseline } from '@material-ui/core'
+import { ptBR } from '@material-ui/core/locale'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import Routes from './routes'
+import { AuthProvider } from './hooks/useAuth'
 
 /*
 breakpoints:
@@ -20,19 +18,24 @@ const muiTheme = createMuiTheme({
       main: 'rgba(31,45,75, 0.95)',
       yellow: '#EED44D',
     },
-    white: '#F6F8FC'
+    white: '#F6F8FC',
+    gray: '#A9A9A9',
+    darkGray: '#777777',
+    red: "#EE4F4F"
   }
 }, ptBR);
 
 function App() {
 
   return (
-    <ThemeProvider theme={muiTheme}>
-      <CssBaseline />
-      <main>
-        <Routes />
-      </main>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider theme={muiTheme}>
+        <CssBaseline />
+        <main>
+          <Routes />
+        </main>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 
