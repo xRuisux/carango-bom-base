@@ -55,7 +55,7 @@ describe('<Login />', () => {
     fireEvent.click(screen.getByRole('button', { name: /entrar/i }))
 
     expect(window.fetch).toHaveBeenCalled()
-    expect(window.fetch).toHaveBeenCalledWith('http://localhost:8080/autenticacao', {
+    expect(window.fetch).toHaveBeenCalledWith('http://localhost:8080/auth', {
       method: 'POST',
       headers: { "Accept": "application/json", "Content-Type": "application/json" },
       body: JSON.stringify({ email: 'amanda@gmail.com', password: 'pass123' })

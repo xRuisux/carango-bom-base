@@ -2,7 +2,7 @@ import { CssBaseline } from '@material-ui/core'
 import { ptBR } from '@material-ui/core/locale'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import Routes from './routes'
-import { AutenticacaoProvider } from './hooks/useAuth'
+import { AuthProvider } from './hooks/useAuth'
 
 /*
 breakpoints:
@@ -28,14 +28,14 @@ const muiTheme = createMuiTheme({
 function App() {
 
   return (
-    <AutenticacaoProvider>
+    <AuthProvider>
       <ThemeProvider theme={muiTheme}>
         <CssBaseline />
         <main>
           <Routes />
         </main>
       </ThemeProvider>
-    </AutenticacaoProvider>
+    </AuthProvider>
   );
 }
 
