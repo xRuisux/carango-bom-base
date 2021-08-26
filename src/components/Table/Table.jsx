@@ -13,6 +13,8 @@ export default function Table({
   rowSelectedFunction,
 }) {
 
+  const [modalShow, setModalShow] = React.useState(false);
+
   return (
     <>
       <DataGrid
@@ -30,7 +32,7 @@ export default function Table({
           onClick={addItem}
         >
           Adicionar
-        </Button>
+          </Button>
         <Button
           className="actions"
           variant="contained"

@@ -28,14 +28,20 @@ const columns = [
 function BrandList() {
     const [brands, setBrands] = useState([]);
     const [brandSelected, setBrandSelected] = useState();
-    const [modalShow, setModalShow] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
     // const classes = useStyles();
     const history = useHistory();
 
     console.log(brands);
     function create() {
-        history.push('/create-brand');
+        setOpen(true);
+        // setModalShow(true);
+        // history.push('/create-brand');
     }
+
+    const handleClose = () => {
+        setOpen(false);
+      };
 
     function update() {
         history.push('/update-brand/' + brandSelected.id);
@@ -57,21 +63,24 @@ function BrandList() {
     }
 
     return (
-        <div style={{ height: 300, width: '100%' }}>
-            {/* <FormModal
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-            /> */}
-            <Table
-                rows={brands}
-                columns={columns}
-                addItem={create}
-                updateItem={update}
-                deleteItem={remove}
-                selectedItem={brandSelected}
-                rowSelectedFunction={setBrandSelected}
+        <>
+            <FormModal
+            open = {open}
+            handleClose = { handleClose }
             />
-        </div>
+            
+            <div style={{ height: 300, width: '100%' }}>
+                <Table
+                    rows={brands}
+                    columns={columns}
+                    addItem={create}
+                    updateItem={update}
+                    deleteItem={remove}
+                    selectedItem={brandSelected}
+                    rowSelectedFunction={setBrandSelected}
+                />
+            </div>
+        </>
     );
 }
 

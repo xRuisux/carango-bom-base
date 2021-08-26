@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router';
 import useErrors from '../../hooks/useErrors';
 import BrandService from '../../services/BrandService';
 import { StyledButton, StyledTextField, useStyles } from './styles'
-
+import FormModal from '../../components/FormModal/FormModal';
 function BrandRegister() {
     const { id } = useParams();
     const classes = useStyles()
@@ -36,6 +36,9 @@ function BrandRegister() {
 
     return (
         <div className={classes.root}>
+            <FormModal
+            open = {true}
+            />
             <form onSubmit={(event) => {
                 event.preventDefault();
                 if (allFieldsValid()) {
@@ -45,7 +48,7 @@ function BrandRegister() {
                                 history.goBack();
                             });
                     } else {
-                        BrandService.create({ nome: brand })
+                        BrandService.create({ name: brand })
                             .then(res => {
                                 setBrand("");
                                 history.goBack();
