@@ -5,7 +5,8 @@ import PrivateRoute from "./PrivateRoute"
 
 const Home = lazy(() => import("../pages/Home"))
 const Login = lazy(() => import("../pages/Login"))
-const CadastroMarca = lazy(() => import("../pages/CadastroMarca"))
+const BrandRegister = lazy(() => import("../pages/Brand/BrandRegister"))
+const BrandList = lazy(() => import("../pages/Brand/BrandList/BrandList"))
 
 export default function Routes() {
 
@@ -13,9 +14,10 @@ export default function Routes() {
     <Router>
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
-          <PrivateRoute path="/cadastro-marca" component={CadastroMarca} />
-          <PrivateRoute path='/alteracao-marca/:id' component={CadastroMarca} />
-          <Route path="/veiculos">
+        <PrivateRoute path="/brands" component={BrandList} />
+          <PrivateRoute path="/create-brand" component={BrandRegister} />
+          <PrivateRoute path='/update-brand/:id' component={BrandRegister} />
+          <Route path="/vehicle">
             <div>Veículos</div>
           </Route>
           <Route path="/login" component={Login} />

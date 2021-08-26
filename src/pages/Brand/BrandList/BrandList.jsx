@@ -1,0 +1,78 @@
+
+import { makeStyles } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
+import Table from '../../../components/Table/Table';
+import FormModal from '../../../components/FormModal/FormModal';
+import BrandService from '../../../services/BrandService';
+
+const columns = [
+    { field: 'name', headerName: 'Brand', width: 200 }
+];
+
+// const useStyles = makeStyles(() => ({
+//     fab: {
+//         position: 'absolute',
+//         bottom: '100px',
+//         right: '100px',
+//     },
+//     actionsToolbar: {
+//         float: 'right'
+//     },
+//     actions: {
+//         top: '10px',
+//         marginLeft: '10px',
+//     }
+// }));
+
+function BrandList() {
+    const [brands, setBrands] = useState([]);
+    const [brandSelected, setBrandSelected] = useState();
+    const [modalShow, setModalShow] = React.useState(false);
+    // const classes = useStyles();
+    const history = useHistory();
+
+    console.log(brands);
+    function create() {
+        history.push('/create-brand');
+    }
+
+    function update() {
+        history.push('/update-brand/' + brandSelected.id);
+    }
+
+    function remove() {
+        BrandService.delete(brandSelected)
+            .then(() => {
+                setBrandSelected(null);
+                loadBrands();
+            });
+    }
+
+    useEffect(() => loadBrands(), []);
+
+    function loadBrands() {
+        BrandService.list()
+            .then(data => setBrands(data));
+    }
+
+    return (
+        <div style={{ height: 300, width: '100%' }}>
+            {/* <FormModal
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+            /> */}
+            <Table
+                rows={brands}
+                columns={columns}
+                addItem={create}
+                updateItem={update}
+                deleteItem={remove}
+                selectedItem={brandSelected}
+                rowSelectedFunction={setBrandSelected}
+            />
+        </div>
+    );
+}
+
+export default BrandList;
