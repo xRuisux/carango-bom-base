@@ -1,6 +1,6 @@
 import { CssBaseline } from '@material-ui/core'
 import { ptBR } from '@material-ui/core/locale'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles'
 import Routes from './routes'
 import { AuthProvider } from './hooks/useAuth'
 
@@ -30,7 +30,7 @@ const muiTheme = createMuiTheme({
 }, ptBR);
 
 function App() {
-
+  
   return (
     <AuthProvider>
       <ThemeProvider theme={muiTheme}>
