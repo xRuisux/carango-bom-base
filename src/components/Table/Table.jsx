@@ -13,8 +13,6 @@ export default function Table({
   rowSelectedFunction,
 }) {
 
-  const [modalShow, setModalShow] = React.useState(false);
-
   return (
     <>
       <DataGrid

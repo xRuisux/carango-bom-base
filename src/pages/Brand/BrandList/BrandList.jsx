@@ -1,5 +1,4 @@
 
-import { makeStyles } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import Table from '../../../components/Table/Table';
@@ -10,20 +9,6 @@ const columns = [
     { field: 'name', headerName: 'Brand', width: 200 }
 ];
 
-// const useStyles = makeStyles(() => ({
-//     fab: {
-//         position: 'absolute',
-//         bottom: '100px',
-//         right: '100px',
-//     },
-//     actionsToolbar: {
-//         float: 'right'
-//     },
-//     actions: {
-//         top: '10px',
-//         marginLeft: '10px',
-//     }
-// }));
 
 function BrandList() {
     const [brands, setBrands] = useState([]);

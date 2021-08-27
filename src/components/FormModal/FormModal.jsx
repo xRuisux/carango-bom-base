@@ -6,10 +6,7 @@ import useErrors from '../../hooks/useErrors';
 import BrandService from '../../services/BrandService';
 import { Button, TextField } from '@material-ui/core';
 
-// import { StyledButton, StyledTextField, useStyles } from './styles'
-
-
-export default function SimpleModal({open, handleClose}) {
+export default function FormModal({open, handleClose}) {
   
   const { id } = useParams();
   const history = useHistory();
