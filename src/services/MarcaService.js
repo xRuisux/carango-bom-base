@@ -1,3 +1,5 @@
+import { api } from "../api";
+
 const MarcaService = {
   cadastrar(marca) {
     return fetch('http://localhost:8080/marcas', {
@@ -19,10 +21,9 @@ const MarcaService = {
     return fetch('https://carango-bom-api.herokuapp.com/marcas/' + id).then(r => r.json());
   },
 
-  listar() {
-    return fetch('https://carango-bom-api.herokuapp.com/marcas').then(r => r.json());
+  list() {
+    return api.get('brand')
   },
-
   excluir(marca) {
     return fetch('https://carango-bom-api.herokuapp.com/marcas/' + marca.id, {
       method: 'DELETE',
