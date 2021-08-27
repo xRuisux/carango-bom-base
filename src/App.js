@@ -16,12 +16,16 @@ const muiTheme = createMuiTheme({
   palette: {
     primary: {
       main: 'rgba(31,45,75, 0.95)',
-      yellow: '#EED44D',
+    },
+    secondary: {
+      main: '#EED44D'
+    },
+    error: {
+      main: "#EE4F4F"
     },
     white: '#F6F8FC',
     gray: '#A9A9A9',
-    darkGray: '#777777',
-    red: "#EE4F4F"
+    darkGray: '#777777'
   }
 }, ptBR);
 

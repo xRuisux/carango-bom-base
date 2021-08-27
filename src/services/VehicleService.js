@@ -1,8 +1,12 @@
+import { api } from "../api";
+
 const VehicleService = {
-  listar() {
-    return fetch('https://carango-bom-api.herokuapp.com/veiculos')
-      .then(r => r.json());
+  create: (data) => {
+    return api.post('vehicle', data)
   },
+  list: () => {
+    return api.get('vehicle')
+  }
 };
 
-export default VeiculoService;
+export default VehicleService;

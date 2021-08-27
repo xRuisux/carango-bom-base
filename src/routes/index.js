@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react"
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom"
 import { PageNotFound } from "../pages/PageNotFound"
+import { Vehicle } from "../pages/Vehicle"
 import PrivateRoute from "./PrivateRoute"
 
 const Home = lazy(() => import("../pages/Home"))
@@ -18,6 +19,7 @@ export default function Routes() {
           <Route path="/veiculos">
             <div>Veículos</div>
           </Route>
+          <Route path="/vehicle" component={Vehicle} />
           <Route path="/login" component={Login} />
           <Route exact path="/" component={Home} />
           <Route path="*" component={PageNotFound} />

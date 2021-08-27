@@ -1,38 +1,98 @@
-import { Select, TextField } from "@material-ui/core"
-import { useState } from "react";
+import { FormControl, Select, InputLabel, TextField } from "@material-ui/core"
+import { useState } from "react"
+import useErrors from "../../hooks/useErrors"
+import VehicleService from "../../services/VehicleService";
+import { formatCurrency, getOnlyNumbers } from "../../utils/currency"
+import { delayFunc } from "../../utils/delayFunc";
+import { Button } from "../Button";
 
-export function FormVehicle({ onCancel, confirmBtnLabel = 'cadastrar' }) {
-  const [model, setModel] = useState('');
-  const [year, setYear] = useState();
-  const [price, setPrice] = useState('');
+const initialValues = {
+  brand: '',
+  model: undefined,
+  year: undefined,  
+  price: undefined
+}
 
-  const isAllFieldsFilled = !!model && year && !!price
+const MIN_YEAR = 1979
+const PRICE_ZERO = '0,0'
+
+export function FormVehicle({ brands, onCancel, confirmBtnLabel = 'cadastrar' }) {
+
+  const [formValues, setFormValues] = useState(initialValues)
+
+  const validations = {
+    model: value => !!value ? { valid: true } : { valid: false, text: 'Insira um modelo' },
+    price: value => !!value && value !== PRICE_ZERO ? { valid: true } : { valid: false, text: 'Insira o preço' },
+    year: value => value >= MIN_YEAR ? { valid: true } : { valid: false, text: 'Insira um ano maior ou igual a 1979' },
+    brand: value => value !== 'none' ? { valid: true } : { valid: false, text: 'Selecione uma marca' }
+  }
+
+  const [errors, validateFields, allFieldsValid] = useErrors(validations)
+
+  function updateFormValues(e) {
+    const { target: { value, name } } = e
+    delayFunc(() => validateFields({ name, value, ...e }), 500)
+    setFormValues({ ...formValues, [name]: value })
+  }
+
+  function handlePriceChange({ target: { value } }) {
+    const validPrice = getOnlyNumbers(value)
+    const formattedPrice = formatCurrency(validPrice)
+    
+    setFormValues({ ...formValues, price: formattedPrice })
+  }
+
+  function isAllFieldsFilled () {
+    return Object.values(formValues).every(value => !!value)
+  }
+
+  async function submitForm() {
+    if(allFieldsValid() && isAllFieldsFilled()) {
+      const { brand, year, price, ...otherValues } = formValues
+      const resp = await VehicleService.create({ ...otherValues , brandId: brand, year: Number(year), price: Number(getOnlyNumbers(price)) })
+      console.log({resp})
+    }
+  }
+  
+  const brandOptions = brands.map(brand => (<option key={brand.id} value={brand.id}>{brand.name}</option>))
 
   return (
     <section>
-      <form>
-        {/* <Select 
-          placeholder="Ex: Honda"
-          id="brand"
-          label="Marca"
-          name="brand"
-          variant="outlined"
-          onChange={({ target: { value } }) => setPassword(value)}
-          onBlur={validateFields}
-          helperText={errors.password.text}
-          error={!errors.password.valid}
-        /> */}
-        <TextField 
-          placeholder="Ex: 2021"
+      <form style={{ padding: 30 }}>
+        <FormControl variant="outlined">
+          <InputLabel id="brandLabel" htmlFor='brand'>Marca</InputLabel>
+          <Select 
+            labelId="brandLabel"
+            placeholder="Ex: Honda"
+            id="brand"
+            label="Marca"
+            name="brand"
+            variant="outlined"
+            value={formValues.brand}
+            onChange={updateFormValues}
+            inputProps={{
+              name: 'brand',
+              id: 'brand'
+            }}
+            // onBlur={validateFields}
+            helperText={errors.brand.text}
+            error={!errors.brand.valid}
+          >
+            <option value=''></option>
+            {brandOptions}
+          </Select>
+        </FormControl>
+        <TextField
+          placeholder="Ex: Civic"
           id="model"
           label="Modelo"
           name="model"
           variant="outlined"
-          onChange={({ target: { value } }) => setModel(value)}
-          // pelo menos 1979
+          value={formValues.model}
+          onChange={updateFormValues}
           // onBlur={validateFields}
-          // helperText={errors.password.text}
-          // error={!errors.password.valid}
+          helperText={errors.model.text}
+          error={!errors.model.valid}
         />
         <TextField 
           placeholder="Ex: 2021"
@@ -41,11 +101,11 @@ export function FormVehicle({ onCancel, confirmBtnLabel = 'cadastrar' }) {
           label="Ano"
           name="year"
           variant="outlined"
-          onChange={({ target: { value } }) => setYear(Number(value))}
-          // pelo menos 1979
+          value={formValues.year}
+          onChange={updateFormValues}
           // onBlur={validateFields}
-          // helperText={errors.password.text}
-          // error={!errors.password.valid}
+          helperText={errors.year.text}
+          error={!errors.year.valid}
         />
         <TextField 
           placeholder="Ex: 2021"
@@ -53,17 +113,20 @@ export function FormVehicle({ onCancel, confirmBtnLabel = 'cadastrar' }) {
           label="Valor"
           name="price"
           variant="outlined"
-          onChange={({ target: { value } }) => setPrice(value)}
-          // pelo menos 1979
+          value={formValues.price}
+          onChange={(e) => {
+            handlePriceChange(e)
+            delayFunc(() => validateFields(e), 1000)
+          }}
           // onBlur={validateFields}
-          // helperText={errors.password.text}
-          // error={!errors.password.valid}
+          helperText={errors.price.text}
+          error={!errors.price.valid}
         />
       </form>
 
       <footer>
-        <button onClick={onCancel}>cancelar</button>
-        <button disabled={!isAllFieldsFilled} type="submit">{confirmBtnLabel}</button>
+        <Button  variant="contained" color="primary" onClick={submitForm}>Cadastrar</Button>
+        <Button variant="contained" color="secondary">Cancelar</Button>
       </footer>
     </section>
   )
