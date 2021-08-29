@@ -1,5 +1,5 @@
 import { FormControl, Select, InputLabel, TextField } from "@material-ui/core"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import useErrors from "../../hooks/useErrors"
 import VehicleService from "../../services/VehicleService";
 import { formatCurrency, getOnlyNumbers } from "../../utils/currency"
@@ -8,17 +8,25 @@ import { Button } from "../Button";
 
 const initialValues = {
   brand: '',
-  model: undefined,
-  year: undefined,  
-  price: undefined
+  model: '',
+  year: '',  
+  price: ''
 }
 
 const MIN_YEAR = 1979
 const PRICE_ZERO = '0,0'
 
-export function FormVehicle({ brands, onCancel, confirmBtnLabel = 'cadastrar' }) {
+export function FormVehicle({ brands, vehicleToEdit, onCancel, confirmBtnLabel = 'cadastrar' }) {
 
   const [formValues, setFormValues] = useState(initialValues)
+
+  useEffect(() => {
+    console.log({vehicleToEdit})
+    if(vehicleToEdit) {
+      return setFormValues(vehicleToEdit)
+    } 
+    setFormValues(initialValues)
+  }, [vehicleToEdit])
 
   const validations = {
     model: value => !!value ? { valid: true } : { valid: false, text: 'Insira um modelo' },
@@ -49,6 +57,11 @@ export function FormVehicle({ brands, onCancel, confirmBtnLabel = 'cadastrar' })
   async function submitForm() {
     if(allFieldsValid() && isAllFieldsFilled()) {
       const { brand, year, price, ...otherValues } = formValues
+      
+      // if(formValues) {
+
+      // }
+      
       const resp = await VehicleService.create({ ...otherValues , brandId: brand, year: Number(year), price: Number(getOnlyNumbers(price)) })
       console.log({resp})
     }

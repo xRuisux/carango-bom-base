@@ -5,11 +5,19 @@ import Table from "../../components/Table/Table"
 import MarcaService from "../../services/MarcaService"
 import VehicleService from "../../services/VehicleService"
 
+const columns = [
+  { field: 'brand', headerName: 'Marca' },
+  { field: 'model', headerName: 'Modelo' },
+  { field: 'year', headerName: 'Ano' },
+  { field: 'price', headerName: 'Preço' },
+]
+
 export function Vehicle() {
 
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [brands, setBrands] = useState([])
-  const [vehicles, setVehicles] = useState([]);
+  const [vehicles, setVehicles] = useState([])
+  const [selectedVehicle, setSelectedVehicle] = useState()
 
   useEffect(() => {
     async function fetchBrands () {
@@ -18,7 +26,6 @@ export function Vehicle() {
     }
     async function fetchVehicles () {
       const vehiclesResp = await VehicleService.list()
-      console.log(vehiclesResp)
       setVehicles(vehiclesResp)
     }
 
@@ -26,12 +33,25 @@ export function Vehicle() {
     fetchVehicles()
   }, [])
 
-  const columns = [
-    { field: 'brand', headerName: 'Marca' },
-    { field: 'model', headerName: 'Modelo' },
-    { field: 'year', headerName: 'Ano' },
-    { field: 'price', headerName: 'Preço' },
-  ]
+  function onSelectRow(rowInfo) {
+    console.log({ rowInfo })
+    if(!rowInfo) {
+      setSelectedVehicle(undefined)
+      return
+    }
+    console.log('depois')
+    const { brand, ...otherInfo } = rowInfo
+    const brandId = brands.find(brandObj => brandObj.name === brand)?.id
+    
+    setSelectedVehicle({
+      brand: brandId,
+      ...otherInfo
+    })
+  }
+
+  function handleVehicleUpdate() {
+    
+  }
 
   const rows = vehicles.map(vehicle => {
     return { 
@@ -42,17 +62,20 @@ export function Vehicle() {
       price: vehicle.price
     }
   })
-
+console.log({selectedVehicle})
   return (
     <>
-    {/* <FormVehicle isVisible={isModalVisible} /> */}
-    <section>
-      {/* <FormVehicle brands={brands} /> */}
-      <Table
-        rows={rows}
-        columns={columns}
-      />
-    </section>
+      <FormVehicle vehicleToEdit={selectedVehicle} brands={brands} isVisible={isModalVisible} />
+      <section>
+        {/* <FormVehicle brands={brands} /> */}
+        <Table
+          rows={rows}
+          columns={columns}
+          rowSelectedFunction={onSelectRow}
+          selectedItem={selectedVehicle}
+          // updateItem={}
+        />
+      </section>
     </>
   );
 }
