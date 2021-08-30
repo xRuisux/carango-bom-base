@@ -2,7 +2,7 @@ import { Button, TextField } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import useErrors from '../hooks/useErrors';
-import MarcaService from '../services/MarcaService';
+import BrandService from '../services/BrandService';
 
 function CadastroMarca() {
 
@@ -31,7 +31,7 @@ function CadastroMarca() {
     // TODO: Avaliar remover disable na próxima linha
     useEffect(() => {
         if (id) {
-            MarcaService.consultar(id)
+            BrandService.consultar(id)
                 .then(m => setMarca(m.nome));
         }
     }, [id]); // eslint-disable-line
@@ -41,12 +41,12 @@ function CadastroMarca() {
             event.preventDefault();
             if (allFieldsValid()) {
                 if (id) {
-                    MarcaService.alterar({ id, nome: marca })
+                    BrandService.alterar({ id, nome: marca })
                         .then(res => {
                             history.goBack();
                         });
                 } else {
-                    MarcaService.cadastrar({ nome: marca })
+                    BrandService.cadastrar({ nome: marca })
                         .then(res => {
                             setMarca("");
                             history.goBack();

@@ -1,6 +1,6 @@
 import { api } from "../api";
 
-const MarcaService = {
+const BrandService = {
   cadastrar(marca) {
     return fetch('http://localhost:8080/marcas', {
       method: 'POST',
@@ -32,4 +32,4 @@ const MarcaService = {
   }
 };
 
-export default MarcaService;
+export default BrandService
