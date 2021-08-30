@@ -1,18 +1,5 @@
 export function formatCurrency(currency) {
-  const currencyNumbersStr = currency.replace(/[.,]/g, '')
-
-  let currencyNum = Number(currencyNumbersStr)
-  let decimalPart = `,${currencyNum % 100}`
-  let currencyValue = Math.trunc(currencyNum / 100)
-  
-  let formattedCurrency = ''
-  
-  while(currencyValue % 1000 !== currencyValue) {
-    formattedCurrency = `.${currencyValue % 1000}${formattedCurrency}`
-    currencyValue = Math.trunc(currencyValue / 1000)
-  }
-
-  return `${currencyValue}${formattedCurrency}${decimalPart}`
+  return new Intl.NumberFormat('pt-BR', { style: 'decimal', minimumFractionDigits: 2 }).format(currency / 100)
 }
 
 export function getOnlyNumbers(currency) {
