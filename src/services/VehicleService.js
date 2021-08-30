@@ -6,6 +6,9 @@ const VehicleService = {
   },
   list: () => {
     return api.get('vehicle')
+  },
+  edit: (id, data) => {
+    return api.put(`vehicle/${id}`, data)
   }
 };
 

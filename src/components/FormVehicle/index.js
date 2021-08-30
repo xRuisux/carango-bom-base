@@ -1,10 +1,9 @@
 import { FormControl, Select, InputLabel, TextField } from "@material-ui/core"
 import { useEffect, useState } from "react"
 import useErrors from "../../hooks/useErrors"
-import VehicleService from "../../services/VehicleService";
 import { formatCurrency, getOnlyNumbers } from "../../utils/currency"
-import { delayFunc } from "../../utils/delayFunc";
-import { Button } from "../Button";
+import { delayFunc } from "../../utils/delayFunc"
+import { Button } from "../Button"
 
 const initialValues = {
   brand: '',
@@ -14,16 +13,17 @@ const initialValues = {
 }
 
 const MIN_YEAR = 1979
-const PRICE_ZERO = '0,0'
+const PRICE_ZERO = '0,00'
 
-export function FormVehicle({ brands, vehicleToEdit, onCancel, confirmBtnLabel = 'cadastrar' }) {
+export function FormVehicle({ brands, vehicleToEdit, onSubmit, onCancel, confirmBtnLabel = 'cadastrar' }) {
 
   const [formValues, setFormValues] = useState(initialValues)
 
   useEffect(() => {
-    console.log({vehicleToEdit})
     if(vehicleToEdit) {
-      return setFormValues(vehicleToEdit)
+      const { price, ...rest } = vehicleToEdit
+      
+      return setFormValues({ price: formatCurrency(price.toString()), ...rest})
     } 
     setFormValues(initialValues)
   }, [vehicleToEdit])
@@ -56,14 +56,16 @@ export function FormVehicle({ brands, vehicleToEdit, onCancel, confirmBtnLabel =
 
   async function submitForm() {
     if(allFieldsValid() && isAllFieldsFilled()) {
-      const { brand, year, price, ...otherValues } = formValues
-      
-      // if(formValues) {
+      const { brand, year, price, model } = formValues
+      const formattedValues = { brandId: brand, year: Number(year), price: Number(getOnlyNumbers(price)), model }
 
-      // }
-      
-      const resp = await VehicleService.create({ ...otherValues , brandId: brand, year: Number(year), price: Number(getOnlyNumbers(price)) })
-      console.log({resp})
+      if(vehicleToEdit?.id) {
+        await onSubmit(formattedValues, vehicleToEdit.id)
+      } else {
+        await onSubmit(formattedValues)
+      }
+
+      setFormValues(initialValues)
     }
   }
   

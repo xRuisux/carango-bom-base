@@ -2,8 +2,9 @@ import { DataGrid } from "@material-ui/data-grid"
 import { useEffect, useState } from "react"
 import { FormVehicle } from "../../components/FormVehicle"
 import Table from "../../components/Table/Table"
-import MarcaService from "../../services/MarcaService"
+import BrandService from "../../services/BrandService"
 import VehicleService from "../../services/VehicleService"
+import { formatCurrency, getOnlyNumbers } from "../../utils/currency"
 
 const columns = [
   { field: 'brand', headerName: 'Marca' },
@@ -20,17 +21,17 @@ export function Vehicle() {
   const [selectedVehicle, setSelectedVehicle] = useState()
 
   useEffect(() => {
-    async function fetchBrands () {
-      const brandsResp = await MarcaService.list()
-      setBrands(brandsResp)
-    }
-    async function fetchVehicles () {
-      const vehiclesResp = await VehicleService.list()
-      setVehicles(vehiclesResp)
+    async function fetchData() {
+       Promise.all([
+        BrandService.list(),VehicleService.list()
+      ]).then(([brandData, vehicleData]) => {
+        setBrands(brandData?.data ?? [])
+        setVehicles(vehicleData.data ?? [])
+      })
+      .catch(err => console.log(err))
     }
 
-    fetchBrands()
-    fetchVehicles()
+    fetchData()
   }, [])
 
   function onSelectRow(rowInfo) {
@@ -39,18 +40,29 @@ export function Vehicle() {
       setSelectedVehicle(undefined)
       return
     }
-    console.log('depois')
+    
     const { brand, ...otherInfo } = rowInfo
     const brandId = brands.find(brandObj => brandObj.name === brand)?.id
     
     setSelectedVehicle({
+      ...otherInfo,
       brand: brandId,
-      ...otherInfo
+      price: Number(getOnlyNumbers(otherInfo.price))
     })
   }
 
-  function handleVehicleUpdate() {
-    
+  function updateVehicleList(newVehicle) {
+    const filteredVehicles = vehicles.filter(vehicle => vehicle.id !== newVehicle?.id)
+    setVehicles([...filteredVehicles, { ...(newVehicle ?? {}) }])
+  }
+
+  async function handleFormSubmission(formValues, id = undefined) {
+    const { data } = await (async () => {
+      if(id) return await VehicleService.edit(id, formValues)
+      return await VehicleService.create(formValues)
+    })()
+
+    updateVehicleList(data)
   }
 
   const rows = vehicles.map(vehicle => {
@@ -59,13 +71,13 @@ export function Vehicle() {
       brand: vehicle.brandName,
       model: vehicle.model,
       year: vehicle.year,
-      price: vehicle.price
+      price: formatCurrency(vehicle.price)
     }
   })
 console.log({selectedVehicle})
   return (
     <>
-      <FormVehicle vehicleToEdit={selectedVehicle} brands={brands} isVisible={isModalVisible} />
+      <FormVehicle vehicleToEdit={selectedVehicle} brands={brands} isVisible={isModalVisible} onSubmit={handleFormSubmission} />
       <section>
         {/* <FormVehicle brands={brands} /> */}
         <Table

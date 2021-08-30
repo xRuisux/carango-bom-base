@@ -1,27 +1,44 @@
 const token = localStorage.getItem('token')
 const authorization = `Bearer ${token}`
+const baseUrl = process.env.REACT_APP_BASE_URL
+const headers = {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json',
+  Authorization: authorization
+}
 
 export const api = {
   post: async (path, data) => {
-    const resp = await (fetch(`${process.env.REACT_APP_BASE_URL}/${path}`, {
+    const resp = await (fetch(`${baseUrl}/${path}`, {
       method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: authorization
-      },
+      headers,
       body: JSON.stringify(data)
-    }))
+    })).catch(err => err)
 
-    return resp.json()
+    return { data: await resp.json()}
   },
+  
   get: async (path) => {
-    const resp = await fetch(`${process.env.REACT_APP_BASE_URL}/${path}`, {
-      headers: {
-        Authorization: authorization
+    try {
+      const resp = await fetch(`${baseUrl}/${path}`, {
+        headers
+      })
+      if(resp.status !== 200) {
+        return { error: 'Erro ao buscar dados' }
       }
-    })
+      return { data: await resp.json() }
+    } catch(err) {
+      return err
+    }
+  },
 
-    return resp.json()
+  put: async (path, data) => {
+    const resp = await fetch(`${baseUrl}/${path}`, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify(data)
+    }).catch(err => err)
+
+    return { data: await resp.json()}
   }
 }
