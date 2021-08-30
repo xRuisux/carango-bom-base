@@ -51,13 +51,13 @@ export default function Login() {
 
     if (isFormValid()) {
       setLoading(true)
-      const { token } = await LoginService.login({ email: user, password })
+      const { data: { token } } = await LoginService.login({ email: user, password })
 
       saveToken(token)
       await delayFunc(() => setLoading(false))
 
       if (token) {
-        history.push('/veiculos')
+        history.push('/vehicle')
       }
     }
   }

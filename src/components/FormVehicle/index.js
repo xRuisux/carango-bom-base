@@ -1,6 +1,9 @@
 import { FormControl, Select, InputLabel, TextField } from "@material-ui/core"
 import { useEffect, useState } from "react"
+import { useHistory } from "react-router-dom"
 import useErrors from "../../hooks/useErrors"
+import BrandService from "../../services/BrandService"
+import VehicleService from "../../services/VehicleService"
 import { formatCurrency, getOnlyNumbers } from "../../utils/currency"
 import { delayFunc } from "../../utils/delayFunc"
 import { Button } from "../Button"
@@ -15,18 +18,41 @@ const initialValues = {
 const MIN_YEAR = 1979
 const PRICE_ZERO = '0,00'
 
-export function FormVehicle({ brands, vehicleToEdit, onSubmit, onCancel, confirmBtnLabel = 'cadastrar' }) {
+export function FormVehicle() {
 
   const [formValues, setFormValues] = useState(initialValues)
+  const [brands, setBrands] = useState([])
+  const history = useHistory()
+  // const [vehicleToEdit, setVehicleToEdit] = useState()
 
   useEffect(() => {
-    if(vehicleToEdit) {
-      const { price, ...rest } = vehicleToEdit
-      
+    async function fetchBrands() {
+      const { data } = await BrandService.list()
+      setBrands(data)
+    }
+
+    fetchBrands()
+  }, [])
+
+  useEffect(() => {
+
+    const localStorageVehicle = localStorage.getItem('vehicle')
+    if(!!localStorageVehicle) {
+      const { price, ...rest } = JSON.parse(localStorageVehicle)
+
+      console.log({ rest })
       return setFormValues({ price: formatCurrency(price.toString()), ...rest})
-    } 
+    }
+
     setFormValues(initialValues)
-  }, [vehicleToEdit])
+
+    // if(vehicleToEdit) {
+    //   const { price, ...rest } = vehicleToEdit
+      
+    //   return setFormValues({ price: formatCurrency(price.toString()), ...rest})
+    // } 
+    // setFormValues(initialValues)
+  }, [])
 
   const validations = {
     model: value => !!value ? { valid: true } : { valid: false, text: 'Insira um modelo' },
@@ -59,13 +85,17 @@ export function FormVehicle({ brands, vehicleToEdit, onSubmit, onCancel, confirm
       const { brand, year, price, model } = formValues
       const formattedValues = { brandId: brand, year: Number(year), price: Number(getOnlyNumbers(price)), model }
 
-      if(vehicleToEdit?.id) {
-        await onSubmit(formattedValues, vehicleToEdit.id)
+      if(formValues?.id) {
+        await VehicleService.edit(formValues.id, formattedValues)
+        console.log('PARA EDITAR')
       } else {
-        await onSubmit(formattedValues)
+        console.log('PARA CRIAR')
+        await VehicleService.create(formattedValues)
       }
 
       setFormValues(initialValues)
+      localStorage.removeItem('vehicle')
+      history.push('/vehicle')
     }
   }
   
@@ -140,7 +170,7 @@ export function FormVehicle({ brands, vehicleToEdit, onSubmit, onCancel, confirm
       </form>
 
       <footer>
-        <Button  variant="contained" color="primary" onClick={submitForm}>Cadastrar</Button>
+        <Button variant="contained" color="primary" onClick={submitForm}>{formValues?.id ? 'Editar': 'Cadastrar'}</Button>
         <Button variant="contained" color="secondary">Cancelar</Button>
       </footer>
     </section>

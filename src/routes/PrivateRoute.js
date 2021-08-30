@@ -4,7 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 const PrivateRoute = ({component: Component, ...rest}) => {
 
   const { isUserLoggedIn } = useAuth()
-  
+  console.log(isUserLoggedIn())
   return (
       <Route {...rest} render={props => (
           isUserLoggedIn() ?

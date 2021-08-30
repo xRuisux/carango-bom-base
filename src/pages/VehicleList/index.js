@@ -1,5 +1,6 @@
 import { DataGrid } from "@material-ui/data-grid"
 import { useEffect, useState } from "react"
+import { useHistory } from "react-router-dom"
 import { FormVehicle } from "../../components/FormVehicle"
 import Table from "../../components/Table/Table"
 import BrandService from "../../services/BrandService"
@@ -13,17 +14,17 @@ const columns = [
   { field: 'price', headerName: 'Preço' },
 ]
 
-export function Vehicle() {
-
-  const [isModalVisible, setIsModalVisible] = useState(false)
+export function VehicleList() {
   const [brands, setBrands] = useState([])
   const [vehicles, setVehicles] = useState([])
   const [selectedVehicle, setSelectedVehicle] = useState()
+  const history = useHistory()
 
   useEffect(() => {
     async function fetchData() {
-       Promise.all([
-        BrandService.list(),VehicleService.list()
+      await Promise.all([
+        BrandService.list(),
+        VehicleService.list()
       ]).then(([brandData, vehicleData]) => {
         setBrands(brandData?.data ?? [])
         setVehicles(vehicleData.data ?? [])
@@ -34,8 +35,12 @@ export function Vehicle() {
     fetchData()
   }, [])
 
+  function handleVehicleUpdate() {
+    localStorage.setItem('vehicle', JSON.stringify(selectedVehicle))
+    history.push(`/vehicle-form`)
+  }
+
   function onSelectRow(rowInfo) {
-    console.log({ rowInfo })
     if(!rowInfo) {
       setSelectedVehicle(undefined)
       return
@@ -51,20 +56,6 @@ export function Vehicle() {
     })
   }
 
-  function updateVehicleList(newVehicle) {
-    const filteredVehicles = vehicles.filter(vehicle => vehicle.id !== newVehicle?.id)
-    setVehicles([...filteredVehicles, { ...(newVehicle ?? {}) }])
-  }
-
-  async function handleFormSubmission(formValues, id = undefined) {
-    const { data } = await (async () => {
-      if(id) return await VehicleService.edit(id, formValues)
-      return await VehicleService.create(formValues)
-    })()
-
-    updateVehicleList(data)
-  }
-
   const rows = vehicles.map(vehicle => {
     return { 
       id: vehicle.id,
@@ -74,20 +65,17 @@ export function Vehicle() {
       price: formatCurrency(vehicle.price)
     }
   })
-console.log({selectedVehicle})
+
   return (
-    <>
-      <FormVehicle vehicleToEdit={selectedVehicle} brands={brands} isVisible={isModalVisible} onSubmit={handleFormSubmission} />
-      <section>
-        {/* <FormVehicle brands={brands} /> */}
-        <Table
-          rows={rows}
-          columns={columns}
-          rowSelectedFunction={onSelectRow}
-          selectedItem={selectedVehicle}
-          // updateItem={}
-        />
-      </section>
-    </>
+    <section>
+      <Table
+        rows={rows}
+        columns={columns}
+        rowSelectedFunction={onSelectRow}
+        selectedItem={selectedVehicle}
+        updateItem={handleVehicleUpdate}
+        addItem={() => history.push('/vehicle-form')}
+      />
+    </section>
   );
 }
