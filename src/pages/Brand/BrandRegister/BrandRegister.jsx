@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
-import useErrors from '../../hooks/useErrors';
-import BrandService from '../../services/BrandService';
-import { StyledButton, StyledTextField, useStyles } from './styles'
-import FormModal from '../../components/FormModal/FormModal';
+import useErrors from '../../../hooks/useErrors';
+import BrandService from '../../../services/BrandService';
+import { StyledButton, StyledTextField, useStyles } from '../styles'
+
 function BrandRegister() {
     const { id } = useParams();
     const classes = useStyles()
@@ -35,9 +35,6 @@ function BrandRegister() {
 
     return (
         <div className={classes.root}>
-            <FormModal
-            open = {true}
-            />
             <form onSubmit={(event) => {
                 event.preventDefault();
                 if (allFieldsValid()) {
@@ -70,21 +67,23 @@ function BrandRegister() {
                     required
                     margin="normal"
                 />
+                <div>
+                    <StyledButton
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        disabled={!allFieldsValid()}>
+                        {id ? 'Alterar' : 'Cadastrar'}
+                    </StyledButton>
 
-                <StyledButton
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    disabled={!allFieldsValid()}>
-                    {id ? 'Alterar' : 'Cadastrar'}
-                </StyledButton>
+                    <StyledButton
+                        variant="contained"
+                        color="secondary"
+                        onClick={cancel}>
+                        Cancelar
+                    </StyledButton>
 
-                <StyledButton
-                    variant="contained"
-                    color="secondary"
-                    onClick={cancel}>
-                    Cancelar
-                </StyledButton>
+                </div>
             </form>
         </div>
     );

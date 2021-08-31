@@ -57,6 +57,7 @@ export const StyledButton = withStyles((theme) => ({
     backgroundColor: theme.palette.primary.yellow,
     padding: '1.2rem',
     marginTop: '1.5rem',
+    marginRight: '2rem',
     fontWeight: 'bold',
     fontSize: '1rem',
     marginBottom: '2rem',

@@ -30,7 +30,6 @@ const BrandService = {
   },
 
   list() {
-    console.log(localStorage.getItem('token'));
     return fetch('http://localhost:8080/brand', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,

@@ -5,22 +5,22 @@ import userEvent from '@testing-library/user-event';
 
 const brands = [{ id: 1, name: 'BMW' }, {id: 2, name: 'Renaut'}];
 const columns = [{ field: 'name', headerName: 'Brand', width: 200 }];
-const rowSelectedFunctionMock = jest.fn();
-
+const functionMock = jest.fn();
 const setup = () =>
   render(
     <Table
-      rows={brands}
-      columns={columns}
-      addItem={() => {}}
-      updateItem={() => {}}s
-      deleteItem={() => {}}
-      selectedItem={null}
-      rowSelectedFunction={rowSelectedFunctionMock}
+      rows={ brands }
+      columns={ columns }
+      addItem={ functionMock }
+      updateItem={ functionMock }
+      deleteItem={ functionMock }
+      selectedItem={ null }
+      rowSelectedFunction={ functionMock }
     />
   );
 
 beforeEach(async () => {
+  localStorage.setItem('token', 'testtoken');
   await act(async () => setup());
 });
 
@@ -43,6 +43,6 @@ describe('Tests on Table component', () => {
   it('Should call function when row is selected', () => {
     const rowItem = screen.getByText('Renaut');
     userEvent.click(rowItem);
-    expect(rowSelectedFunctionMock).toHaveBeenCalled();
+    expect(functionMock).toHaveBeenCalled();
   });
 });

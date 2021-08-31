@@ -5,7 +5,7 @@ import PrivateRoute from "./PrivateRoute"
 
 const Home = lazy(() => import("../pages/Home"))
 const Login = lazy(() => import("../pages/Login"))
-const BrandRegister = lazy(() => import("../pages/Brand/BrandRegister"))
+const BrandRegister = lazy(() => import("../pages/Brand/BrandRegister/BrandRegister"))
 const BrandList = lazy(() => import("../pages/Brand/BrandList/BrandList"))
 
 export default function Routes() {

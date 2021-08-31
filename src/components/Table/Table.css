@@ -2,3 +2,9 @@
     top: 10px;
     margin-right: 10px !important;
 }
+
+.actionsBar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+}
