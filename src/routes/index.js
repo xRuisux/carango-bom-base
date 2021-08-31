@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react"
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom"
-import { FormVehicle } from "../components/FormVehicle"
+import { FormVehicle } from "../components/FormVehicle/FormVehicle"
 import { PageNotFound } from "../pages/PageNotFound"
 import { VehicleList } from "../pages/VehicleList"
 import PrivateRoute from "./PrivateRoute"

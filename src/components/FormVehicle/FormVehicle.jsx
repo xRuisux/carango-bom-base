@@ -28,6 +28,7 @@ export function FormVehicle() {
   useEffect(() => {
     async function fetchBrands() {
       const { data } = await BrandService.list()
+      console.log({ data })
       setBrands(data)
     }
 
@@ -82,6 +83,7 @@ export function FormVehicle() {
 
   async function submitForm() {
     if(allFieldsValid() && isAllFieldsFilled()) {
+      console.log('submit')
       const { brand, year, price, model } = formValues
       const formattedValues = { brandId: brand, year: Number(year), price: Number(getOnlyNumbers(price)), model }
 
@@ -107,6 +109,8 @@ export function FormVehicle() {
         <FormControl variant="outlined">
           <InputLabel id="brandLabel" htmlFor='brand'>Marca</InputLabel>
           <Select 
+            native
+            data-testid="wrapper"
             labelId="brandLabel"
             placeholder="Ex: Honda"
             id="brand"
@@ -117,7 +121,9 @@ export function FormVehicle() {
             onChange={updateFormValues}
             inputProps={{
               name: 'brand',
-              id: 'brand'
+              id: 'brand',
+              'data-testid': "select",
+              value: formValues.brand
             }}
             // onBlur={validateFields}
             helperText={errors.brand.text}
@@ -170,7 +176,7 @@ export function FormVehicle() {
       </form>
 
       <footer>
-        <Button variant="contained" color="primary" onClick={submitForm}>{formValues?.id ? 'Editar': 'Cadastrar'}</Button>
+        <Button type="submit" variant="contained" color="primary" onClick={submitForm}>{formValues?.id ? 'Editar': 'Cadastrar'}</Button>
         <Button variant="contained" color="secondary">Cancelar</Button>
       </footer>
     </section>

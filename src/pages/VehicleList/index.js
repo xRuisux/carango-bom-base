@@ -1,8 +1,6 @@
-import { DataGrid } from "@material-ui/data-grid"
 import { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { Confirm } from "../../components/Confirm/Confirm"
-import { FormVehicle } from "../../components/FormVehicle"
 import Table from "../../components/Table/Table"
 import BrandService from "../../services/BrandService"
 import VehicleService from "../../services/VehicleService"
@@ -69,6 +67,7 @@ export function VehicleList() {
     setLoading(true)
     // add confirm dialog
     const { data } = await VehicleService.delete(selectedVehicle.id)
+    setSelectedVehicle(undefined)
     removeVehicleFromList(data.id)
 
     setIsConfirmOpen(false)
