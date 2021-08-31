@@ -10,19 +10,21 @@ import { FormVehicle } from "./FormVehicle"
 jest.mock('../../services/BrandService', () => jest.fn())
 jest.mock('../../services/VehicleService', () => jest.fn())
 
-beforeAll(() => jest.spyOn(window, 'fetch'))
+// beforeAll(() => jest.spyOn(window, 'fetch'))
 
-let mockStorage = {}
+const localStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+}
 
-beforeAll(() => {
-  global.Storage.prototype.removeItem = jest.fn((key) => {
-    delete mockStorage[key]
-  })
-  global.Storage.prototype.getItem = jest.fn((key) => mockStorage[key])
-})
-
+global.localStorage = localStorageMock
 
 beforeEach(() => BrandService.list = jest.fn(() => Promise.resolve({ data: [{ 'id': 1, 'name': 'Honda'}, { 'id': 2, 'name': 'Toyota'}] })))
+
+// afterEach(() => {
+//   window.localStorage.clear();
+// })
 
 describe('<FormVehicle />', () => {
 
@@ -56,12 +58,11 @@ describe('<FormVehicle />', () => {
       fireEvent.click(screen.getByRole("button", { name: /cadastrar/i }))
       expect(history.location.pathname).toEqual('/vehicle')
     })
-
   })
 
   it('should call create on form submission', async () => {
 
-    const vehicle = { id: 2, model: 'Civic', brand: 1, price: 6000000 }
+    const vehicle = { id: 2, model: 'Civic', year: 2021, brand: 1, price: 6000000 }
 
     VehicleService.create = jest.fn(() => Promise.resolve(vehicle))
     
@@ -95,6 +96,57 @@ describe('<FormVehicle />', () => {
     
     expect(VehicleService.create).toHaveBeenCalled()
     expect(history.location.pathname).toEqual('/vehicle')
-    expect(mockStorage['vehicle']).toBeFalsy()
+    expect(localStorage.getItem('vehicle')).toBeFalsy()
+  })
+
+  it('should load vehicle from localStorage to be edited', async () => {
+
+    const vehicle = { id: 2, model: 'Civic', year: 2021, brand: 1, price: 6000000 }
+    localStorage.setItem('vehicle', JSON.stringify(vehicle))
+    
+    const history = createMemoryHistory()
+    history.location.pathname = '/vehicle-form'
+    
+    await act(async () => render(<FormVehicle />))
+
+    const inputYear = screen.getByLabelText(/ano/i)
+    const inputModel  = screen.getByLabelText(/modelo/i)
+    const inputPrice = screen.getByLabelText(/valor/i)
+    const selectBrand = screen.getByTestId('wrapper')
+
+    expect(inputYear).toHaveValue(2021)
+    expect(inputModel).toHaveValue('Civic')
+    expect(inputPrice).toHaveValue('60.000,00')
+    const select = within(selectBrand).getByTestId('select')
+    expect(select).toHaveValue('1')
+  })
+
+
+  it('should call edit on form submission', async () => {
+
+    const vehicle = { id: 2, model: 'Civic', year: 2021, brand: 1, price: 6000000 }
+    localStorage.setItem('vehicle', JSON.stringify(vehicle))
+
+    const { brand,  id, ...rest } = vehicle
+    const editedVehicle = { ...rest, brandId: brand, model: 'HR-V' }
+    VehicleService.edit = jest.fn(() => Promise.resolve(editedVehicle))
+    
+    const history = createMemoryHistory()
+    history.location.pathname = '/vehicle-form'
+    
+    await act(async () => render(<Router history={history}>
+          <FormVehicle />
+         </Router>))
+         
+    fireEvent.change(screen.getByLabelText(/modelo/i), { target: { value: 'HR-V' }})
+    
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: /editar/i }))
+    })
+    
+    expect(VehicleService.edit).toHaveBeenCalled()
+    expect(VehicleService.edit).toHaveBeenCalledWith(id, editedVehicle)
+    expect(history.location.pathname).toEqual('/vehicle')
+    expect(localStorage.getItem('vehicle')).toBeFalsy()
   })
 })

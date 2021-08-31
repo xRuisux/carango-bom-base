@@ -38,6 +38,7 @@ export function FormVehicle() {
   useEffect(() => {
 
     const localStorageVehicle = localStorage.getItem('vehicle')
+    console.log(localStorageVehicle)
     if(!!localStorageVehicle) {
       const { price, ...rest } = JSON.parse(localStorageVehicle)
 
