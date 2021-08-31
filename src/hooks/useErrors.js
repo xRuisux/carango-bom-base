@@ -7,7 +7,6 @@ function useErrors(validations) {
     const [errors, setErrors] = useState(initialState);
 
     function validateFields(event) {
-        console.log(event)
         const { name, value } = event.target;
         const newState = { ...errors };
         newState[name] = validations[name](value);

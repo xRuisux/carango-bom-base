@@ -67,7 +67,6 @@ export default function Table({
               rows={rows}
               columns={columns}
               onRowSelected={handleRowSelection}
-              onSelectionModelChange={param => console.log({param})}
               state={{ selection: selectionObj }}
             />
         }

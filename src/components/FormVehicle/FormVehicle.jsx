@@ -1,4 +1,4 @@
-import { FormControl, Select, InputLabel, TextField } from "@material-ui/core"
+import { FormControl, Select, InputLabel, TextField, FormHelperText } from "@material-ui/core"
 import { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import useErrors from "../../hooks/useErrors"
@@ -23,12 +23,10 @@ export function FormVehicle() {
   const [formValues, setFormValues] = useState(initialValues)
   const [brands, setBrands] = useState([])
   const history = useHistory()
-  // const [vehicleToEdit, setVehicleToEdit] = useState()
 
   useEffect(() => {
     async function fetchBrands() {
       const { data } = await BrandService.list()
-      console.log({ data })
       setBrands(data)
     }
 
@@ -38,29 +36,20 @@ export function FormVehicle() {
   useEffect(() => {
 
     const localStorageVehicle = localStorage.getItem('vehicle')
-    console.log(localStorageVehicle)
     if(!!localStorageVehicle) {
       const { price, ...rest } = JSON.parse(localStorageVehicle)
 
-      console.log({ rest })
       return setFormValues({ price: formatCurrency(price.toString()), ...rest})
     }
 
     setFormValues(initialValues)
-
-    // if(vehicleToEdit) {
-    //   const { price, ...rest } = vehicleToEdit
-      
-    //   return setFormValues({ price: formatCurrency(price.toString()), ...rest})
-    // } 
-    // setFormValues(initialValues)
   }, [])
 
   const validations = {
-    model: value => !!value ? { valid: true } : { valid: false, text: 'Insira um modelo' },
+    model: value => !!value.trim() ? { valid: true } : { valid: false, text: 'Insira um modelo' },
     price: value => !!value && value !== PRICE_ZERO ? { valid: true } : { valid: false, text: 'Insira o preço' },
     year: value => value >= MIN_YEAR ? { valid: true } : { valid: false, text: 'Insira um ano maior ou igual a 1979' },
-    brand: value => value !== 'none' ? { valid: true } : { valid: false, text: 'Selecione uma marca' }
+    brand: value => value !== '' ? { valid: true } : { valid: false, text: 'Selecione uma marca' }
   }
 
   const [errors, validateFields, allFieldsValid] = useErrors(validations)
@@ -84,15 +73,12 @@ export function FormVehicle() {
 
   async function submitForm() {
     if(allFieldsValid() && isAllFieldsFilled()) {
-      console.log('submit')
       const { brand, year, price, model } = formValues
       const formattedValues = { brandId: brand, year: Number(year), price: Number(getOnlyNumbers(price)), model }
 
       if(formValues?.id) {
         await VehicleService.edit(formValues.id, formattedValues)
-        console.log('PARA EDITAR')
       } else {
-        console.log('PARA CRIAR')
         await VehicleService.create(formattedValues)
       }
 
@@ -107,9 +93,9 @@ export function FormVehicle() {
   return (
     <section>
       <form style={{ padding: 30 }}>
-        <FormControl variant="outlined">
+        <FormControl variant="outlined" error={!errors.brand.valid}>
           <InputLabel id="brandLabel" htmlFor='brand'>Marca</InputLabel>
-          <Select 
+          <Select
             native
             data-testid="wrapper"
             labelId="brandLabel"
@@ -120,19 +106,18 @@ export function FormVehicle() {
             variant="outlined"
             value={formValues.brand}
             onChange={updateFormValues}
+            onBlur={validateFields}
             inputProps={{
               name: 'brand',
               id: 'brand',
-              'data-testid': "select",
-              value: formValues.brand
+              placeholder: 'Selecione uma marca',
+              'data-testid': "select"
             }}
-            // onBlur={validateFields}
-            helperText={errors.brand.text}
-            error={!errors.brand.valid}
           >
             <option value=''></option>
             {brandOptions}
           </Select>
+          <FormHelperText>{errors.brand.text}</FormHelperText>
         </FormControl>
         <TextField
           placeholder="Ex: Civic"
@@ -142,7 +127,6 @@ export function FormVehicle() {
           variant="outlined"
           value={formValues.model}
           onChange={updateFormValues}
-          // onBlur={validateFields}
           helperText={errors.model.text}
           error={!errors.model.valid}
         />
@@ -155,7 +139,6 @@ export function FormVehicle() {
           variant="outlined"
           value={formValues.year}
           onChange={updateFormValues}
-          // onBlur={validateFields}
           helperText={errors.year.text}
           error={!errors.year.valid}
         />
@@ -170,7 +153,6 @@ export function FormVehicle() {
             handlePriceChange(e)
             delayFunc(() => validateFields(e), 1000)
           }}
-          // onBlur={validateFields}
           helperText={errors.price.text}
           error={!errors.price.valid}
         />

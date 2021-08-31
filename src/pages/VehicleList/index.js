@@ -71,7 +71,6 @@ export function VehicleList() {
     removeVehicleFromList(data.id)
 
     setIsConfirmOpen(false)
-    console.log({ data })
     delayFunc(() => setLoading(false))
   }
 

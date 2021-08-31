@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react"
+import { act, findByText, fireEvent, render, screen, waitFor, within } from "@testing-library/react"
 import userEvent from '@testing-library/user-event'
 import {createMemoryHistory} from 'history'
 import { Router } from "react-router-dom"
@@ -21,10 +21,6 @@ const localStorageMock = {
 global.localStorage = localStorageMock
 
 beforeEach(() => BrandService.list = jest.fn(() => Promise.resolve({ data: [{ 'id': 1, 'name': 'Honda'}, { 'id': 2, 'name': 'Toyota'}] })))
-
-// afterEach(() => {
-//   window.localStorage.clear();
-// })
 
 describe('<FormVehicle />', () => {
 
@@ -83,8 +79,6 @@ describe('<FormVehicle />', () => {
     const select = within(selectBrand).getByTestId('select')
     
     fireEvent.change(select, { target: { value: 1 }})
-    fireEvent.click(select)
-    userEvent.click(screen.getByRole('option', { name: /honda/i }))
     
     fireEvent.change(inputYear, { target: { value: 2020 }})
     fireEvent.change(inputModel, { target: { value: 'Civic' }})
@@ -148,5 +142,32 @@ describe('<FormVehicle />', () => {
     expect(VehicleService.edit).toHaveBeenCalledWith(id, editedVehicle)
     expect(history.location.pathname).toEqual('/vehicle')
     expect(localStorage.getItem('vehicle')).toBeFalsy()
+  })
+
+  it('should display validation message', async () => {
+    render(<FormVehicle />)
+
+    const selectBrand = screen.getByTestId('wrapper')
+
+    await waitFor(() => userEvent.click(selectBrand), { timeout: 1000 })
+    
+    const select = within(selectBrand).getByTestId('select')
+    fireEvent.change(select, { target: { value: 1 }})
+    fireEvent.change(select, { target: { value: '' }})
+    fireEvent.blur(select)
+
+    fireEvent.change(screen.getByLabelText(/ano/i), { target: { value: 123 }})
+    const yearMsg = await screen.findByText('Insira um ano maior ou igual a 1979')
+    
+    fireEvent.change(screen.getByLabelText(/valor/i), { target: { value: 0 }})
+    const priceMsg = await screen.findByText('Insira o preço')
+    
+    fireEvent.change(screen.getByLabelText(/modelo/i), { target: { value: '  ' }})
+    const modelMsg = await screen.findByText('Insira um modelo')
+    
+    expect(yearMsg).toBeInTheDocument()
+    expect(priceMsg).toBeInTheDocument()
+    expect(modelMsg).toBeInTheDocument()
+    expect(screen.getByText('Selecione uma marca')).toBeInTheDocument()
   })
 })
