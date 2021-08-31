@@ -9,6 +9,9 @@ const VehicleService = {
   },
   edit: (id, data) => {
     return api.put(`vehicle/${id}`, data)
+  },
+  delete: (id) => {
+    return api.delete(`vehicle/${id}`)
   }
 };
 

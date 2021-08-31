@@ -25,5 +25,11 @@ export const useStyles = makeStyles(theme => ({
     height: '70vh',
     width: '100%',
     margin: '2rem 0'
+  },
+  loading: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%'
   }
 }))

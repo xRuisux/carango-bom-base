@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import { DataGrid } from '@material-ui/data-grid'
 import { StyledButton } from '../Button'
 import { useStyles } from './styles'
-import { useEffect } from 'react';
+import { CircularProgress } from '@material-ui/core'
 
 export default function Table({
+  loading = false,
   rows,
   columns,
   addItem,
@@ -56,14 +57,20 @@ export default function Table({
         </StyledButton>
       </header>
       <div className={classes.tableContainer}>
-        <DataGrid
-          className={classes.table}
-          rows={rows}
-          columns={columns}
-          onRowSelected={handleRowSelection}
-          onSelectionModelChange={param => console.log({param})}
-          state={{ selection: selectionObj }}
-        />
+        {loading 
+          ?
+          <div className={classes.loading}>
+            <CircularProgress />
+          </div>
+            : <DataGrid
+              className={classes.table}
+              rows={rows}
+              columns={columns}
+              onRowSelected={handleRowSelection}
+              onSelectionModelChange={param => console.log({param})}
+              state={{ selection: selectionObj }}
+            />
+        }
       </div>
     </section>
   );

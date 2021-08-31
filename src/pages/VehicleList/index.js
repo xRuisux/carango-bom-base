@@ -1,11 +1,13 @@
 import { DataGrid } from "@material-ui/data-grid"
 import { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
+import { Confirm } from "../../components/Confirm/Confirm"
 import { FormVehicle } from "../../components/FormVehicle"
 import Table from "../../components/Table/Table"
 import BrandService from "../../services/BrandService"
 import VehicleService from "../../services/VehicleService"
 import { formatCurrency, getOnlyNumbers } from "../../utils/currency"
+import { delayFunc } from "../../utils/delayFunc"
 
 const columns = [
   { field: 'brand', headerName: 'Marca' },
@@ -18,6 +20,8 @@ export function VehicleList() {
   const [brands, setBrands] = useState([])
   const [vehicles, setVehicles] = useState([])
   const [selectedVehicle, setSelectedVehicle] = useState()
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
   const history = useHistory()
 
   useEffect(() => {
@@ -56,6 +60,22 @@ export function VehicleList() {
     })
   }
 
+  function removeVehicleFromList(id) {
+    setVehicles(vehicles.filter(vehicle => vehicle.id !== id))
+  }
+
+  async function deleteVehicle() {
+
+    setLoading(true)
+    // add confirm dialog
+    const { data } = await VehicleService.delete(selectedVehicle.id)
+    removeVehicleFromList(data.id)
+
+    setIsConfirmOpen(false)
+    console.log({ data })
+    delayFunc(() => setLoading(false))
+  }
+
   const rows = vehicles.map(vehicle => {
     return { 
       id: vehicle.id,
@@ -65,15 +85,18 @@ export function VehicleList() {
       price: formatCurrency(vehicle.price)
     }
   })
-
+  
   return (
     <section>
+      <Confirm open={isConfirmOpen} message='Deseja mesmo excluir o veículo?' onConfirm={deleteVehicle} onCancel={() => setIsConfirmOpen(false)} />
       <Table
+        loading={loading}
         rows={rows}
         columns={columns}
         rowSelectedFunction={onSelectRow}
         selectedItem={selectedVehicle}
         updateItem={handleVehicleUpdate}
+        deleteItem={() => setIsConfirmOpen(true)}
         addItem={() => history.push('/vehicle-form')}
       />
     </section>

@@ -11,14 +11,12 @@ export const StyledButton = withStyles((theme) => ({
     marginBottom: '2rem',
 
     // '&:hover': {
-    //   backgroundColor: theme.palette.primary.yellow,
+    //   backgroundColor: 'transparent',
     // }
   }
 }))(MaterialButton)
 
 export function Button({ children, bgColor, ...props }) {
 
-  const theme = useTheme()
-
-  return <MaterialButton {...props} >{children}</MaterialButton>
+  return <StyledButton {...props} >{children}</StyledButton>
 }

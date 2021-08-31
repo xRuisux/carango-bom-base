@@ -40,5 +40,14 @@ export const api = {
     }).catch(err => err)
 
     return { data: await resp.json()}
+  },
+
+  delete: async (path) => {
+    const resp = await fetch(`${baseUrl}/${path}`, {
+      method: 'DELETE',
+      headers,
+    }).catch(err => err)
+
+    return { data: await resp.json()}
   }
 }
