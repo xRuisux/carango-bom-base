@@ -19,7 +19,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "cross-env NODE_ICU_DATA=node_modules/full-icu react-scripts test --watchAll=false",
+    "test": "react-scripts test --watchAll=false",
     "test:dev": "react-scripts test --watch",
     "eject": "react-scripts eject"
   },
