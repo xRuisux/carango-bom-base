@@ -1,10 +1,10 @@
 import { fireEvent, render, screen } from "@testing-library/react"
-import { Vehicle } from "."
+import { VehicleList } from "."
 
-describe('<Vehicle />', () => {
+describe('<VehicleList />', () => {
   
   it('should render correctly', () => {
-    render(<Vehicle />)
+    render(<VehicleList />)
 
     expect(screen.getByRole("button", { name: /adicionar/i })).toBeInTheDocument()
     expect(screen.getByRole("button", { name: /excluir/i })).toBeInTheDocument()
