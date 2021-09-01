@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import './MenuHorizontal.css'
 
 export default function MenuHorizontal() {
     return (
