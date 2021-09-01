@@ -28,7 +28,7 @@ function App() {
       <ThemeProvider theme={muiTheme}>
         <CssBaseline />
         <main>
-            <Routes />
+          <Routes />
         </main>
       </ThemeProvider>
     </AuthProvider>
