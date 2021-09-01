@@ -1,28 +1,29 @@
-import React, { Component } from "react";
-import "./style.css"
-class Card extends Component {
+import React from "react";
+import { formatCurrency } from "../../../../utils/currency";
+import "./Card.css"
 
-  
-  _formatPrice(price) {
-    const formatter = new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-    });
-    return formatter.format(price)
-  }
-  
-  render() {
-    return (
-      <section className="Card">
-        <header className="card_header">
-          <h3 className="card_title">{this.props.brandName} </h3>
-        </header>
-        <p className="card_text">{this.props.totalVehicles ? this.props.totalVehicles : 0} {this.props.totalVehicles && this.props.totalVehicles < 2 ? "veículo" :  "Veículos"}</p>
-        <p className="card_text">{this._formatPrice(this.props.totalAmount)}</p>
 
-      </section>
-    );
+function Card({brandName, totalAmount, totalVehicles}) {
+  function showTotalVehiclesText(totalVehicles) {
+    if (totalVehicles && totalVehicles!== null) {
+      if (totalVehicles > 1) {
+        return totalVehicles + " veículos";
+      } else {
+        return totalVehicles + " veículo"
+      }
+    } else {
+      return 'Não há veículos'
+    }
   }
+  return (
+    <section className="card">
+      <header className="card_header">
+        <h3 className="card_title">{brandName} </h3>
+      </header>
+      <p className="card_text">{showTotalVehiclesText(totalVehicles)}</p>
+      <p className="card_text">R$ {formatCurrency(totalAmount)}</p>
+    </section>
+  )
 }
 
-export default  Card;
+export default Card;

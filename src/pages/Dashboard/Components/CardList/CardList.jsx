@@ -1,21 +1,19 @@
 import React, { Component } from "react";
 import Card from "../Card";
-import "./style.css";
-class CardList extends Component {
- 
-  render() {
+import "./CardList.css";
+
+function CardList({cards}) { 
     return (
       <ul className="card-list">
-        {this.props.cards.map((card, index) => {
+        {cards.map(({brandName, totalAmount, totalVehicles}, index) => {
           return (
             <li className="card-list_item" key={index}>
-              <Card brandName={card.brandName} totalVehicles={card.totalVehicles} totalAmount={card.totalAmount}/>
+              <Card brandName={brandName} totalVehicles={totalVehicles} totalAmount={totalAmount}/>
             </li>
           );
         })}
       </ul>
     );
-  }
 }
 
 export default CardList;

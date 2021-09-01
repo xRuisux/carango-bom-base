@@ -1,39 +1,43 @@
-import React, { Component } from "react";
-
-import "./style.css";
+import React, { Component, useEffect } from "react";
+import "./Dashboard.css";
 import CardList from "./Components/CardList";
 import DashboardService from "../../services/DashboardService";
+import { useState } from "react";
 
-class Dashboard extends Component {
+//class Dashboard extends Component {
+function Dashboard(){
+  const [cards, setCards] = useState([])
+  const [error, setError] = useState()
 
-  constructor(){
-    super();
+//   constructor(){
+//     super();
 
-    this.state = {
-      cards:[]
-    }
-    this.getMyReport()
-  }
-  getMyReport() {
+//     this.state = {
+//       cards:[]
+//     }
+//     this.getMyReport()
+//   }
+ const getMyReport = () => {
     DashboardService.brandReport()
     .then(response => {
         const { data } = response;
-        this.setState({ cards: data });
-    }).catch(e => console.log(e));
+        setCards(data);
+    }).catch(()=> setError('Houve um erro ao carregar o relatórios'));
   }
-  
-  render() {
+  useEffect(() => {
+    getMyReport();
+  }, []);
+
 
     return (
-      <section> 
+      <section className="allContent"> 
         <h3 className="dashboard_title"> Relatório de Vendas </h3>
-        <section className="content">
-            <CardList cards={this.state.cards}/>
+        <section className="content">s
+            {error ? <p>{error}</p> : <CardList cards={cards}/>}
         </section>
       </section>
       
     );
-  }
 }
 
 export default Dashboard;
