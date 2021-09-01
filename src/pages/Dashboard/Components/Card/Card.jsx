@@ -4,7 +4,7 @@ import "./Card.css"
 
 
 function Card({brandName, totalAmount, totalVehicles}) {
-  function showTotalVehiclesText(totalVehicles) {
+  function showTotalVehiclesText() {
     if (totalVehicles && totalVehicles!== null) {
       if (totalVehicles > 1) {
         return totalVehicles + " veículos";
@@ -20,7 +20,7 @@ function Card({brandName, totalAmount, totalVehicles}) {
       <header className="card_header">
         <h3 className="card_title">{brandName} </h3>
       </header>
-      <p className="card_text">{showTotalVehiclesText(totalVehicles)}</p>
+      <p className="card_text">{showTotalVehiclesText()}</p>
       <p className="card_text">R$ {formatCurrency(totalAmount)}</p>
     </section>
   )

@@ -1,22 +1,12 @@
-import React, { Component, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
 import CardList from "./Components/CardList";
 import DashboardService from "../../services/DashboardService";
-import { useState } from "react";
 
-//class Dashboard extends Component {
 function Dashboard(){
   const [cards, setCards] = useState([])
   const [error, setError] = useState()
 
-//   constructor(){
-//     super();
-
-//     this.state = {
-//       cards:[]
-//     }
-//     this.getMyReport()
-//   }
  const getMyReport = () => {
     DashboardService.brandReport()
     .then(response => {
