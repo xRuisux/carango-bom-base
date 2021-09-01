@@ -20,6 +20,7 @@ export function VehicleList() {
   const [selectedVehicle, setSelectedVehicle] = useState()
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   const history = useHistory()
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export function VehicleList() {
         setBrands(brandData?.data ?? [])
         setVehicles(vehicleData.data ?? [])
       })
-      .catch(err => console.log(err))
+      .catch(() => setError('Ocorreu um erro ao buscar os dados'))
     }
 
     fetchData()
@@ -43,7 +44,6 @@ export function VehicleList() {
   }
 
   function onSelectRow(rowInfo) {
-    console.log('AAAAAAAAAA')
     if(!rowInfo) {
       setSelectedVehicle(undefined)
       return
@@ -95,7 +95,9 @@ export function VehicleList() {
   return (
     <section>
       <Confirm open={isConfirmOpen} message='Deseja mesmo excluir o veículo?' onConfirm={deleteVehicle} onCancel={() => setIsConfirmOpen(false)} />
-      <Table
+      {
+        error ? <p>{error}</p> 
+        : <Table
         loading={loading}
         rows={rows}
         columns={columns}
@@ -104,7 +106,7 @@ export function VehicleList() {
         updateItem={handleVehicleUpdate}
         deleteItem={handleDelete}
         addItem={handleCreate}
-      />
+      />}
     </section>
   );
 }

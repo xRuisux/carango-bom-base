@@ -102,4 +102,11 @@ describe('<VehicleList />', () => {
     expect(vehicleRow).toBeInTheDocument()
     expect.not.toBeInTheDocument(screen.getByRole('button', { name: /cancelar/i }))
   })
+
+  it("render server error message", async() => {
+    VehicleService.list = jest.fn(() => Promise.reject());
+    render(<VehicleList />)
+
+    await waitFor(() => expect(screen.getByText('Ocorreu um erro ao buscar os dados')).toBeInTheDocument())
+  })
 })
