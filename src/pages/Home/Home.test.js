@@ -15,7 +15,7 @@ describe("<Home />", () => {
   it("should have a link to veicules and login pages", () => {
     renderWithRouter(<Home />)
 
-    expect(screen.getByRole('link', { name: /visualizar veículos/i })).toHaveAttribute("href", "/veiculos")
+    expect(screen.getByRole('link', { name: /visualizar veículos/i })).toHaveAttribute("href", "/vehicle")
     expect(screen.getByRole('link', { name: /efetuar login/i })).toHaveAttribute("href", "/login")
   })
 })

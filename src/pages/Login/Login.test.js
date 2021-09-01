@@ -1,11 +1,13 @@
-import { fireEvent, render, screen } from "@testing-library/react"
+import { findByText, fireEvent, render, screen, waitFor } from "@testing-library/react"
 
 import Login from "."
+import LoginService from "../../services/LoginService"
 
-beforeAll(() => jest.spyOn(window, 'fetch'))
+jest.mock("../../services/LoginService")
 
 describe('<Login />', () => {
   it('renders correctly', () => {
+
     render(<Login />)
 
     const inputPassword = screen.getByLabelText(/senha/i)
@@ -17,13 +19,24 @@ describe('<Login />', () => {
     expect(screen.getByRole('button', { name: /entrar/i })).toBeInTheDocument()
   })
 
-  it('should not submit form', () => {
-    render(<Login />)
+  // it('should display invalid email message', async () => {
+  //   render(<Login />)
 
-    fireEvent.click(screen.getByRole('button'))
+  //   const userInput = screen.getByLabelText(/usuário/i)
+  //   fireEvent.change(userInput, { target: { value: 'amanda.com' } })
 
-    expect(screen.getByText(/preencha todos os campos/i)).toBeInTheDocument()
-  })
+  //   const error = await findByText('Insira um email válido')
+    
+  //   expect(error).toBeInTheDocument()
+  // })
+
+  // it('should not submit form', () => {
+  //   render(<Login />)
+
+  //   fireEvent.click(screen.getByRole('button'))
+
+  //   expect(screen.getByText(/preencha todos os campos/i)).toBeInTheDocument()
+  // })
 
   it('should fill form', () => {
     render(<Login />)
@@ -39,12 +52,11 @@ describe('<Login />', () => {
   })
 
   it('should log user', () => {
-    render(<Login />)
 
-    window.fetch.mockImplementationOnce(() => Promise.resolve(JSON.stringify({
-      tipo: 'Tipo',
-      token: 'dfsdfsd$f4fdsfs$fm23klm32'
-    })))
+    LoginService.login = jest.fn(() => Promise.resolve({ data: { tipo: 'Tipo',
+    token: 'dfsdfsd$f4fdsfs$fm23klm32' }}))
+
+    render(<Login />)
 
     const userInput = screen.getByLabelText(/usuário/i)
     const passwordInput = screen.getByLabelText(/senha/i)
@@ -54,11 +66,7 @@ describe('<Login />', () => {
     fireEvent.change(passwordInput, { target: { value: 'pass123' } })
     fireEvent.click(screen.getByRole('button', { name: /entrar/i }))
 
-    expect(window.fetch).toHaveBeenCalled()
-    expect(window.fetch).toHaveBeenCalledWith('http://localhost:8080/auth', {
-      method: 'POST',
-      headers: { "Accept": "application/json", "Content-Type": "application/json" },
-      body: JSON.stringify({ email: 'amanda@gmail.com', password: 'pass123' })
-    })
+    expect(LoginService.login).toHaveBeenCalled()
+    expect(LoginService.login).toHaveBeenCalledWith({ email: 'amanda@gmail.com', password: 'pass123' })
   })
 })

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import "./style.css";
 import CardList from "./Components/CardList";
+import DashboardService from "../../services/DashboardService";
 
 class Dashboard extends Component {
 
@@ -9,21 +10,20 @@ class Dashboard extends Component {
     super();
 
     this.state = {
-      cards:[
-        {brandName: 'GM', totalVehicles: 1, totalAmount: 600000},
-        {brandName: 'GM', totalVehicles: 1, totalAmount: 600000},
-        {brandName: 'GM', totalVehicles: 10, totalAmount: 600000},
-        {brandName: 'GM', totalVehicles: 1, totalAmount: 600000},
-        {brandName: 'GM', totalVehicles: 20, totalAmount: 600000},
-        {brandName: 'GM', totalVehicles: null, totalAmount: 600000},
-        {brandName: 'GM', totalVehicles: 1, totalAmount: 600000},
-        {brandName: 'GM', totalVehicles: 1, totalAmount: 600000},
-        ]
+      cards:[]
     }
+    this.getMyReport()
   }
-
-
+  getMyReport() {
+    DashboardService.brandReport()
+    .then(response => {
+        const { data } = response;
+        this.setState({ cards: data });
+    }).catch(e => console.log(e));
+  }
+  
   render() {
+
     return (
       <section> 
         <h3 className="dashboard_title"> Relatório de Vendas </h3>
