@@ -28,7 +28,7 @@ export function VehicleList() {
         BrandService.list(),
         VehicleService.list(),
       ]).then(([brandData, vehicleData]) => {
-        setBrands(brandData?.data ?? [])
+        setBrands(brandData ?? [])
         setVehicles(vehicleData.data ?? [])
       })
       .catch(err => console.log(err))
