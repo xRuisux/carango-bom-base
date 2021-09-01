@@ -1,12 +1,11 @@
+import { Button, TextField } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import useErrors from '../../../hooks/useErrors';
 import BrandService from '../../../services/BrandService';
-import { StyledButton, StyledTextField, useStyles } from '../styles'
 
 function BrandRegister() {
     const { id } = useParams();
-    const classes = useStyles()
     const history = useHistory();
     const [brand, setBrand] = useState("");
 
@@ -29,13 +28,13 @@ function BrandRegister() {
     useEffect(() => {
         if (id) {
             BrandService.read(id)
-                .then(brandResponse => setresponse(brandResponse.name));
+                .then(brandResponse => setBrand(brandResponse.name));
         }
     }, [id]);
 
     return (
-        <div className={classes.root}>
-            <form onSubmit={async (event) => {
+        <section>
+            <form style={{ padding: 30 }} onSubmit={async (event) => {
                 event.preventDefault();
                 if (allFieldsValid()) {
                     if (id) {
@@ -48,7 +47,7 @@ function BrandRegister() {
                     }
                 }
             }}>
-                <StyledTextField
+                <TextField
                     value={brand}
                     onChange={evt => setBrand(evt.target.value)}
                     onBlur={validateFields}
@@ -64,24 +63,26 @@ function BrandRegister() {
                     margin="normal"
                 />
                 <div>
-                    <StyledButton
+                    <Button
                         variant="contained"
                         color="primary"
                         type="submit"
-                        disabled={!allFieldsValid()}>
+                        disabled={!allFieldsValid()}
+                        style={{'top': 10, 'margin-right': 10}}>
                         {id ? 'Alterar' : 'Cadastrar'}
-                    </StyledButton>
+                    </Button>
 
-                    <StyledButton
+                    <Button
                         variant="contained"
                         color="secondary"
-                        onClick={cancel}>
+                        onClick={cancel}
+                        style={{'top': 10, 'margin-right': 10}}>
                         Cancelar
-                    </StyledButton>
+                    </Button>
 
                 </div>
             </form>
-        </div>
+        </section>
     );
 }
 
