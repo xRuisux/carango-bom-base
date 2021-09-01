@@ -20,9 +20,6 @@ export default function Routes() {
           <PrivateRoute path="/cadastro-marca" component={CadastroMarca} />
           <PrivateRoute path='/alteracao-marca/:id' component={CadastroMarca} />
           <PrivateRoute path='/dashboard' component={Dashboard} />
-          <Route path="/veiculos">
-            <div>Veículos</div>
-          </Route>
           <PrivateRoute path="/vehicle-form" component={FormVehicle} />
           <PrivateRoute path="/vehicle" component={VehicleList} />
           <Route path="/login" component={Login} />

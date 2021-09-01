@@ -18,15 +18,13 @@ function Dashboard(){
     getMyReport();
   }, []);
 
-
-    return (
-      <section className="allContent"> 
-        <h3 className="dashboard_title"> Relatório de Vendas </h3>
-        <section className="content">s
-            {error ? <p>{error}</p> : <CardList cards={cards}/>}
+    return ( 
+        <section className="allContent"> 
+            <h3 className="dashboard_title"> Relatório de Vendas </h3>
+            <section className="content">
+                {error ? <p>{error}</p> : <CardList cards={cards}/>}
+            </section>
         </section>
-      </section>
-      
     );
 }
 
