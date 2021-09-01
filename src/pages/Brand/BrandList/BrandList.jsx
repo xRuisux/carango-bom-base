@@ -21,20 +21,18 @@ function BrandList() {
         history.push('/update-brand/' + brandSelected.id);
     }
 
-    function remove() {
-        BrandService.delete(brandSelected)
-            .then(() => {
-                setBrandSelected(null);
-                loadBrands();
-            });
+    async function remove() {
+        await BrandService.delete(brandSelected);
+        setBrandSelected(null);
+        loadBrands();
     }
 
     useEffect(() => loadBrands(), []);
-
-    function loadBrands() {
-        BrandService.list()
-            .then(data => setBrands(data));
-    }
+ 
+    async function loadBrands() {
+        const data = await BrandService.list();
+        setBrands(data);
+      }
 
     return (
         <>

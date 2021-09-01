@@ -15,7 +15,7 @@ function BrandRegister() {
             if (data && data.length >= 3) {
                 return { valid: true };
             } else {
-                return { valid: false, texto: " A marca deve ter ao menos 3 letras." }
+                return { valid: false, text: "A marca deve ter ao menos 3 letras." }
             }
         }
     }
@@ -35,20 +35,16 @@ function BrandRegister() {
 
     return (
         <div className={classes.root}>
-            <form onSubmit={(event) => {
+            <form onSubmit={async (event) => {
                 event.preventDefault();
                 if (allFieldsValid()) {
                     if (id) {
-                        BrandService.update({ id, name: brand })
-                            .then(res => {
-                                history.goBack();
-                            });
+                        await BrandService.update({ id, name: brand });
+                        history.goBack();
                     } else {
-                        BrandService.create({ name: brand })
-                            .then(res => {
-                                setBrand("");
-                                history.goBack();
-                            });
+                        await BrandService.create({ name: brand })
+                        setBrand("");
+                        history.goBack();
                     }
                 }
             }}>

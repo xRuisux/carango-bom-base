@@ -5,7 +5,7 @@ const BrandService = {
       body: JSON.stringify(brand),
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
     }).then(r => r.json());
   },
@@ -16,7 +16,7 @@ const BrandService = {
       body: JSON.stringify(brand),
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
     }).then(r => r.json());
   },
@@ -24,7 +24,7 @@ const BrandService = {
   read(id) {
     return fetch('http://localhost:8080/brand/' + id, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
     }).then(r => r.json());
   },
@@ -32,7 +32,8 @@ const BrandService = {
   list() {
     return fetch('http://localhost:8080/brand', {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
     }).then(r => r.json());
   },
@@ -41,7 +42,7 @@ const BrandService = {
     return fetch('http://localhost:8080/brand/' + brand.id, {
       method: 'DELETE',
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
     })
       .then(r => r.json());
