@@ -137,7 +137,7 @@ describe('<FormVehicle />', () => {
     fireEvent.change(screen.getByLabelText(/modelo/i), { target: { value: 'HR-V' }})
     
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: /editar/i }))
+      fireEvent.click(screen.getByRole("button", { name: /alterar/i }))
     })
     
     expect(VehicleService.edit).toHaveBeenCalled()

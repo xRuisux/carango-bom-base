@@ -1,10 +1,9 @@
-import { act, cleanup, fireEvent, render, screen, waitForElementToBeRemoved } from "@testing-library/react"
+import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { VehicleList } from "."
 import { createMemoryHistory } from 'history'
 import { Router } from "react-router-dom"
 import VehicleService from "../../services/VehicleService"
 import BrandService from "../../services/BrandService"
-import { Confirm } from "../../components/Confirm/Confirm"
 
 jest.mock('../../services/BrandService', () => jest.fn())
 jest.mock('../../services/VehicleService', () => jest.fn())
@@ -18,41 +17,6 @@ beforeEach(async () => {
   VehicleService.list = jest.fn(() => Promise.resolve({ data: vehicles }))
   })
 })
-
-// jest.mock('../../components/Confirm/Confirm', () => () => (<div>
-//   <h2>Deseja deletar?</h2>
-//   <button>confirmar</button>
-//   <button>cancelar</button>
-// </div>))
-// jest.mock('../../components/Table/Table', () => () => (<div>
-//   <button>adicionar</button>
-//   <button>alterar</button>
-//   <button>excluir</button>
-//   <table>
-// <thead>
-//     <tr>
-//         <th>Marca</th>
-//       <th>Modelo</th>
-//       <th>Ano</th>
-//       <th>Preço</th>
-//     </tr>
-// </thead>
-// <tbody>
-//     <tr>
-//         <td>Honda</td>
-//         <td>Civic</td>
-//         <td>2021</td>
-//         <td>6000000</td>
-//     </tr>
-//   <tr>
-//         <td>Honda</td>
-//         <td>Accord</td>
-//         <td>2020</td>
-//         <td>8000000</td>
-//     </tr>
-// </tbody>
-// </table>
-//   </div>))
 
 beforeEach(()=>{ cleanup() })
 
@@ -124,7 +88,6 @@ describe('<VehicleList />', () => {
     expect(vehicleRow).not.toBeInTheDocument()
     expect.not.toBeInTheDocument(screen.getByRole('button', { name: /confirmar/i }))
   })
-
 
   it('should not remove vehicle from table when cancel button is clicked', async () => {
 

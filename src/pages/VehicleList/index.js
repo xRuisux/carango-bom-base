@@ -43,6 +43,7 @@ export function VehicleList() {
   }
 
   function onSelectRow(rowInfo) {
+    console.log('AAAAAAAAAA')
     if(!rowInfo) {
       setSelectedVehicle(undefined)
       return
@@ -64,7 +65,7 @@ export function VehicleList() {
 
   async function deleteVehicle() {
     setLoading(true)
-    
+
     const { data } = await VehicleService.delete(selectedVehicle.id)
     setSelectedVehicle(undefined)
     removeVehicleFromList(data.id)

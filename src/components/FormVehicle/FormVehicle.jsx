@@ -159,7 +159,7 @@ export function FormVehicle() {
       </form>
 
       <footer>
-        <Button type="submit" variant="contained" color="primary" onClick={submitForm}>{formValues?.id ? 'Editar': 'Cadastrar'}</Button>
+        <Button type="submit" variant="contained" color="primary" onClick={submitForm}>{formValues?.id ? 'Alterar': 'Cadastrar'}</Button>
         <Button variant="contained" color="secondary">Cancelar</Button>
       </footer>
     </section>
