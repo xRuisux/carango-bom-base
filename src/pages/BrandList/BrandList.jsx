@@ -19,7 +19,7 @@ function BrandList() {
 
     function update() {
         if (brandSelected) {
-            history.push('/update-brand/' + brandSelected.id);
+            history.push('/update-brand/' + brandSelected?.id);
         }
     }
 
