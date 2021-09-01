@@ -18,7 +18,9 @@ function BrandList() {
     }
 
     function update() {
-        history.push('/update-brand/' + brandSelected.id);
+        if (brandSelected) {
+            history.push('/update-brand/' + brandSelected.id);
+        }
     }
 
     async function remove() {
