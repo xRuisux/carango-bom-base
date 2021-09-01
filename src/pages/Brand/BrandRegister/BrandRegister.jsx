@@ -29,7 +29,7 @@ function BrandRegister() {
     useEffect(() => {
         if (id) {
             BrandService.read(id)
-                .then(brand => setBrand(brand.name));
+                .then(brandResponse => setresponse(brandResponse.name));
         }
     }, [id]);
 
