@@ -49,7 +49,7 @@ export default function Login() {
   async function login(e) {
     e.preventDefault()
 
-    if (isFormValid()) {
+    if (!!isFormValid()) {
       setLoading(true)
       const { data: { token } } = await LoginService.login({ email: user, password })
 
