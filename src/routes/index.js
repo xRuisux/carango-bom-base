@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react"
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom"
 import { FormVehicle } from "../components/FormVehicle/FormVehicle"
+import MenuHorizontal from "../components/MenuHorizontal"
 import { PageNotFound } from "../pages/PageNotFound"
 import { VehicleList } from "../pages/VehicleList"
 import PrivateRoute from "./PrivateRoute"
@@ -16,6 +17,7 @@ export default function Routes() {
   return (
     <Router>
       <Suspense fallback={<div>Loading...</div>}>
+        <MenuHorizontal />
         <Switch>
           <PrivateRoute path="/cadastro-marca" component={CadastroMarca} />
           <PrivateRoute path='/alteracao-marca/:id' component={CadastroMarca} />

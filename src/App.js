@@ -2,7 +2,6 @@ import { CssBaseline } from '@material-ui/core'
 import { ptBR } from '@material-ui/core/locale'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import Routes from './routes'
-import MenuHorizontal from "./components/MenuHorizontal"
 import { AuthProvider } from './hooks/useAuth'
 
 const muiTheme = createMuiTheme({
@@ -29,8 +28,7 @@ function App() {
       <ThemeProvider theme={muiTheme}>
         <CssBaseline />
         <main>
-          <MenuHorizontal />
-          <Routes />
+            <Routes />
         </main>
       </ThemeProvider>
     </AuthProvider>
