@@ -54,7 +54,7 @@ export const StyledTextField = withStyles({
 
 export const StyledButton = withStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.primary.yellow,
+    backgroundColor: theme.palette.secondary.main,
     padding: '1.2rem',
     marginTop: '1.5rem',
     fontWeight: 'bold',
@@ -62,7 +62,7 @@ export const StyledButton = withStyles((theme) => ({
     marginBottom: '2rem',
 
     '&:hover': {
-      backgroundColor: theme.palette.primary.yellow,
+      backgroundColor: theme.palette.secondary.main,
     }
   }
 }))(Button)

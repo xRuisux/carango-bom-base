@@ -9,7 +9,7 @@ export default function Home() {
     <div className={classes.root}>
       <section className={classes.content}>
         <h1 className={classes.heading}>Bem vinda ao Carango Bom!</h1>
-        <Link to="/veiculos" className={classes.link}>Visualizar veículos</Link>
+        <Link to="/vehicle" className={classes.link}>Visualizar veículos</Link>
         <Link to="/login" className={classes.link}>Efetuar login</Link>
       </section>
     </div>

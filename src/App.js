@@ -4,29 +4,25 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import Routes from './routes'
 import { AuthProvider } from './hooks/useAuth'
 
-/*
-breakpoints:
-xs: 0 - 599
-sm: 600 - 959
-md: 960 - 1279
-lg: 1280 - 1919
-xl: 1920 - ...
-*/
 const muiTheme = createMuiTheme({
   palette: {
     primary: {
       main: 'rgba(31,45,75, 0.95)',
-      yellow: '#EED44D',
+    },
+    secondary: {
+      main: '#EED44D'
+    },
+    error: {
+      main: "#EE4F4F"
     },
     white: '#F6F8FC',
     gray: '#A9A9A9',
-    darkGray: '#777777',
-    red: "#EE4F4F"
+    darkGray: '#777777'
   }
 }, ptBR);
 
 function App() {
-
+  
   return (
     <AuthProvider>
       <ThemeProvider theme={muiTheme}>

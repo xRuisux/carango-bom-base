@@ -36,7 +36,7 @@ export const useStyles = makeStyles(theme => ({
     }
   },
   link: {
-    backgroundColor: theme.palette.primary.yellow,
+    backgroundColor: theme.palette.secondary.main,
     padding: '.8rem 1.2rem',
     borderRadius: '.4rem',
     color: theme.palette.primary.main,

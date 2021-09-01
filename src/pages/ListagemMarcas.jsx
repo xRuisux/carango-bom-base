@@ -3,7 +3,7 @@ import { DataGrid } from '@material-ui/data-grid';
 import AddIcon from '@material-ui/icons/Add';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import MarcaService from '../services/MarcaService';
+import BrandService from '../services/BrandService';
 
 const colunas = [
     { field: 'nome', headerName: 'Marca', width: 200 }
@@ -35,7 +35,7 @@ function ListagemMarcas() {
     }
 
     function excluir() {
-        MarcaService.excluir(marcaSelecionada)
+        BrandService.excluir(marcaSelecionada)
             .then(() => {
                 setMarcaSelecionada(null);
                 carregarMarcas();
@@ -47,7 +47,7 @@ function ListagemMarcas() {
     useEffect(() => carregarMarcas(), []);
 
     function carregarMarcas() {
-        MarcaService.listar()
+        BrandService.listar()
             .then(dados => setMarcas(dados));
     }
 
