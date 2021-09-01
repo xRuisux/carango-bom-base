@@ -1,0 +1,7 @@
+.content {
+    display: flex;
+}
+.dashboard_title {
+    font-size: 2em;
+    text-align: center;
+}
