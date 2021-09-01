@@ -1,5 +1,60 @@
-import { fireEvent, render, screen } from "@testing-library/react"
+import { act, cleanup, fireEvent, render, screen, waitForElementToBeRemoved } from "@testing-library/react"
 import { VehicleList } from "."
+import { createMemoryHistory } from 'history'
+import { Router } from "react-router-dom"
+import VehicleService from "../../services/VehicleService"
+import BrandService from "../../services/BrandService"
+import { Confirm } from "../../components/Confirm/Confirm"
+
+jest.mock('../../services/BrandService', () => jest.fn())
+jest.mock('../../services/VehicleService', () => jest.fn())
+
+beforeEach(async () => {
+  const vehicles = [{ id: 2, model: 'Civic', year: 2021, brand: 1, price: 6000000 }, { id: 3, model: 'Accord', year: 2020, brand: 1, price: 8000000 }]
+  act(async () => {
+
+  BrandService.list = jest.fn(() => Promise.resolve({ data: [{ 'id': 1, 'name': 'Honda'}, { 'id': 2, 'name': 'Toyota'}] }))
+
+  VehicleService.list = jest.fn(() => Promise.resolve({ data: vehicles }))
+  })
+})
+
+// jest.mock('../../components/Confirm/Confirm', () => () => (<div>
+//   <h2>Deseja deletar?</h2>
+//   <button>confirmar</button>
+//   <button>cancelar</button>
+// </div>))
+// jest.mock('../../components/Table/Table', () => () => (<div>
+//   <button>adicionar</button>
+//   <button>alterar</button>
+//   <button>excluir</button>
+//   <table>
+// <thead>
+//     <tr>
+//         <th>Marca</th>
+//       <th>Modelo</th>
+//       <th>Ano</th>
+//       <th>Preço</th>
+//     </tr>
+// </thead>
+// <tbody>
+//     <tr>
+//         <td>Honda</td>
+//         <td>Civic</td>
+//         <td>2021</td>
+//         <td>6000000</td>
+//     </tr>
+//   <tr>
+//         <td>Honda</td>
+//         <td>Accord</td>
+//         <td>2020</td>
+//         <td>8000000</td>
+//     </tr>
+// </tbody>
+// </table>
+//   </div>))
+
+beforeEach(()=>{ cleanup() })
 
 describe('<VehicleList />', () => {
   
@@ -9,15 +64,79 @@ describe('<VehicleList />', () => {
     expect(screen.getByRole("button", { name: /adicionar/i })).toBeInTheDocument()
     expect(screen.getByRole("button", { name: /excluir/i })).toBeInTheDocument()
     expect(screen.getByRole("button", { name: /alterar/i })).toBeInTheDocument()
-
-    // search for table
   })
 
-  // it('should display form after add vehicle button is clicked', async () => {
-  //   render(<Vehicle />)
+  it('should go to vehicle form page when add button is clicked', async () => {
+    const history = createMemoryHistory()
+    history.location.pathname = '/vehicle'
 
-  //   fireEvent.click(screen.getByRole("button", { name: /adicionar/i }))
+    await act(() => render(<Router history={history}>
+            <VehicleList />
+          </Router>))
+
+    fireEvent.click(screen.getByRole("button", { name: /adicionar/i }))
     
-  //   expect(screen.getByTestId('form')).toBeInTheDocument();
-  // })
+    expect(history.location.pathname).toEqual('/vehicle-form')
+  })
+
+  it('should go to vehicle form page when edit button is clicked', async () => {
+
+    const history = createMemoryHistory()
+    history.location.pathname = '/vehicle'
+
+    await act(() => render(<Router history={history}>
+            <VehicleList />
+          </Router>))
+
+    const vehicleRow = await screen.findByRole('cell', { name: /civic/i})
+    fireEvent.click(vehicleRow)
+    fireEvent.click(screen.getByRole("button", { name: /alterar/i }))
+    
+    expect(history.location.pathname).toEqual('/vehicle-form')
+  })
+
+
+  it('should display confirm when delete button is clicked', async () => {
+
+    await act(() => render(<VehicleList />))
+
+    const vehicleRow = await screen.findByRole('cell', { name: /civic/i})
+    fireEvent.click(vehicleRow)
+    fireEvent.click(screen.getByRole("button", { name: /excluir/i }))
+    
+    expect(screen.getByRole('button', { name: /cancelar/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /confirmar/i })).toBeInTheDocument()
+  })
+
+  it('should remove vehicle from table when confirm button is clicked', async () => {
+
+    const vehicle = { id: 2, model: 'Civic', year: 2021, brand: 1, price: 6000000 }
+    VehicleService.delete = jest.fn(() => Promise.resolve({ data: vehicle }))
+
+    await act(() => render(<VehicleList />))
+
+    const vehicleRow = await screen.findByRole('cell', { name: /civic/i})
+    fireEvent.click(vehicleRow)
+    fireEvent.click(screen.getByRole("button", { name: /excluir/i }))
+    
+    fireEvent.click(screen.getByRole('button', { name: /confirmar/i }))
+
+    expect(vehicleRow).not.toBeInTheDocument()
+    expect.not.toBeInTheDocument(screen.getByRole('button', { name: /confirmar/i }))
+  })
+
+
+  it('should not remove vehicle from table when cancel button is clicked', async () => {
+
+    await act(() => render(<VehicleList />))
+
+    const vehicleRow = await screen.findByRole('cell', { name: /civic/i})
+    fireEvent.click(vehicleRow)
+    fireEvent.click(screen.getByRole("button", { name: /excluir/i }))
+    
+    fireEvent.click(screen.getByRole('button', { name: /cancelar/i }))
+
+    expect(vehicleRow).toBeInTheDocument()
+    expect.not.toBeInTheDocument(screen.getByRole('button', { name: /cancelar/i }))
+  })
 })

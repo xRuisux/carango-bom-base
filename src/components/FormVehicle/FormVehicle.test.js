@@ -1,4 +1,4 @@
-import { act, findByText, fireEvent, render, screen, waitFor, within } from "@testing-library/react"
+import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react"
 import userEvent from '@testing-library/user-event'
 import {createMemoryHistory} from 'history'
 import { Router } from "react-router-dom"

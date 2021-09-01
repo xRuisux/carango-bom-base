@@ -63,15 +63,22 @@ export function VehicleList() {
   }
 
   async function deleteVehicle() {
-
     setLoading(true)
-    // add confirm dialog
+    
     const { data } = await VehicleService.delete(selectedVehicle.id)
     setSelectedVehicle(undefined)
     removeVehicleFromList(data.id)
 
     setIsConfirmOpen(false)
     delayFunc(() => setLoading(false))
+  }
+
+  function handleDelete() {
+    setIsConfirmOpen(true)
+  }
+
+  function handleCreate() {
+    history.push('/vehicle-form')
   }
 
   const rows = vehicles.map(vehicle => {
@@ -94,8 +101,8 @@ export function VehicleList() {
         rowSelectedFunction={onSelectRow}
         selectedItem={selectedVehicle}
         updateItem={handleVehicleUpdate}
-        deleteItem={() => setIsConfirmOpen(true)}
-        addItem={() => history.push('/vehicle-form')}
+        deleteItem={handleDelete}
+        addItem={handleCreate}
       />
     </section>
   );
