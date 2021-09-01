@@ -71,6 +71,10 @@ export function FormVehicle() {
     return Object.values(formValues).every(value => !!value)
   }
 
+  function goBack() {
+    history.push('/vehicle')
+  }
+
   async function submitForm() {
     if(allFieldsValid() && isAllFieldsFilled()) {
       const { brand, year, price, model } = formValues
@@ -160,7 +164,7 @@ export function FormVehicle() {
 
       <footer>
         <Button type="submit" variant="contained" color="primary" onClick={submitForm}>{formValues?.id ? 'Alterar': 'Cadastrar'}</Button>
-        <Button variant="contained" color="secondary">Cancelar</Button>
+        <Button variant="contained" color="secondary" onClick={goBack}>Cancelar</Button>
       </footer>
     </section>
   )

@@ -176,4 +176,17 @@ describe('<FormVehicle />', () => {
     expect(modelMsg).toBeInTheDocument()
     expect(screen.getByText('Selecione uma marca')).toBeInTheDocument()
   })
+
+  it('should go to vehicle page when cancel button is clicked', () => {
+    const history = createMemoryHistory()
+    history.location.pathname = '/vehicle-form'
+
+    render(<Router history={history}>
+      <FormVehicle />
+     </Router>)
+     
+    fireEvent.click(screen.getByRole("button", { name: /cancelar/i }))
+    
+    expect(history.location.pathname).toEqual('/vehicle')
+  })
 })
