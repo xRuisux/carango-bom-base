@@ -21,6 +21,7 @@ const setup = () =>
   );
 
 beforeEach(async () => {
+  localStorage.setItem('token', 'testtoken');
   await act(async () => setup());
 });
 

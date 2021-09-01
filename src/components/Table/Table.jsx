@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { DataGrid } from '@material-ui/data-grid'
-import { StyledButton } from '../Button'
-import { useStyles } from './styles'
+import { Button } from '../Button'
 import { CircularProgress } from '@material-ui/core'
+import './Table.css';
 
 export default function Table({
   loading = false,
@@ -27,50 +27,59 @@ export default function Table({
     rowSelectedFunction(data)
   }
   
-  const classes = useStyles()
-  
   return (
-    <section className={classes.root}>
+    <section>
       <header>
-        <StyledButton
-          variant="contained"
-          color="primary"
-          onClick={addItem}
-        >
-          Adicionar
-          </StyledButton>
-        <StyledButton
-          variant="contained"
-          color="secondary"
-          disabled={!selectedItem}
-          onClick={deleteItem}
-        >
-          Excluir
-        </StyledButton>
-        <StyledButton
-          variant="contained"
-          color="primary"
-          disabled={!selectedItem}
-          onClick={updateItem}
-        >
-          Alterar
-        </StyledButton>
-      </header>
-      <div className={classes.tableContainer}>
-        {loading 
-          ?
-          <div className={classes.loading}>
-            <CircularProgress />
+        <div className='tableContainer'>
+          {loading 
+            ?
+            <div className='loading'>
+              <CircularProgress />
+            </div>
+              : <DataGrid
+                className='table'
+                rows={rows}
+                columns={columns}
+                onRowSelected={handleRowSelection}
+                state={{ selection: selectionObj }}
+              />
+          }
+        </div>
+      {
+        localStorage.getItem('token') &&
+        <>
+          <div className="actionsBar">
+            <Button
+              className="actions"
+              variant="contained"
+              color="primary"
+              onClick={addItem}
+            >
+              Adicionar
+              </Button>
+            <Button
+              className="actions"
+              variant="contained"
+              color="secondary"
+              disabled={!selectedItem}
+              onClick={deleteItem}
+            >
+              Excluir
+            </Button>
+            <Button
+              className="actions"
+              variant="contained"
+              color="primary"
+              disabled={!selectedItem}
+              onClick={updateItem}
+            >
+              Alterar
+            </Button>
           </div>
-            : <DataGrid
-              className={classes.table}
-              rows={rows}
-              columns={columns}
-              onRowSelected={handleRowSelection}
-              state={{ selection: selectionObj }}
-            />
-        }
-      </div>
+        </>
+      }
+      </header>
+
     </section>
   );
 }
