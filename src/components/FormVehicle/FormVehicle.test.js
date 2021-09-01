@@ -10,11 +10,11 @@ jest.mock('../../services/BrandService', () => jest.fn())
 jest.mock('../../services/VehicleService', () => jest.fn())
 jest.mock('../../services/VehicleService',)
 
-beforeEach(() => {
-  jest.spyOn(Intl, 'NumberFormat').mockImplementation(() => ({
-    format: jest.fn(() => '60.000,00')
-  }))
-})
+// beforeEach(() => {
+  // jest.spyOn(Intl, 'NumberFormat').mockImplementation(() => ({
+  //   format: jest.fn(() => '60.000,00')
+  // }))
+// })
 
 const localStorageMock = {
   getItem: jest.fn(),
@@ -98,6 +98,9 @@ describe('<FormVehicle />', () => {
   })
 
   it('should load vehicle from localStorage to be edited', async () => {
+    jest.spyOn(Intl, 'NumberFormat').mockImplementation(() => ({
+      format: jest.fn(() => '60.000,00')
+    }))
 
     const vehicle = { id: 2, model: 'Civic', year: 2021, brand: 1, price: 6000000 }
     localStorage.setItem('vehicle', JSON.stringify(vehicle))
@@ -121,7 +124,10 @@ describe('<FormVehicle />', () => {
 
 
   it('should call edit on form submission', async () => {
-
+    jest.spyOn(Intl, 'NumberFormat').mockImplementation(() => ({
+      format: jest.fn(() => '60.000,00')
+    }))
+    
     const vehicle = { id: 2, model: 'Civic', year: 2021, brand: 1, price: 6000000 }
     localStorage.setItem('vehicle', JSON.stringify(vehicle))
 
@@ -149,6 +155,10 @@ describe('<FormVehicle />', () => {
   })
 
   it('should display validation message', async () => {
+    jest.spyOn(Intl, 'NumberFormat').mockImplementation(() => ({
+      format: jest.fn(() => '0,00')
+    }))
+    
     render(<FormVehicle />)
 
     const selectBrand = screen.getByTestId('wrapper')
