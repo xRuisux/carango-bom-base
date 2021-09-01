@@ -8,13 +8,6 @@ import { FormVehicle } from "./FormVehicle"
 
 jest.mock('../../services/BrandService', () => jest.fn())
 jest.mock('../../services/VehicleService', () => jest.fn())
-jest.mock('../../services/VehicleService',)
-
-// beforeEach(() => {
-  // jest.spyOn(Intl, 'NumberFormat').mockImplementation(() => ({
-  //   format: jest.fn(() => '60.000,00')
-  // }))
-// })
 
 const localStorageMock = {
   getItem: jest.fn(),
@@ -49,7 +42,6 @@ describe('<FormVehicle />', () => {
     const history = createMemoryHistory()
     history.location.pathname = '/vehicle'
 
-    // act(async () => await render(<FormVehicle />))
     await act(async () => render(<Router history={history}>
         <FormVehicle />
       </Router>))
@@ -127,7 +119,7 @@ describe('<FormVehicle />', () => {
     jest.spyOn(Intl, 'NumberFormat').mockImplementation(() => ({
       format: jest.fn(() => '60.000,00')
     }))
-    
+
     const vehicle = { id: 2, model: 'Civic', year: 2021, brand: 1, price: 6000000 }
     localStorage.setItem('vehicle', JSON.stringify(vehicle))
 

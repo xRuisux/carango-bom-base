@@ -1,11 +1,13 @@
 import { formatCurrency, getOnlyNumbers } from "./currency"
 
-describe('getFormattedMoney', () => {
-  it('should return currency with only aditional decimal numbers when string number length is less than 4', () => {
-    const currency = formatCurrency('1235675')
+test('should format currency', () => {
+  jest.spyOn(Intl, 'NumberFormat').mockImplementation(() => ({
+    format: jest.fn(() => '12.356,75')
+  }))
+  
+  const currency = formatCurrency('1235675')
 
-    expect(currency).toEqual('12.356,75')
-  })
+  expect(currency).toEqual('12.356,75')
 })
 
 describe('getOnlyNumbers', () => {
