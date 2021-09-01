@@ -4,13 +4,17 @@ import {createMemoryHistory} from 'history'
 import { Router } from "react-router-dom"
 import BrandService from "../../services/BrandService"
 import VehicleService from "../../services/VehicleService"
-import { renderWithRouter } from "../../utils/renderWithRouter"
 import { FormVehicle } from "./FormVehicle"
 
 jest.mock('../../services/BrandService', () => jest.fn())
 jest.mock('../../services/VehicleService', () => jest.fn())
+jest.mock('../../services/VehicleService',)
 
-// beforeAll(() => jest.spyOn(window, 'fetch'))
+beforeEach(() => {
+  jest.spyOn(Intl, 'NumberFormat').mockImplementation(() => ({
+    format: jest.fn(() => '60.000,00')
+  }))
+})
 
 const localStorageMock = {
   getItem: jest.fn(),
@@ -100,7 +104,7 @@ describe('<FormVehicle />', () => {
     
     const history = createMemoryHistory()
     history.location.pathname = '/vehicle-form'
-    
+
     await act(async () => render(<FormVehicle />))
 
     const inputYear = screen.getByLabelText(/ano/i)
