@@ -46,7 +46,7 @@ export default function Table({
           }
         </div>
       {
-        i &&
+        localStorage.getItem('token') &&
           <div className="actionsBar">
             <Button
               className="actions"

@@ -65,7 +65,6 @@ export function VehicleList() {
 
   async function deleteVehicle() {
     setLoading(true)
-    // add confirm dialog
     const { data } = await VehicleService.delete(selectedVehicle?.id)
     setSelectedVehicle(undefined)
     removeVehicleFromList(data.id)
