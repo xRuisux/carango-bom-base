@@ -21,7 +21,6 @@ export const api = {
   },
   
   get: async (path) => {
-    console.log(baseUrl, path)
     try {
        const resp = await fetch(`${baseUrl}/${path}`, {
          headers
