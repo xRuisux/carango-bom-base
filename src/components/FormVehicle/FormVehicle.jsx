@@ -7,6 +7,7 @@ import VehicleService from "../../services/VehicleService"
 import { formatCurrency, getOnlyNumbers } from "../../utils/currency"
 import { delayFunc } from "../../utils/delayFunc"
 import { Button } from "../Button"
+import s from './FormVehicle.module.css'
 
 const initialValues = {
   brand: '',
@@ -95,78 +96,86 @@ export function FormVehicle() {
   
   const brandOptions = brands.map(brand => (<option key={brand.id} value={brand.id}>{brand.name}</option>))
 
-  return (
-    <section>
-      <form style={{ padding: 30 }}>
-        <FormControl variant="outlined" error={!errors.brand.valid}>
-          <InputLabel id="brandLabel" htmlFor='brand'>Marca</InputLabel>
-          <Select
-            native
-            data-testid="wrapper"
-            labelId="brandLabel"
-            placeholder="Ex: Honda"
-            id="brand"
-            label="Marca"
-            name="brand"
-            variant="outlined"
-            value={formValues.brand}
-            onChange={updateFormValues}
-            onBlur={validateFields}
-            inputProps={{
-              name: 'brand',
-              id: 'brand',
-              placeholder: 'Selecione uma marca',
-              'data-testid': "select"
-            }}
-          >
-            <option value=''></option>
-            {brandOptions}
-          </Select>
-          <FormHelperText>{errors.brand.text}</FormHelperText>
-        </FormControl>
-        <TextField
-          placeholder="Ex: Civic"
-          id="model"
-          label="Modelo"
-          name="model"
-          variant="outlined"
-          value={formValues.model}
-          onChange={updateFormValues}
-          helperText={errors.model.text}
-          error={!errors.model.valid}
-        />
-        <TextField 
-          placeholder="Ex: 2021"
-          id="year"
-          type="number"
-          label="Ano"
-          name="year"
-          variant="outlined"
-          value={formValues.year}
-          onChange={updateFormValues}
-          helperText={errors.year.text}
-          error={!errors.year.valid}
-        />
-        <TextField 
-          placeholder="Ex: 2021"
-          id="price"
-          label="Valor"
-          name="price"
-          variant="outlined"
-          value={formValues.price}
-          onChange={(e) => {
-            handlePriceChange(e)
-            delayFunc(() => validateFields(e), 1000)
-          }}
-          helperText={errors.price.text}
-          error={!errors.price.valid}
-        />
-      </form>
+  const message = formValues?.id ? 'Alterar': 'Cadastrar'
 
-      <footer>
-        <Button type="submit" variant="contained" color="primary" onClick={submitForm}>{formValues?.id ? 'Alterar': 'Cadastrar'}</Button>
-        <Button variant="contained" color="secondary" onClick={goBack}>Cancelar</Button>
-      </footer>
-    </section>
+  return (
+    <div className={s.container}>
+      <h2>{message} Veículo</h2>
+      <section className={s.content}>
+        <form>
+          <FormControl variant="outlined" error={!errors.brand.valid}>
+            <InputLabel id="brandLabel" htmlFor='brand'>Marca</InputLabel>
+            <Select
+              native
+              data-testid="wrapper"
+              labelId="brandLabel"
+              placeholder="Ex: Honda"
+              id="brand"
+              label="Marca"
+              name="brand"
+              variant="outlined"
+              value={formValues.brand}
+              onChange={updateFormValues}
+              onBlur={validateFields}
+              inputProps={{
+                name: 'brand',
+                id: 'brand',
+                placeholder: 'Selecione uma marca',
+                'data-testid': "select"
+              }}
+            >
+              <option value=''></option>
+              {brandOptions}
+            </Select>
+            <FormHelperText>{errors.brand.text}</FormHelperText>
+          </FormControl>
+          <TextField
+            className={s.formField}
+            placeholder="Ex: Civic"
+            id="model"
+            label="Modelo"
+            name="model"
+            variant="outlined"
+            value={formValues.model}
+            onChange={updateFormValues}
+            helperText={errors.model.text}
+            error={!errors.model.valid}
+          />
+          <TextField 
+            className={s.formField}
+            placeholder="Ex: 2021"
+            id="year"
+            type="number"
+            label="Ano"
+            name="year"
+            variant="outlined"
+            value={formValues.year}
+            onChange={updateFormValues}
+            helperText={errors.year.text}
+            error={!errors.year.valid}
+          />
+          <TextField
+            className={s.formField}
+            placeholder="Ex: 2021"
+            id="price"
+            label="Valor"
+            name="price"
+            variant="outlined"
+            value={formValues.price}
+            onChange={(e) => {
+              handlePriceChange(e)
+              delayFunc(() => validateFields(e), 1000)
+            }}
+            helperText={errors.price.text}
+            error={!errors.price.valid}
+          />
+        </form>
+
+        <footer>
+          <Button type="submit" variant="contained" color="primary" onClick={submitForm}>{message}</Button>
+          <Button variant="contained" color="secondary" onClick={goBack}>Cancelar</Button>
+        </footer>
+      </section>
+    </div>
   )
 }
