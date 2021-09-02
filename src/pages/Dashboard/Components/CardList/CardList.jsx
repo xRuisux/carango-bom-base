@@ -2,7 +2,7 @@ import React from "react";
 import Card from "../Card";
 import "./CardList.css";
 
-function CardList({cards}) { 
+function CardList({cards}) {
     return (
       <ul className="card-list">
         {cards.map(({brandName, totalAmount, totalVehicles}, index) => {
