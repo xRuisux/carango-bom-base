@@ -1,35 +1,52 @@
-import { api } from "../api";
-
 const BrandService = {
-  cadastrar(marca) {
-    return fetch('http://localhost:8080/marcas', {
+  create(brand) {
+    return fetch('http://localhost:8080/brand', {
       method: 'POST',
-      mode: 'no-cors',
-      body: JSON.stringify(marca)
-    }).then(r => r.json())
-      .catch(err => console.log(err))
-  },
-
-  alterar(marca) {
-    return fetch('https://carango-bom-api.herokuapp.com/marcas/' + marca.id, {
-      method: 'PUT',
-      body: JSON.stringify(marca)
+      body: JSON.stringify(brand),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
     }).then(r => r.json());
   },
 
-  consultar(id) {
-    return fetch('https://carango-bom-api.herokuapp.com/marcas/' + id).then(r => r.json());
+  update(brand) {
+    return fetch('http://localhost:8080/brand/' + brand.id, {
+      method: 'PUT',
+      body: JSON.stringify(brand),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+    }).then(r => r.json());
+  },
+
+  read(id) {
+    return fetch('http://localhost:8080/brand/' + id, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+    }).then(r => r.json());
   },
 
   list() {
-    return api.get('brand')
+    return fetch('http://localhost:8080/brand', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+    }).then(r => r.json());
   },
-  excluir(marca) {
-    return fetch('https://carango-bom-api.herokuapp.com/marcas/' + marca.id, {
+
+  delete(brand) {
+    return fetch('http://localhost:8080/brand/' + brand.id, {
       method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
     })
       .then(r => r.json());
   }
 };
 
-export default BrandService
+export default BrandService;

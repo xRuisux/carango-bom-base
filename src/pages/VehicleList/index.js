@@ -27,7 +27,7 @@ export function VehicleList() {
     async function fetchData() {
       await Promise.all([
         BrandService.list(),
-        VehicleService.list()
+        VehicleService.list(),
       ]).then(([brandData, vehicleData]) => {
         setBrands(brandData?.data ?? [])
         setVehicles(vehicleData.data ?? [])
@@ -65,8 +65,8 @@ export function VehicleList() {
 
   async function deleteVehicle() {
     setLoading(true)
-
-    const { data } = await VehicleService.delete(selectedVehicle.id)
+    // add confirm dialog
+    const { data } = await VehicleService.delete(selectedVehicle?.id)
     setSelectedVehicle(undefined)
     removeVehicleFromList(data.id)
 

@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const token = localStorage.getItem('token')
 const authorization = `Bearer ${token}`
 const baseUrl = process.env.REACT_APP_BASE_URL
@@ -19,17 +21,18 @@ export const api = {
   },
   
   get: async (path) => {
+    console.log(baseUrl, path)
     try {
-      const resp = await fetch(`${baseUrl}/${path}`, {
-        headers
-      })
-      if(resp.status !== 200) {
-        return { error: 'Erro ao buscar dados' }
-      }
-      return { data: await resp.json() }
-    } catch(err) {
-      return err
-    }
+       const resp = await fetch(`${baseUrl}/${path}`, {
+         headers
+       })
+       if(resp.status !== 200) {
+         return { error: 'Erro ao buscar dados' }
+       }
+       return { data: await resp.json() }
+     } catch(err) {
+       return err
+     }
   },
 
   put: async (path, data) => {

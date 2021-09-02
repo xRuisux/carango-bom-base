@@ -1,17 +1,9 @@
 import { CssBaseline } from '@material-ui/core'
 import { ptBR } from '@material-ui/core/locale'
-import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import Routes from './routes'
 import { AuthProvider } from './hooks/useAuth'
 
-/*
-breakpoints:
-xs: 0 - 599
-sm: 600 - 959
-md: 960 - 1279
-lg: 1280 - 1919
-xl: 1920 - ...
-*/
 const muiTheme = createMuiTheme({
   palette: {
     primary: {
