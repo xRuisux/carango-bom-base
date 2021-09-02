@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import './MenuHorizontal.css'
 
 export default function MenuHorizontal({isAuthenticated}) {
+    const history = useHistory();
     function logout() {
         localStorage.clear();
-        window.location.href = '/login';
+        window.location.href = '/';
     }
     if (isAuthenticated) {
         return (
@@ -14,11 +15,11 @@ export default function MenuHorizontal({isAuthenticated}) {
                     <li><Link to="/brands" > Marcas </Link></li>
                     <li><Link to="/user" > Usuários </Link></li>
                     <li><Link to="/dashboard" >Dashboard</Link></li>
-                    <li><Link to="/login" onClick={logout}>Sair</Link></li>
+                    <li><Link to="/" onClick={logout}>Sair</Link></li>
                 </ul>
             </div>
         )
-    } else {
+    } else if (history.location.pathname !== '/login' && history.location.pathname !== '/'){
         return (
             <div className="container">
                 <ul className="menu">
@@ -26,6 +27,11 @@ export default function MenuHorizontal({isAuthenticated}) {
                     <li><Link to="/login" > login </Link></li>
                 </ul>
             </div>
+        )
+    } else {
+        return (
+            <>
+            </>
         )
     }
 }

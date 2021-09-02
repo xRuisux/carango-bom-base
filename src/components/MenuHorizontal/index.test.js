@@ -3,7 +3,6 @@ import '@testing-library/jest-dom';
 import MenuHorizontal from ".";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
-import PrivateRoute from "../../routes/PrivateRoute";
 import { lazy, Suspense } from "react";
 
 describe("<MenuHorizontal />", () => {
@@ -34,6 +33,7 @@ describe("<MenuHorizontal />", () => {
    it("should redirect user when click on logout", async () => {
         const Login = lazy(() => import("../../pages/Login"))
         const VehicleList = lazy(() => import("../../pages/VehicleList"))
+        const Home = lazy(() => import("../../pages/Home"))
     
         render(
             <BrowserRouter>
@@ -42,6 +42,7 @@ describe("<MenuHorizontal />", () => {
                 <Suspense fallback={<div>Loading...</div>}>
                     <Route path="/vehicle" component={VehicleList} />
                     <Route path="/login" component={Login} />
+                    <Route exact path="/" component={Home} />
                     </Suspense>
                 </Switch>
             
@@ -50,7 +51,7 @@ describe("<MenuHorizontal />", () => {
         await waitFor(() => expect(screen.getByText('Sair')).toBeInTheDocument());
         const logout = screen.getByText(/Sair/);
         userEvent.click(logout)
-        await waitFor(() => expect(screen.getByLabelText('Senha')).toBeInTheDocument());
+        await waitFor(() => expect(screen.getByText('Efetuar login')).toBeInTheDocument());
      });
 
 })
