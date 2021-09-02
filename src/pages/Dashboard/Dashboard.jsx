@@ -11,8 +11,8 @@ function Dashboard(){
     DashboardService.brandReport()
     .then(response => {
         console.log(response)
-        const { data, error } = response;
-        if (error) {
+        const { data, error: responseError } = response;
+        if (responseError) {
           setError('Houve um erro ao carregar o relatórios');
         }
         console.log(data)
