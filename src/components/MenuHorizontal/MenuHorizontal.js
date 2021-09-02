@@ -1,15 +1,22 @@
-import { Link, useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import './MenuHorizontal.css'
 
 export default function MenuHorizontal({isAuthenticated}) {
+    const [currentPath, setCurrentPath] = useState(false)
     const history = useHistory();
+    const location = useLocation();
+
     function logout() {
         localStorage.clear();
         history.push("/");
     }
-    const isOnUnauthenticatedPages = (history.location.pathname !== '/login' && history.location.pathname !== '/')
 
-    if (isAuthenticated && isOnUnauthenticatedPages) {
+    useEffect(() => {
+        setCurrentPath(location.pathname !== '/login' && location.pathname !== '/')
+    }, [location.pathname])
+
+    if (!!localStorage.getItem('token') && currentPath) {
         return (
             <div className="container">
                 <ul className="menu">
@@ -21,7 +28,7 @@ export default function MenuHorizontal({isAuthenticated}) {
                 </ul>
             </div>
         )
-    } else if (isOnUnauthenticatedPages){
+    } else if (currentPath){
         return (
             <div className="container">
                 <ul className="menu">
