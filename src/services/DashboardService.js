@@ -2,8 +2,14 @@ import { api } from "../api";
 
 const DashboardService = {
 
-  brandReport: () => {
-    return api.get('report/brand')
+  brandReport() {
+    return fetch('http://localhost:8080/report/brand', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+    }).then(r => r.json());
   }
 };
 

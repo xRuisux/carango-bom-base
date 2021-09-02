@@ -5,6 +5,10 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import { lazy, Suspense } from "react";
 
+const Login = lazy(() => import("../../pages/Login"))
+const VehicleList = lazy(() => import("../../pages/VehicleList"))
+const Home = lazy(() => import("../../pages/Home"))
+
 describe("<MenuHorizontal />", () => {
   it("should display login and veículos", () => {
     render(
@@ -31,9 +35,7 @@ describe("<MenuHorizontal />", () => {
 
   })
    it("should redirect user when click on logout", async () => {
-        const Login = lazy(() => import("../../pages/Login"))
-        const VehicleList = lazy(() => import("../../pages/VehicleList"))
-        const Home = lazy(() => import("../../pages/Home"))
+        
     
         render(
             <BrowserRouter>

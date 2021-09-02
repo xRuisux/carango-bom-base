@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
 import CardList from "./Components/CardList";
-import BrandService from "../../services/BrandService";
+import DashboardService from "../../services/DashboardService";
 
 function Dashboard(){
   const [cards, setCards] = useState([])
@@ -9,8 +9,7 @@ function Dashboard(){
 
  const getMyReport = async () => {
     try {
-      const data = await BrandService.report()
-      console.log({ data })
+      const data = await DashboardService.brandReport()
       setCards(data)
     } catch(err) {
       setError('Houve um erro ao carregar o relatórios')
