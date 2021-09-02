@@ -8,7 +8,17 @@ import BrandService from "../../services/BrandService"
 jest.mock('../../services/BrandService', () => jest.fn())
 jest.mock('../../services/VehicleService', () => jest.fn())
 
+const localStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+}
+
+global.localStorage = localStorageMock
+
 beforeEach(async () => {
+  localStorage.setItem('token', '34y78324hjfksbdfj')
+
   const vehicles = [{ id: 2, model: 'Civic', year: 2021, brand: 1, price: 6000000 }, { id: 3, model: 'Accord', year: 2020, brand: 1, price: 8000000 }]
   act(async () => {
 
@@ -59,7 +69,6 @@ describe('<VehicleList />', () => {
     expect(history.location.pathname).toEqual('/vehicle-form')
   })
 
-
   it('should display confirm when delete button is clicked', async () => {
 
     await act(() => render(<VehicleList />))
@@ -91,16 +100,17 @@ describe('<VehicleList />', () => {
 
   it('should not remove vehicle from table when cancel button is clicked', async () => {
 
-    await act(() => render(<VehicleList />))
-
+    await act(async () => render(<VehicleList />))
+    
     const vehicleRow = await screen.findByRole('cell', { name: /civic/i})
     fireEvent.click(vehicleRow)
-    fireEvent.click(screen.getByRole("button", { name: /excluir/i }))
+    
+    const deleteBtn = screen.getByRole('button', { name: 'Excluir' })
+    fireEvent.click(deleteBtn)
     
     fireEvent.click(screen.getByRole('button', { name: /cancelar/i }))
 
     expect(vehicleRow).toBeInTheDocument()
-    expect.not.toBeInTheDocument(screen.getByRole('button', { name: /cancelar/i }))
   })
 
   it("render server error message", async() => {

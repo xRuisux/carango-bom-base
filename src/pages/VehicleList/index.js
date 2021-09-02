@@ -96,7 +96,7 @@ export function VehicleList() {
     <section>
       <Confirm open={isConfirmOpen} message='Deseja mesmo excluir o veículo?' onConfirm={deleteVehicle} onCancel={() => setIsConfirmOpen(false)} />
       {
-        error ? <p>{error}</p> 
+        !!error ? <p>{error}</p> 
         : <Table
         loading={loading}
         rows={rows}
