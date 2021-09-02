@@ -28,7 +28,6 @@ export function FormVehicle() {
   useEffect(() => {
     async function fetchBrands() {
       const  data  = await BrandService.list()
-      console.log(data);
       setBrands(data)
     }
 

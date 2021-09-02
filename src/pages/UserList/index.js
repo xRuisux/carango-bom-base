@@ -25,7 +25,6 @@ const columns = [
         return
       } 
       
-      console.log('rowInfo', rowInfo)
       const { id, email } = rowInfo
     
       setSelectedUser({
@@ -45,7 +44,6 @@ const columns = [
       removeUserFromList(data.id)
   
       setIsConfirmOpen(false)
-      console.log({ data })
       delayFunc(() => setLoading(false))
     }
   

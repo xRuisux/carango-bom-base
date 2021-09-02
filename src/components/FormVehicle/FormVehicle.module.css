@@ -8,7 +8,6 @@
 }
 
 .content {
-  /* height: 100%; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -24,7 +23,6 @@
   height: 50%;
   flex-direction: column;
   justify-content: space-around;
-  /* padding: 2rem; */
 }
 
 .content form .formField {
@@ -36,12 +34,7 @@
   flex-direction: column;
   justify-content: space-between;
   margin-top: .5rem;
-  /* padding-right: 2rem; */
 }
-/* 
-.content footer button {
-  margin-left: 2rem;
-} */
 
 @media (min-width: 600px) {
   .content form {
@@ -51,10 +44,8 @@
     column-gap: 2rem;
     row-gap: 2rem;
     height: 40%;
-    /* padding: 2rem 4rem; */
   }
   .content footer {
-    /* padding-right: 4rem; */
     justify-content: flex-start;
     flex-direction: row-reverse;
   }
