@@ -8,8 +8,8 @@ export default function Table({
   loading = false,
   rows,
   columns,
-  addItem,
-  updateItem,
+  addItem = null,
+  updateItem = null,
   deleteItem,
   selectedItem,
   rowSelectedFunction,
@@ -47,16 +47,15 @@ export default function Table({
         </div>
       {
         localStorage.getItem('token') &&
-        <>
           <div className="actionsBar">
-            <Button
+            {addItem && <Button
               className="actions"
               variant="contained"
               color="primary"
               onClick={addItem}
             >
               Adicionar
-              </Button>
+              </Button>}
             <Button
               className="actions"
               variant="contained"
@@ -66,7 +65,7 @@ export default function Table({
             >
               Excluir
             </Button>
-            <Button
+            {updateItem && <Button
               className="actions"
               variant="contained"
               color="primary"
@@ -74,12 +73,10 @@ export default function Table({
               onClick={updateItem}
             >
               Alterar
-            </Button>
+            </Button>}
           </div>
-        </>
       }
       </header>
-
     </section>
   );
 }

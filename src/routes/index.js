@@ -5,6 +5,7 @@ import MenuHorizontal from "../components/MenuHorizontal"
 import { useAuth } from "../hooks/useAuth"
 import { PageNotFound } from "../pages/PageNotFound"
 import { VehicleList } from "../pages/VehicleList"
+import { UserList } from "../pages/UserList"
 import PrivateRoute from "./PrivateRoute"
 
 const Home = lazy(() => import("../pages/Home"))
@@ -27,6 +28,7 @@ export default function Routes() {
           <PrivateRoute path='/dashboard' component={Dashboard} />
           <PrivateRoute path="/vehicle-form" component={FormVehicle} />
           <Route path="/vehicle" component={VehicleList} />
+          <PrivateRoute path="/user" component={UserList} />
           <Route path="/login" component={Login} />
           <Route exact path="/" component={Home} />
           <Route path="*" component={PageNotFound} />

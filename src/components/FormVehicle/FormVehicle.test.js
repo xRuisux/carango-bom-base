@@ -1,4 +1,4 @@
-import { act, findByText, fireEvent, render, screen, waitFor, within } from "@testing-library/react"
+import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react"
 import userEvent from '@testing-library/user-event'
 import {createMemoryHistory} from 'history'
 import { Router } from "react-router-dom"
@@ -137,7 +137,7 @@ describe('<FormVehicle />', () => {
     fireEvent.change(screen.getByLabelText(/modelo/i), { target: { value: 'HR-V' }})
     
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: /editar/i }))
+      fireEvent.click(screen.getByRole("button", { name: /alterar/i }))
     })
     
     expect(VehicleService.edit).toHaveBeenCalled()
@@ -175,5 +175,18 @@ describe('<FormVehicle />', () => {
     expect(priceMsg).toBeInTheDocument()
     expect(modelMsg).toBeInTheDocument()
     expect(screen.getByText('Selecione uma marca')).toBeInTheDocument()
+  })
+
+  it('should go to vehicle page when cancel button is clicked', () => {
+    const history = createMemoryHistory()
+    history.location.pathname = '/vehicle-form'
+
+    render(<Router history={history}>
+      <FormVehicle />
+     </Router>)
+     
+    fireEvent.click(screen.getByRole("button", { name: /cancelar/i }))
+    
+    expect(history.location.pathname).toEqual('/vehicle')
   })
 })

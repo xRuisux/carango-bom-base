@@ -5,9 +5,11 @@ export default function MenuHorizontal({isAuthenticated}) {
     const history = useHistory();
     function logout() {
         localStorage.clear();
-        window.location.href = '/';
+        history.push("/");
     }
-    if (isAuthenticated) {
+    const isOnUnauthenticatedPages = (history.location.pathname !== '/login' && history.location.pathname !== '/')
+
+    if (isAuthenticated && isOnUnauthenticatedPages) {
         return (
             <div className="container">
                 <ul className="menu">
@@ -19,7 +21,7 @@ export default function MenuHorizontal({isAuthenticated}) {
                 </ul>
             </div>
         )
-    } else if (history.location.pathname !== '/login' && history.location.pathname !== '/'){
+    } else if (isOnUnauthenticatedPages){
         return (
             <div className="container">
                 <ul className="menu">

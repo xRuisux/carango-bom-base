@@ -10,48 +10,46 @@ import { delayFunc } from '../../utils/delayFunc'
 
 export default function Login() {
 
-  const [user, setUser] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [formValues, setFormValues] = useState({ email: '', password: ''});
   const { saveToken } = useAuth()
   const history = useHistory()
 
   function isInputFilled(inputValue) {
-    if (!!inputValue) {
+    if (!!inputValue.trim()) {
       return { valid: true }
     }
     return { valid: false, text: "Preencha este campo" }
   }
 
   const validations = {
-    user: inputValue => {
-      return { valid: validateEmail(inputValue), text: 'Insira um email válido' }
+    email: inputValue => {
+      const isValid = validateEmail(inputValue)
+      return isValid ? { valid: true } : { valid: false, text: 'Insira um email válido' }
     },
     password: inputValue => isInputFilled(inputValue)
   }
 
   const [errors, validateFields, allFieldsValid] = useErrors(validations)
 
-  function updateError(newError) {
-    setError(newError)
+  function isFormValid() {
+    const areInputsFilled = !!formValues.password && !!formValues.email
+
+    return allFieldsValid() && areInputsFilled
   }
 
-  function isFormValid() {
-    const hasEmptyInput = !password || !user;
-    updateError(hasEmptyInput)
-
-    if (hasEmptyInput) return
-
-    return allFieldsValid()
+  function updateFormValues(e) {
+    const { target: { value, name } } = e
+    delayFunc(() => validateFields({ name, value, ...e }), 500)
+    setFormValues({ ...formValues, [name]: value })
   }
 
   async function login(e) {
     e.preventDefault()
 
-    if (!!isFormValid()) {
+    if (isFormValid()) {
       setLoading(true)
-      const { data: { token } } = await LoginService.login({ email: user, password })
+      const { data: { token } } = await LoginService.login({ ...formValues })
 
       saveToken(token)
       await delayFunc(() => setLoading(false))
@@ -63,7 +61,7 @@ export default function Login() {
   }
 
   const classes = useStyles()
-
+  
   return (
     <div className={classes.root}>
       <form data-testid="form" id="form" onSubmit={login}>
@@ -71,15 +69,15 @@ export default function Login() {
         {!loading ? <>
           <StyledTextField
             placeholder="Digite seu email"
-            id="user"
+            id="email"
             label="Usuário"
-            name="user"
-            onChange={({ target: { value } }) => setUser(value)}
+            name="email"
+            onChange={updateFormValues}
             onBlur={validateFields}
             fullWidth
             variant="outlined"
-            helperText={errors.user.text}
-            error={!errors.user.valid}
+            helperText={errors.email.text}
+            error={!errors.email.valid}
           />
 
           <StyledTextField
@@ -88,7 +86,7 @@ export default function Login() {
             type="password"
             label="Senha"
             name="password"
-            onChange={({ target: { value } }) => setPassword(value)}
+            onChange={updateFormValues}
             onBlur={validateFields}
             fullWidth
             variant="outlined"
@@ -96,12 +94,10 @@ export default function Login() {
             error={!errors.password.valid}
           />
 
-          {error && <p className={classes.msgError}>Preencha todos os campos</p>}
-
           <StyledButton form="form" fullWidth type="submit" variant="contained">
             Entrar
           </StyledButton>
-        </> : <CircularProgress thickness={2} />}
+        </> : <CircularProgress data-testid="loading" thickness={2} />}
       </form>
     </div>
   )
