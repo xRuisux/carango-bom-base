@@ -1,24 +1,22 @@
 import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
 import CardList from "./Components/CardList";
-import DashboardService from "../../services/DashboardService";
+import BrandService from "../../services/BrandService";
 
 function Dashboard(){
   const [cards, setCards] = useState([])
   const [error, setError] = useState()
 
- const getMyReport = () => {
-    DashboardService.brandReport()
-    .then(response => {
-        console.log(response)
-        const { data, error: responseError } = response;
-        if (responseError) {
-          setError('Houve um erro ao carregar o relatórios');
-        }
-        console.log(data)
-        setCards(data);
-    }).catch(() => setError('Houve um erro ao carregar o relatórios'));
+ const getMyReport = async () => {
+    try {
+      const data = await BrandService.report()
+      console.log({ data })
+      setCards(data)
+    } catch(err) {
+      setError('Houve um erro ao carregar o relatórios')
+    }
   }
+
   useEffect(() => {
     getMyReport();
   }, []);
@@ -36,7 +34,7 @@ function Dashboard(){
       <section className="allContent"> 
           <h3 className="dashboard_title"> Relatório de Vendas </h3>
           <section className="content">
-              <CardList cards={cards}/>
+              <CardList cards={cards ?? []}/>
           </section>
       </section>
     );
