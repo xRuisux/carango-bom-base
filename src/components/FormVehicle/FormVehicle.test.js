@@ -17,7 +17,7 @@ const localStorageMock = {
 
 global.localStorage = localStorageMock
 
-beforeEach(() => BrandService.list = jest.fn(() => Promise.resolve({ data: [{ 'id': 1, 'name': 'Honda'}, { 'id': 2, 'name': 'Toyota'}] })))
+beforeEach(() => BrandService.list = jest.fn(() => Promise.resolve([{ 'id': 1, 'name': 'Honda'}, { 'id': 2, 'name': 'Toyota'}] )))
 
 describe('<FormVehicle />', () => {
 
@@ -37,7 +37,7 @@ describe('<FormVehicle />', () => {
 
   it('should not create vehicle', async () => {
     const brands = [{ 'id': 1, 'name': 'Honda'}, { 'id': 2, 'name': 'Toyota'}]
-    BrandService.list = jest.fn(() => Promise.resolve({ data: brands }))
+    BrandService.list = jest.fn(() => Promise.resolve(brands))
 
     const history = createMemoryHistory()
     history.location.pathname = '/vehicle'

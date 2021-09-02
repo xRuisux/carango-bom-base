@@ -14,7 +14,7 @@ export default function MenuHorizontal({isAuthenticated}) {
                     <li><Link to="/brands" > Marcas </Link></li>
                     <li><Link to="/user" > Usuários </Link></li>
                     <li><Link to="/dashboard" >Dashboard</Link></li>
-                    <li><Link  onClick={logout}>Sair</Link></li>
+                    <li><Link to="/login" onClick={logout}>Sair</Link></li>
                 </ul>
             </div>
         )
