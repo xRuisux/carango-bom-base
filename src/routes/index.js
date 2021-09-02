@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react"
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom"
 import { FormVehicle } from "../components/FormVehicle/FormVehicle"
-import MenuHorizontal from "../components/MenuHorizontal"
+import MenuHorizontal from "../components/MenuHorizontal/MenuHorizontal"
 import { useAuth } from "../hooks/useAuth"
 import { PageNotFound } from "../pages/PageNotFound"
 import { VehicleList } from "../pages/VehicleList"

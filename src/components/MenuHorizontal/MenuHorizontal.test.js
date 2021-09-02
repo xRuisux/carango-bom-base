@@ -19,6 +19,7 @@ describe("<MenuHorizontal />", () => {
     })
     it("should display at least veiculos, marcas e sair", async () => {
         const history = createMemoryHistory()
+        localStorage.setItem('token', '123token')
         history.location.pathname = '/vehicle';
         await act(async ()=> render(
             <Router history={history} >
@@ -34,7 +35,7 @@ describe("<MenuHorizontal />", () => {
     })
 
     it("should redirect user when click on logout - simple way", async () => {
-        
+        localStorage.setItem('token', '123token')
         const history = createMemoryHistory()
         history.location.pathname = '/vehicle'
 
