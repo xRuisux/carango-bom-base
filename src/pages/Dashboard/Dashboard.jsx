@@ -10,22 +10,38 @@ function Dashboard(){
  const getMyReport = () => {
     DashboardService.brandReport()
     .then(response => {
-        const { data } = response;
+        console.log(response)
+        const { data, error } = response;
+        if (error) {
+          setError('Houve um erro ao carregar o relatórios');
+        }
+        console.log(data)
         setCards(data);
-    }).catch(()=> setError('Houve um erro ao carregar o relatórios'));
+    }).catch(() => setError('Houve um erro ao carregar o relatórios'));
   }
   useEffect(() => {
     getMyReport();
   }, []);
 
+  if (error) {
     return ( 
-        <section className="allContent"> 
-            <h3 className="dashboard_title"> Relatório de Vendas </h3>
-            <section className="content">
-                {error ? <p>{error}</p> : <CardList cards={cards}/>}
-            </section>
-        </section>
+      <section className="allContent"> 
+          <section className="content">
+            <h1 className="error">{error}</h1> 
+          </section>
+      </section>
     );
+  } else {
+    return ( 
+      <section className="allContent"> 
+          <h3 className="dashboard_title"> Relatório de Vendas </h3>
+          <section className="content">
+              <CardList cards={cards}/>
+          </section>
+      </section>
+    );
+  }
+    
 }
 
 export default Dashboard;
