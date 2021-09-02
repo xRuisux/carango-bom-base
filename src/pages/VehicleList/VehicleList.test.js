@@ -22,7 +22,7 @@ beforeEach(async () => {
   const vehicles = [{ id: 2, model: 'Civic', year: 2021, brand: 1, price: 6000000 }, { id: 3, model: 'Accord', year: 2020, brand: 1, price: 8000000 }]
   act(async () => {
 
-  BrandService.list = jest.fn(() => Promise.resolve({ data: [{ 'id': 1, 'name': 'Honda'}, { 'id': 2, 'name': 'Toyota'}] }))
+  BrandService.list = jest.fn(() => Promise.resolve([{ 'id': 1, 'name': 'Honda'}, { 'id': 2, 'name': 'Toyota'}]))
 
   VehicleService.list = jest.fn(() => Promise.resolve({ data: vehicles }))
   })

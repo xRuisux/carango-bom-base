@@ -29,7 +29,8 @@ export function VehicleList() {
         BrandService.list(),
         VehicleService.list(),
       ]).then(([brandData, vehicleData]) => {
-        setBrands(brandData?.data ?? [])
+        console.log(brandData);
+        setBrands(brandData ?? [])
         setVehicles(vehicleData.data ?? [])
       })
       .catch(() => setError('Ocorreu um erro ao buscar os dados'))

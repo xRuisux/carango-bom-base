@@ -23,7 +23,8 @@ export const api = {
   get: async (path) => {
     try {
        const resp = await fetch(`${baseUrl}/${path}`, {
-         headers
+         headers: { ...headers, Authorization: localStorage.getItem('token')},
+
        })
        if(resp.status !== 200) {
          return { error: 'Erro ao buscar dados' }

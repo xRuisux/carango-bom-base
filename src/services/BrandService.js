@@ -35,7 +35,7 @@ const BrandService = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
-    }).then(r => r.json());
+    }).then(r =>  r.json());
   },
 
   delete(brand) {
@@ -46,7 +46,8 @@ const BrandService = {
       },
     })
       .then(r => r.json());
-  }
+  },
+
 };
 
 export default BrandService;

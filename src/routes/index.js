@@ -1,6 +1,8 @@
 import { lazy, Suspense } from "react"
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom"
 import { FormVehicle } from "../components/FormVehicle/FormVehicle"
+import MenuHorizontal from "../components/MenuHorizontal"
+import { useAuth } from "../hooks/useAuth"
 import { PageNotFound } from "../pages/PageNotFound"
 import { VehicleList } from "../pages/VehicleList"
 import { UserList } from "../pages/UserList"
@@ -14,20 +16,18 @@ const BrandRegister = lazy(() => import("../pages/BrandRegister/BrandRegister"))
 
 
 export default function Routes() {
-
+  const { isUserLoggedIn } = useAuth()
   return (
     <Router>
       <Suspense fallback={<div>Loading...</div>}>
+        <MenuHorizontal isAuthenticated={isUserLoggedIn()}/>
         <Switch>
           <PrivateRoute path="/brands" component={BrandList} />
           <PrivateRoute path="/create-brand" component={BrandRegister} />
           <PrivateRoute path='/update-brand/:id' component={BrandRegister} />
           <PrivateRoute path='/dashboard' component={Dashboard} />
-          <Route path="/veiculos">
-            <div>Veículos</div>
-          </Route>
           <PrivateRoute path="/vehicle-form" component={FormVehicle} />
-          <PrivateRoute path="/vehicle" component={VehicleList} />
+          <Route path="/vehicle" component={VehicleList} />
           <PrivateRoute path="/user" component={UserList} />
           <Route path="/login" component={Login} />
           <Route exact path="/" component={Home} />
@@ -37,3 +37,4 @@ export default function Routes() {
     </Router>
   )
 }
+
