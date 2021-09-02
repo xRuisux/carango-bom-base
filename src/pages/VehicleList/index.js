@@ -20,6 +20,7 @@ export function VehicleList() {
   const [selectedVehicle, setSelectedVehicle] = useState()
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   const history = useHistory()
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export function VehicleList() {
         setBrands(brandData?.data ?? [])
         setVehicles(vehicleData.data ?? [])
       })
-      .catch(err => console.log(err))
+      .catch(() => setError('Ocorreu um erro ao buscar os dados'))
     }
 
     fetchData()
@@ -63,15 +64,21 @@ export function VehicleList() {
   }
 
   async function deleteVehicle() {
-
     setLoading(true)
-    // add confirm dialog
     const { data } = await VehicleService.delete(selectedVehicle?.id)
     setSelectedVehicle(undefined)
     removeVehicleFromList(data.id)
 
     setIsConfirmOpen(false)
     delayFunc(() => setLoading(false))
+  }
+
+  function handleDelete() {
+    setIsConfirmOpen(true)
+  }
+
+  function handleCreate() {
+    history.push('/vehicle-form')
   }
 
   const rows = vehicles.map(vehicle => {
@@ -87,16 +94,18 @@ export function VehicleList() {
   return (
     <section>
       <Confirm open={isConfirmOpen} message='Deseja mesmo excluir o veículo?' onConfirm={deleteVehicle} onCancel={() => setIsConfirmOpen(false)} />
-      <Table
+      {
+        !!error ? <p>{error}</p> 
+        : <Table
         loading={loading}
         rows={rows}
         columns={columns}
         rowSelectedFunction={onSelectRow}
         selectedItem={selectedVehicle}
         updateItem={handleVehicleUpdate}
-        deleteItem={() => setIsConfirmOpen(true)}
-        addItem={() => history.push('/vehicle-form')}
-      />
+        deleteItem={handleDelete}
+        addItem={handleCreate}
+      />}
     </section>
   );
 }
