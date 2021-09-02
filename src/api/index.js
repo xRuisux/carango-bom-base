@@ -1,4 +1,4 @@
-require('dotenv').config();
+// require('dotenv').config();
 
 const token = localStorage.getItem('token')
 const authorization = `Bearer ${token}`
@@ -21,7 +21,6 @@ export const api = {
   },
   
   get: async (path) => {
-    console.log(baseUrl, path)
     try {
        const resp = await fetch(`${baseUrl}/${path}`, {
          headers
