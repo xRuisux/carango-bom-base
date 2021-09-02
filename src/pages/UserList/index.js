@@ -41,8 +41,7 @@ const columns = [
 
     async function deleteUser() {
       setLoading(true)
-      // add confirm dialog
-      const { data } = await UserService.delete(selectedUser.id)
+      const { data } = await UserService.delete(selectedUser.id ?? {})
       removeUserFromList(data.id)
   
       setIsConfirmOpen(false)
