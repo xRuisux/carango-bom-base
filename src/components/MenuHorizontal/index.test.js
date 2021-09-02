@@ -1,8 +1,10 @@
 import { act, render, screen, waitFor } from "@testing-library/react"
 import '@testing-library/jest-dom';
 import MenuHorizontal from ".";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
+import PrivateRoute from "../../routes/PrivateRoute";
+import { lazy, Suspense } from "react";
 
 describe("<MenuHorizontal />", () => {
   it("should display login and veículos", () => {
@@ -29,23 +31,26 @@ describe("<MenuHorizontal />", () => {
     expect(screen.getByText('Dashboard')).toBeInTheDocument()
 
   })
-//   it("should redirect user when click on logout", async () => {
-//     const { 
-//         container, 
-//         getByText,  
-//       } = render(
-//         <BrowserRouter>
-//             <MenuHorizontal isAuthenticated={true} />
-//         </BrowserRouter>
-//       );
+   it("should redirect user when click on logout", async () => {
+        const Login = lazy(() => import("../../pages/Login"))
+        const VehicleList = lazy(() => import("../../pages/VehicleList"))
     
-//       await act(async () => {
-//         const logout = getByText(/Sair/);
-//         userEvent.click(logout)
-
-//       });
-//       await waitFor(() => expect(container).toHaveTextContent(/login/));
-//       await waitFor(() => expect(container).toHaveTextContent(/Veículos/));
-//     });
+        render(
+            <BrowserRouter>
+                <MenuHorizontal isAuthenticated={true}/>
+                <Switch>
+                <Suspense fallback={<div>Loading...</div>}>
+                    <Route path="/vehicle" component={VehicleList} />
+                    <Route path="/login" component={Login} />
+                    </Suspense>
+                </Switch>
+            
+            </BrowserRouter>
+        );
+        await waitFor(() => expect(screen.getByText('Sair')).toBeInTheDocument());
+        const logout = screen.getByText(/Sair/);
+        userEvent.click(logout)
+        await waitFor(() => expect(screen.getByLabelText('Senha')).toBeInTheDocument());
+     });
 
 })
