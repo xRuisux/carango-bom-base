@@ -5,7 +5,7 @@ import UserService from "../../services/UserService"
 import { delayFunc } from "../../utils/delayFunc"
 
 const columns = [
-    { field: 'email', headerName: 'email' },
+    { field: 'email', headerName: 'Email' },
   ]
   
   export function UserList() {
