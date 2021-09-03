@@ -1,8 +1,6 @@
-// require('dotenv').config();
-
 const token = localStorage.getItem('token')
 const authorization = `Bearer ${token}`
-const baseUrl = process.env.REACT_APP_BASE_URL
+export const baseUrl = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : 'http://localhost:8080'
 const headers = {
   'Accept': 'application/json',
   'Content-Type': 'application/json',
@@ -11,6 +9,7 @@ const headers = {
 
 export const api = {
   post: async (path, data) => {
+    console.log(baseUrl, process.env.REACT_APP_BASE_URL)
     const resp = await (fetch(`${baseUrl}/${path}`, {
       method: 'POST',
       headers,
