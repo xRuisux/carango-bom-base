@@ -47,7 +47,12 @@ function BrandList() {
 
     async function loadBrands() {
         const data = await BrandService.list();
-        setBrands(data);
+
+        if(data) {
+            setBrands(data);
+        } else {
+            setError('Ocorreu um erro ao buscar os dados');
+        }
       }
 
     return (
@@ -57,6 +62,7 @@ function BrandList() {
             !!error ? <p>{error}</p> 
             : <div style={{ height: 300, width: '100%' }}>
                 <Table
+                    loading={loading}
                     rows={ brands }
                     columns={ columns }
                     addItem={ create }
