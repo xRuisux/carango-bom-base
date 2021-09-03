@@ -81,6 +81,7 @@ describe('<BrandList />', () => {
     const brandSelected = await screen.findByText("CHEVROLET");
     userEvent.click(brandSelected);
     userEvent.click(deleteBtn);
+    userEvent.click(screen.getByRole('button', { name: /confirmar/i }))
 
     expect(BrandService.delete).toHaveBeenCalledWith({ "id": 74, "name": "CHEVROLET" });
   });
