@@ -5,8 +5,6 @@
     align-items: center ;
     margin: 0 auto;
     padding: 1rem;
-    
-
 }
 .container {
     width: 100vw;
@@ -26,4 +24,8 @@
 
 .menu li a:hover{
     font-weight: bold;
+}
+.container .menu .active {
+    border-bottom: 1px solid white;
+    padding: .5rem;
 }

@@ -9,7 +9,6 @@ const headers = {
 
 export const api = {
   post: async (path, data) => {
-    console.log(baseUrl, process.env.REACT_APP_BASE_URL)
     const resp = await (fetch(`${baseUrl}/${path}`, {
       method: 'POST',
       headers,
