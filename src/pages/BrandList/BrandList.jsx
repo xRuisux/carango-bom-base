@@ -37,19 +37,15 @@ function BrandList() {
       }
 
     return (
-        <>
-            <div style={{ height: 300, width: '100%' }}>
-                <Table
-                    rows={ brands }
-                    columns={ columns }
-                    addItem={ create }
-                    updateItem={ update }
-                    deleteItem={ remove }
-                    selectedItem={ brandSelected }
-                    rowSelectedFunction={ setBrandSelected }
-                />
-            </div>
-        </>
+            <Table
+                rows={ brands }
+                columns={ columns }
+                addItem={ create }
+                updateItem={ update }
+                deleteItem={ remove }
+                selectedItem={ brandSelected }
+                rowSelectedFunction={ setBrandSelected }
+            />
     );
 }
 

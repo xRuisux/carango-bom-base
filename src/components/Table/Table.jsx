@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { DataGrid } from '@material-ui/data-grid'
 import { Button, ButtonDelete } from '../Button'
 import { CircularProgress } from '@material-ui/core'
-import './Table.css';
+import s from './Table.module.css';
 
 export default function Table({
   loading = false,
@@ -28,16 +28,16 @@ export default function Table({
   }
   
   return (
-    <section>
+    <section className={s.container}>
       <header>
-        <div className='tableContainer'>
+        <div className={s.tableContainer}>
           {loading 
             ?
-            <div className='loading'>
+            <div className={s.loading}>
               <CircularProgress />
             </div>
               : <DataGrid
-                className='table'
+                className={s.table}
                 rows={rows}
                 columns={columns}
                 onRowSelected={handleRowSelection}
@@ -45,11 +45,12 @@ export default function Table({
               />
           }
         </div>
+      </header>
       {
         localStorage.getItem('token') &&
-          <div className="actionsBar">
+          <div className={s.actionsBar}>
             {addItem && <Button
-              className="actions"
+              className={s.actions}
               variant="contained"
               color="primary"
               onClick={addItem}
@@ -57,7 +58,7 @@ export default function Table({
               Adicionar
               </Button>}
             {updateItem && <Button
-              className="actions"
+              className={s.actions}
               variant="contained"
               color="secondary"
               disabled={!selectedItem}
@@ -66,7 +67,7 @@ export default function Table({
               Alterar
             </Button>}
             <ButtonDelete
-              className="actions"
+              className={s.actions}
               variant="contained"
               color="secondary"
               disabled={!selectedItem}
@@ -76,7 +77,6 @@ export default function Table({
             </ButtonDelete>
           </div>
       }
-      </header>
     </section>
   );
 }
