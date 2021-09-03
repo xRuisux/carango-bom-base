@@ -30,13 +30,16 @@ function BrandList() {
 
     async function remove() {
         setLoading(true)
-
-        await BrandService.delete(brandSelected);
-        setBrandSelected(null);
-        loadBrands();
-
-        setIsConfirmOpen(false)
-        delayFunc(() => setLoading(false))
+        try {
+            await BrandService.delete(brandSelected);
+            setBrandSelected(null);
+            loadBrands();
+    
+            setIsConfirmOpen(false)
+            delayFunc(() => setLoading(false))
+        } catch (error) {
+            setError('Houve uma falha ao excluir a marca. verifique se essa marca já possui veículos associados!')
+        }
     }
 
     function handleDelete() {
