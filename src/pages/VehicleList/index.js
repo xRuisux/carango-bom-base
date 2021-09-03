@@ -9,10 +9,10 @@ import { delayFunc } from "../../utils/delayFunc"
 import { Snackbar } from '@material-ui/core';
 
 const columns = [
-  { field: 'brand', headerName: 'Marca' },
-  { field: 'model', headerName: 'Modelo' },
-  { field: 'year', headerName: 'Ano' },
-  { field: 'price', headerName: 'Preço' },
+  { field: 'brand', headerName: 'Marca', width: 150 },
+  { field: 'model', headerName: 'Modelo', width: 150  },
+  { field: 'year', headerName: 'Ano', width: 150  },
+  { field: 'price', headerName: 'Preço', width: 150  },
 ]
 
 export function VehicleList() {

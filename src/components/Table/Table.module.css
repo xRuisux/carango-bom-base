@@ -4,18 +4,18 @@
     width: 80%;
 }
 
-.actions {
-    margin-left: 2rem;
-}
-
 .actionsBar {
     display: flex;
     justify-content: flex-end;
     width: 100%;
 }
 
-.table {
-    font-size: 1.2rem;
+.actionsBar .actions {
+    margin-left: 2rem;
+}
+
+.tableContainer .table {
+    font-size: 1.5rem;
     height: 100%;
 }
 
