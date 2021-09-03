@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { DataGrid } from '@material-ui/data-grid'
-import { Button } from '../Button'
+import { Button, ButtonDelete, DeleteButton } from '../Button'
 import { CircularProgress } from '@material-ui/core'
 import './Table.css';
 
@@ -56,7 +56,16 @@ export default function Table({
             >
               Adicionar
               </Button>}
-            <Button
+            {updateItem && <Button
+              className="actions"
+              variant="contained"
+              color="secondary"
+              disabled={!selectedItem}
+              onClick={updateItem}
+            >
+              Alterar
+            </Button>}
+            <ButtonDelete
               className="actions"
               variant="contained"
               color="secondary"
@@ -64,16 +73,7 @@ export default function Table({
               onClick={deleteItem}
             >
               Excluir
-            </Button>
-            {updateItem && <Button
-              className="actions"
-              variant="contained"
-              color="primary"
-              disabled={!selectedItem}
-              onClick={updateItem}
-            >
-              Alterar
-            </Button>}
+            </ButtonDelete>
           </div>
       }
       </header>

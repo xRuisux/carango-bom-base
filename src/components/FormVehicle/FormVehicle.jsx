@@ -39,7 +39,6 @@ export function FormVehicle() {
     const localStorageVehicle = localStorage.getItem('vehicle')
     if(!!localStorageVehicle) {
       const { price, ...rest } = JSON.parse(localStorageVehicle)
-      console.log({ price, ...rest })
       
       return setFormValues({ price: formatCurrency(price.toString()), ...rest})
     }
