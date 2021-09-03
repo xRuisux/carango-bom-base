@@ -25,6 +25,12 @@
   justify-content: space-around;
 }
 
+.content form .selectLabel {
+  background-color: white;
+  padding: 0 .5rem;
+  margin-top: .1rem;
+}
+
 .content form .formField {
   margin-top: 2rem;
 }

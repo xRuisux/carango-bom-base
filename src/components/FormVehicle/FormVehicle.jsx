@@ -39,7 +39,8 @@ export function FormVehicle() {
     const localStorageVehicle = localStorage.getItem('vehicle')
     if(!!localStorageVehicle) {
       const { price, ...rest } = JSON.parse(localStorageVehicle)
-
+      console.log({ price, ...rest })
+      
       return setFormValues({ price: formatCurrency(price.toString()), ...rest})
     }
 
@@ -73,6 +74,7 @@ export function FormVehicle() {
   }
 
   function goBack() {
+    localStorage.removeItem('vehicle')
     history.push('/vehicle')
   }
 
@@ -95,7 +97,8 @@ export function FormVehicle() {
   
   const brandOptions = brands.map(brand => (<option key={brand.id} value={brand.id}>{brand.name}</option>))
 
-  const message = formValues?.id ? 'Alterar': 'Cadastrar'
+  const isEditing = !!formValues?.id
+  const message = isEditing ? 'Alterar': 'Cadastrar'
 
   return (
     <div className={s.container}>
@@ -103,7 +106,7 @@ export function FormVehicle() {
       <section className={s.content}>
         <form>
           <FormControl variant="outlined" error={!errors.brand.valid}>
-            <InputLabel id="brandLabel" htmlFor='brand'>Marca</InputLabel>
+            <InputLabel className={`${isEditing || formValues.brand && s.selectLabel}`} shrink={isEditing || formValues.brand} id="brandLabel" htmlFor='brand'>Marca</InputLabel>
             <Select
               native
               data-testid="wrapper"
@@ -120,7 +123,7 @@ export function FormVehicle() {
                 name: 'brand',
                 id: 'brand',
                 placeholder: 'Selecione uma marca',
-                'data-testid': "select"
+                'data-testid': "select",
               }}
             >
               <option value=''></option>
