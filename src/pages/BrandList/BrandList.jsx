@@ -4,6 +4,7 @@ import Table from '../../components/Table/Table';
 import BrandService from '../../services/BrandService';
 import { Confirm } from "../../components/Confirm/Confirm"
 import { delayFunc } from "../../utils/delayFunc"
+import { Snackbar } from '@material-ui/core';
 
 const columns = [
     { field: 'name', headerName: 'Marca', width: 200 }
@@ -12,6 +13,8 @@ const columns = [
 function BrandList() {
     const history = useHistory();
     const [error, setError] = useState('')
+    const vertical = 'top';
+    const horizontal = 'center';
     const [brands, setBrands] = useState([]);
     const [loading, setLoading] = useState(false)
     const [brandSelected, setBrandSelected] = useState();
@@ -30,14 +33,14 @@ function BrandList() {
 
     async function remove() {
         setLoading(true)
-        try {
-            await BrandService.delete(brandSelected);
-            setBrandSelected(null);
-            loadBrands();
-    
-            setIsConfirmOpen(false)
-            delayFunc(() => setLoading(false))
-        } catch (error) {
+        const data = await BrandService.delete(brandSelected);
+        setBrandSelected(null);
+        loadBrands();
+
+        setIsConfirmOpen(false)
+        delayFunc(() => setLoading(false))
+
+        if(data && data.error) {
             setError('Houve uma falha ao excluir a marca. verifique se essa marca já possui veículos associados!')
         }
     }
@@ -58,25 +61,33 @@ function BrandList() {
         }
       }
 
+      function handleClose() {
+          setError("");
+      }
+
     return (
         <>
         <Confirm open={isConfirmOpen} message='Deseja mesmo excluir a marca?' onConfirm={remove} onCancel={() => setIsConfirmOpen(false)} />
-        {
-            !!error ? <p>{error}</p> 
-            : <div style={{ height: 300, width: '100%' }}>
-                <Table
-                    loading={loading}
-                    rows={ brands }
-                    columns={ columns }
-                    addItem={ create }
-                    updateItem={ update }
-                    deleteItem={ handleDelete }
-                    selectedItem={ brandSelected }
-                    rowSelectedFunction={ setBrandSelected }
-                />
-            </div>
-            }
-
+        <Snackbar 
+            open={!!error} 
+            anchorOrigin={{ vertical, horizontal }} 
+            autoHideDuration={5000} 
+            message = {error}
+            key={vertical + horizontal} 
+            onClose={handleClose}>
+        </Snackbar>
+        <div style={{ height: 300, width: '100%' }}>
+            <Table
+                loading={loading}
+                rows={ brands }
+                columns={ columns }
+                addItem={ create }
+                updateItem={ update }
+                deleteItem={ handleDelete }
+                selectedItem={ brandSelected }
+                rowSelectedFunction={ setBrandSelected }
+            />
+        </div>
         </>
     );
 }

@@ -6,6 +6,7 @@ import BrandService from "../../services/BrandService"
 import VehicleService from "../../services/VehicleService"
 import { formatCurrency, getOnlyNumbers } from "../../utils/currency"
 import { delayFunc } from "../../utils/delayFunc"
+import { Snackbar } from '@material-ui/core';
 
 const columns = [
   { field: 'brand', headerName: 'Marca' },
@@ -15,6 +16,8 @@ const columns = [
 ]
 
 export function VehicleList() {
+  const vertical = 'top';
+  const horizontal = 'center';
   const [brands, setBrands] = useState([])
   const [vehicles, setVehicles] = useState([])
   const [selectedVehicle, setSelectedVehicle] = useState()
@@ -81,6 +84,10 @@ export function VehicleList() {
     history.push('/vehicle-form')
   }
 
+  function handleClose() {
+    setError("");
+  } 
+
   const rows = vehicles.map(vehicle => {
     return { 
       id: vehicle.id,
@@ -94,9 +101,15 @@ export function VehicleList() {
   return (
     <section>
       <Confirm open={isConfirmOpen} message='Deseja mesmo excluir o veículo?' onConfirm={deleteVehicle} onCancel={() => setIsConfirmOpen(false)} />
-      {
-        !!error ? <p>{error}</p> 
-        : <Table
+        <Snackbar 
+            open={!!error} 
+            anchorOrigin={{ vertical, horizontal }} 
+            autoHideDuration={5000} 
+            message = {error}
+            key={vertical + horizontal} 
+            onClose={handleClose}>
+        </Snackbar> 
+        <Table
         loading={loading}
         rows={rows}
         columns={columns}
@@ -105,7 +118,7 @@ export function VehicleList() {
         updateItem={handleVehicleUpdate}
         deleteItem={handleDelete}
         addItem={handleCreate}
-      />}
+      />
     </section>
   );
 }
