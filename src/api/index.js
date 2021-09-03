@@ -1,5 +1,3 @@
-// require('dotenv').config();
-
 const token = localStorage.getItem('token')
 const authorization = `Bearer ${token}`
 const baseUrl = process.env.REACT_APP_BASE_URL
