@@ -20,8 +20,6 @@ export default function MenuHorizontal() {
         setCurrentPath(location.pathname !== '/login' && location.pathname !== '/')
     }, [location.pathname])
 
-    console.log()
-
     if (!!localStorage.getItem('token') && currentPath) {
         return (
             <div className={s.container}>
