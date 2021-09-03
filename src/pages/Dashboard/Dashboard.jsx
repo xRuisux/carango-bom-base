@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Dashboard.css";
+import s from "./Dashboard.module.css";
 import CardList from "./Components/CardList";
 import DashboardService from "../../services/DashboardService";
 
@@ -20,25 +20,19 @@ function Dashboard(){
     getMyReport();
   }, []);
 
-  if (error) {
-    return ( 
-      <section className="allContent"> 
-          <section className="content">
-            <h1 className="error">{error}</h1> 
-          </section>
+  return (
+    <section className={s.allContent}> 
+      {!!error ? <section className={s.content}>
+        <h1 className={s.error}>{error}</h1> 
       </section>
-    );
-  } else {
-    return ( 
-      <section className="allContent"> 
-          <h3 className="dashboard_title"> Relatório de Vendas </h3>
-          <section className="content">
-              <CardList cards={cards ?? []}/>
+      : <>
+          <h2 className={s.title}> Relatório de Vendas </h2>
+          <section className={s.content}>
+            <CardList cards={cards ?? []}/>
           </section>
-      </section>
-    );
-  }
-    
+      </>}
+    </section>
+  ) 
 }
 
 export default Dashboard;

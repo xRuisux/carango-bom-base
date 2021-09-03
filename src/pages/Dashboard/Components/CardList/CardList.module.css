@@ -1,0 +1,22 @@
+ .container {
+  background-color: #ffffff;
+  list-style: none;
+  margin-top: 2rem;
+}
+
+.container li {
+  box-shadow: 0 0 4px rgba(31,45,75, 0.95);
+  margin: 2rem 0;
+}
+
+@media (min-width: 600px) {
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .container li {
+    width: 30%;
+  }
+}

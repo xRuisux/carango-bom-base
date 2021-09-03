@@ -1,6 +1,6 @@
 import React from "react";
 import { formatCurrency } from "../../../../utils/currency";
-import "./Card.css"
+import s from "./Card.module.css"
 
 
 function Card({brandName, totalAmount, totalVehicles}) {
@@ -16,12 +16,12 @@ function Card({brandName, totalAmount, totalVehicles}) {
     }
   }
   return (
-    <section className="card">
-      <header className="card_header">
-        <h3 className="card_title">{brandName} </h3>
+    <section className={s.card}>
+      <header>
+        <h3 className={s.title}>{brandName} </h3>
       </header>
-      <p className="card_text">{showTotalVehiclesText()}</p>
-      <p className="card_text">R$ {formatCurrency(totalAmount)}</p>
+      <p>{showTotalVehiclesText()}</p>
+      <p>R$ {formatCurrency(totalAmount)}</p>
     </section>
   )
 }

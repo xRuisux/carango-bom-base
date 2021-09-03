@@ -1,0 +1,15 @@
+
+.allContent {
+    min-height: 100vh;
+    padding: 3rem;
+}
+
+.title {
+    font-size: 2rem;
+    color: rgba(31,45,75, 0.95);
+}
+
+.error {
+    font-size: 4em;
+    text-align: center;
+}
