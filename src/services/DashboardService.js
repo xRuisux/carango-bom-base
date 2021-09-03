@@ -1,8 +1,9 @@
+import { baseUrl } from "../api";
 
 const DashboardService = {
 
   brandReport() {
-    return fetch('http://localhost:8080/report/brand', {
+    return fetch(`${baseUrl}/report/brand`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

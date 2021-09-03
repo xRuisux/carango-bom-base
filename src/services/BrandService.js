@@ -1,6 +1,8 @@
+import { baseUrl } from "../api";
+
 const BrandService = {
   create(brand) {
-    return fetch('http://localhost:8080/brand', {
+    return fetch(`${baseUrl}/brand`, {
       method: 'POST',
       body: JSON.stringify(brand),
       headers: {
@@ -11,7 +13,7 @@ const BrandService = {
   },
 
   update(brand) {
-    return fetch('http://localhost:8080/brand/' + brand.id, {
+    return fetch(`${baseUrl}/brand/${brand.id}`, {
       method: 'PUT',
       body: JSON.stringify(brand),
       headers: {
@@ -22,7 +24,7 @@ const BrandService = {
   },
 
   read(id) {
-    return fetch('http://localhost:8080/brand/' + id, {
+    return fetch(`${baseUrl}/brand/${id}`, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
@@ -30,7 +32,7 @@ const BrandService = {
   },
 
   list() {
-    return fetch('http://localhost:8080/brand', {
+    return fetch(`${baseUrl}/brand`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -39,7 +41,7 @@ const BrandService = {
   },
 
   delete(brand) {
-    return fetch('http://localhost:8080/brand/' + brand.id, {
+    return fetch(`${baseUrl}/brand/${brand.id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
