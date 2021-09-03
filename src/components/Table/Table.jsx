@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { DataGrid } from '@material-ui/data-grid'
-import { Button, ButtonDelete, DeleteButton } from '../Button'
+import { Button, ButtonDelete } from '../Button'
 import { CircularProgress } from '@material-ui/core'
 import './Table.css';
 

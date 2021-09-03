@@ -16,7 +16,7 @@ export function Button({ children, ...props }) {
   return <StyledButton {...props} >{children}</StyledButton>
 }
 
-export const DeleteButton = withStyles((theme) => ({
+const DeleteButton = withStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.error.main,
     color: '#FFF'
