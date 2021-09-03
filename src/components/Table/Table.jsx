@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { DataGrid } from '@material-ui/data-grid'
-import { Button } from '../Button'
+import { Button, ButtonDelete } from '../Button'
 import { CircularProgress } from '@material-ui/core'
-import './Table.css';
+import s from './Table.module.css';
 
 export default function Table({
   loading = false,
@@ -28,16 +28,16 @@ export default function Table({
   }
   
   return (
-    <section>
+    <section className={s.container}>
       <header>
-        <div className='tableContainer'>
+        <div className={s.tableContainer}>
           {loading 
             ?
-            <div className='loading'>
+            <div className={s.loading}>
               <CircularProgress />
             </div>
               : <DataGrid
-                className='table'
+                className={s.table}
                 rows={rows}
                 columns={columns}
                 onRowSelected={handleRowSelection}
@@ -45,38 +45,38 @@ export default function Table({
               />
           }
         </div>
+      </header>
       {
         localStorage.getItem('token') &&
-          <div className="actionsBar">
+          <div className={s.actionsBar}>
             {addItem && <Button
-              className="actions"
+              className={s.actions}
               variant="contained"
               color="primary"
               onClick={addItem}
             >
               Adicionar
               </Button>}
-            <Button
-              className="actions"
+            {updateItem && <Button
+              className={s.actions}
+              variant="contained"
+              color="secondary"
+              disabled={!selectedItem}
+              onClick={updateItem}
+            >
+              Alterar
+            </Button>}
+            <ButtonDelete
+              className={s.actions}
               variant="contained"
               color="secondary"
               disabled={!selectedItem}
               onClick={deleteItem}
             >
               Excluir
-            </Button>
-            {updateItem && <Button
-              className="actions"
-              variant="contained"
-              color="primary"
-              disabled={!selectedItem}
-              onClick={updateItem}
-            >
-              Alterar
-            </Button>}
+            </ButtonDelete>
           </div>
       }
-      </header>
     </section>
   );
 }

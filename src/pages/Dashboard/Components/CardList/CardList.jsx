@@ -1,13 +1,13 @@
 import React from "react";
 import Card from "../Card";
-import "./CardList.css";
+import s from "./CardList.module.css";
 
 function CardList({cards}) {
     return (
-      <ul className="card-list">
+      <ul className={s.container}>
         {cards.map(({brandName, totalAmount, totalVehicles}, index) => {
           return (
-            <li className="card-list_item" key={index}>
+            <li key={index}>
               <Card brandName={brandName} totalVehicles={totalVehicles} totalAmount={totalAmount}/>
             </li>
           );

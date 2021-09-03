@@ -1,0 +1,53 @@
+.container {
+  padding: 3rem;
+}
+
+.container h2 {
+  font-size: 2rem;
+  color: rgba(31,45,75, 0.95);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem;
+  border-radius: 4px;
+  background-color: white;
+  margin-top: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.content footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: .5rem;
+}
+
+.content footer button {
+  margin-bottom: 1.2rem;
+  padding: 1rem 0;
+}
+
+@media (min-width: 600px) {
+  .container {
+    margin: 0 auto;
+  }
+
+  .content footer {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row-reverse;
+  }
+
+  .content footer button {
+    margin-left: 1.2rem;
+    padding: 1rem 0;
+  }
+  
+  .content {    
+    max-width: 50%;
+    min-width: 600px;
+  }
+}

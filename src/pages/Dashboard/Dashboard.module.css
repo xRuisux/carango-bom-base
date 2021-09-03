@@ -1,0 +1,23 @@
+
+.allContent {
+    min-height: 100vh;
+    padding: 3rem;
+}
+
+.title {
+    font-size: 2rem;
+    color: rgba(31,45,75, 0.95);
+    text-align: center;
+}
+
+.error {
+    font-size: 4em;
+    text-align: center;
+}
+
+@media (min-width: 600px) {
+    .content {
+        display: flex;
+        justify-content: center;
+    }
+}

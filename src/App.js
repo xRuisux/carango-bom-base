@@ -3,6 +3,7 @@ import { ptBR } from '@material-ui/core/locale'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import Routes from './routes'
 import { AuthProvider } from './hooks/useAuth'
+import './App.css'
 
 const muiTheme = createMuiTheme({
   palette: {

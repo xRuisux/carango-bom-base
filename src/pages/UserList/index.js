@@ -5,7 +5,8 @@ import UserService from "../../services/UserService"
 import { delayFunc } from "../../utils/delayFunc"
 
 const columns = [
-    { field: 'email', headerName: 'email' },
+    { field: 'name', headerName: 'Nome', width: 250 },
+    { field: 'email', headerName: 'Email', width: 250 },
   ]
   
   export function UserList() {
@@ -14,10 +15,14 @@ const columns = [
     const [isConfirmOpen, setIsConfirmOpen] = useState(false)
     const [loading, setLoading] = useState(false)
   
-    useEffect(async () => {
-          const { data } = await UserService.list()
-          setUsers(data ?? [])
-      }, [])
+    useEffect(() => {
+      async function getUsers() {
+        const { data } = await UserService.list()
+        setUsers(data ?? [])
+      }
+      
+      getUsers()
+    }, [])
     
     function onSelectRow(rowInfo) {
       if(!rowInfo) {
@@ -25,11 +30,11 @@ const columns = [
         return
       } 
       
-      console.log('rowInfo', rowInfo)
-      const { id, email } = rowInfo
+      const { id, name, email } = rowInfo
     
       setSelectedUser({
         id,
+        name,
         email
       })
     }
@@ -45,13 +50,13 @@ const columns = [
       removeUserFromList(data.id)
   
       setIsConfirmOpen(false)
-      console.log({ data })
       delayFunc(() => setLoading(false))
     }
   
     const rows = users.map(user => {
       return { 
         id: user.id,
+        name: user.name,
         email: user.email,
       }
     })

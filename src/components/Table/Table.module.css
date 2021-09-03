@@ -1,23 +1,27 @@
-.actions {
-    top: 10px;
-    margin-right: 10px !important;
+.container {
+    padding: 2rem;
+    margin: 0 auto;
+    width: 80%;
 }
 
 .actionsBar {
     display: flex;
     justify-content: flex-end;
-    padding: 20px;
+    width: 100%;
 }
 
-.table {
-    font-size: 1.2rem;
+.actionsBar .actions {
+    margin-left: 2rem;
+}
+
+.tableContainer .table {
+    font-size: 1.5rem;
     height: 100%;
 }
 
 .tableContainer {
     height: 70vh;
-    width: 100%;
-    margin: 2rem 0;
+    margin: 2rem auto;
 }
 
 .loading {

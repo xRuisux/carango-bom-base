@@ -66,7 +66,7 @@ function BrandList() {
       }
 
     return (
-        <>
+    <>
         <Confirm open={isConfirmOpen} message='Deseja mesmo excluir a marca?' onConfirm={remove} onCancel={() => setIsConfirmOpen(false)} />
         <Snackbar 
             open={!!error} 
@@ -76,19 +76,17 @@ function BrandList() {
             key={vertical + horizontal} 
             onClose={handleClose}>
         </Snackbar>
-        <div style={{ height: 300, width: '100%' }}>
-            <Table
-                loading={loading}
-                rows={ brands }
-                columns={ columns }
-                addItem={ create }
-                updateItem={ update }
-                deleteItem={ handleDelete }
-                selectedItem={ brandSelected }
-                rowSelectedFunction={ setBrandSelected }
-            />
-        </div>
-        </>
+        <Table
+            loading={loading}
+            rows={ brands }
+            columns={ columns }
+            addItem={ create }
+            updateItem={ update }
+            deleteItem={ handleDelete }
+            selectedItem={ brandSelected }
+            rowSelectedFunction={ setBrandSelected }
+        />
+    </>
     );
 }
 
