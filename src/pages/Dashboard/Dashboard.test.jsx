@@ -10,7 +10,7 @@ describe("<Dashboard />", () => {
     jest.spyOn(Intl, 'NumberFormat').mockImplementation(() => ({
         format: jest.fn(() => '10.000,00')
     }))
-    /*DashboardService.brandReport = jest.fn(() => Promise.resolve({data:[
+    DashboardService.brandReport = jest.fn(() => Promise.resolve({data:[
         {
             brandName: "Volks",
             totalVehicles: 1,
@@ -21,19 +21,7 @@ describe("<Dashboard />", () => {
             totalVehicles: 2,
             totalAmount: 200000
         },
-    ]}));*/
-    jest.spyOn(global, 'fetch').mockResolvedValue({json: () => ( [
-        {
-            brandName: "Volks",
-            totalVehicles: 1,
-            totalAmount: 1000000
-        },
-        {
-            brandName: "Toyota",
-            totalVehicles: 2,
-            totalAmount: 200000
-        },
-    ] )}); 
+    ]}));
     render(
         <Dashboard />
         )
